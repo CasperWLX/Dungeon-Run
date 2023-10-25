@@ -1,6 +1,8 @@
 package com.hampus.dungeonRun.characters;
 
-public class Monster extends ACharacter
+import java.io.Serializable;
+
+public class Monster extends ACharacter implements Serializable
 {
     public Monster(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
@@ -10,6 +12,6 @@ public class Monster extends ACharacter
     @Override
     public void fight()
     {
-
+        System.out.println("GROOOOOWL!");
     }
 }

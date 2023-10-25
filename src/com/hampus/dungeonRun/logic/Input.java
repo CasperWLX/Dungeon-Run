@@ -6,8 +6,6 @@ public class Input
 {
     Scanner input = new Scanner(System.in);
 
-
-
     /**
      * Metod som tar emot inmatning från användaren men endast returnerar ifall det är ett heltal
      *

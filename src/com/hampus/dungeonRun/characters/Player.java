@@ -1,17 +1,22 @@
 package com.hampus.dungeonRun.characters;
 
-public class Player extends ACharacter
+import java.io.Serializable;
+
+public class Player extends ACharacter implements Serializable
 {
-    private int noOfKills;
+    private int noOfKills = 0;
     public Player(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
         super(health, strength, agility, experience, level, gold, criticalRate);
     }
 
-
-    @Override
-    public void fight()
+    public void setNoOfKills(int noOfKills)
     {
-        System.out.println("ARRRRRRRGH!");
+        this.noOfKills = noOfKills;
+    }
+
+    public int getNoOfKills()
+    {
+        return noOfKills;
     }
 }

@@ -10,7 +10,7 @@ public class Menu
     private final String DIVIDER = "+---------------------------------+";
     public void welcomeMessage()
     {
-        System.out.printf("\t\t\tWelcome to\t\t\t\n%s%s\n\t\t+++DUNGEON RUN+++\t\t\n%s%s", DIVIDER,ANSI_GREEN,ANSI_RESET,DIVIDER);
+        System.out.printf("\t\t\tWelcome to\t\t\t\n%s%s\n\t\t+++DUNGEON RUN+++\t\t\n%s%s\n", DIVIDER,ANSI_GREEN,ANSI_RESET,DIVIDER);
     }
     public void firstMenu(){
         System.out.println("What would you like to do?");

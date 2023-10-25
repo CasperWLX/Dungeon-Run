@@ -1,6 +1,8 @@
 package com.hampus.dungeonRun.characters;
 
-public class CharacterManager
+import java.io.Serializable;
+
+public class CharacterManager implements Serializable
 {
     private Player player;
     private Monster monster;
@@ -22,4 +24,5 @@ public class CharacterManager
     {
         return monster;
     }
+
 }
