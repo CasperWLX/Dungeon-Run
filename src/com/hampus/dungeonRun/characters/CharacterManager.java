@@ -7,11 +7,9 @@ public class CharacterManager implements Serializable
     private Player player;
     private Monster monster;
 
-    public CharacterManager(Player player)
+    public CharacterManager(Player player, Monster monster)
     {
         this.player = player;
-    }
-    public CharacterManager(Monster monster){
         this.monster = monster;
     }
 

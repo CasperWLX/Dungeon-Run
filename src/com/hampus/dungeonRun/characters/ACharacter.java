@@ -13,8 +13,6 @@ public abstract class ACharacter implements ICombat, Serializable
     private int level;
     private int gold;
     private int criticalRate;
-    Player player;
-    Monster monster;
 
     public ACharacter(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
@@ -33,12 +31,20 @@ public abstract class ACharacter implements ICombat, Serializable
                 "|\tHP: %d\t|\tStr: %d\t|\tAgility: %d\t|\tEXP: %d\t|\tLVL: %d\t|\tGold: %d\t|\tCrit: %d%%\t|\n",
                 health,strength,agility,experience,level,gold,criticalRate);
     }
-
-    @Override
-    public void fight()
+    public void setStats(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
-        System.out.println("ARRRRRRRGH!");
+        this.health = health;
+        this.strength = strength;
+        this.agility = agility;
+        this.experience = experience;
+        this.level = level;
+        this.gold = gold;
+        this.criticalRate = criticalRate;
+
     }
+
+
+
     public int getHealth()
     {
         return health;

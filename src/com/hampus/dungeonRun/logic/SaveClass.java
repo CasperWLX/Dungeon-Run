@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
 
-public class GameData
+public class SaveClass
 {
     public void saveCharacter(CharacterManager character, String filename)
     {
