@@ -18,7 +18,7 @@ public class Game
 
         boolean userIsSelecting = true;
         List<CharacterManager> playerList = new ArrayList<>();
-        String filename = "C:/Users/Hampus/IdeaProjects/JavaB/JavaB_Labb/src/com/hampus/dungeonRun/files/players.dat";
+        String filename = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
 
         MENU.welcomeMessage();
         MENU.mainMenu();
@@ -32,6 +32,8 @@ public class Game
                     CharacterManager player = newGame();
                     GAME_DATA.saveCharacter(player, filename);
                     playerList.add(player);
+                    MENU.enterName();
+                    player.getPlayer().setName(INPUT.getStringInput());
                     userIsSelecting = false;
 
                 }
@@ -41,7 +43,7 @@ public class Game
                     playerList.add(player);
                     if(player != null)
                     {
-                        System.out.println("-Welcome back player-");
+                        System.out.printf("-Welcome back %s-\n",player.getPlayer().getName());
                         userIsSelecting = false;
                     }
                     else
@@ -51,7 +53,7 @@ public class Game
                 }
                 case 3 ->
                 {
-                    System.out.println("Ok thanks for playing!");
+                    MENU.exitGame();
                     System.exit(0);
                 }
                 default -> MENU.outOfScopeChoice();
@@ -74,9 +76,10 @@ public class Game
                 case 3 -> System.out.println("shop");
                 case 4 ->
                 {
-                    System.out.println("exit game");
+                    MENU.exitGame();
                     userIsSelecting = false;
                 }
+                default -> MENU.outOfScopeChoice();
             }
 
         } while(userIsSelecting);
@@ -130,6 +133,7 @@ public class Game
                     }
                 }
                 case 3 -> characterManager.getPlayer().getStats();
+                default -> MENU.outOfScopeChoice();
             }
         } while(combatIsActive);
     }

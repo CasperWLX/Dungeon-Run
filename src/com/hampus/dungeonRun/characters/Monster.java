@@ -10,12 +10,6 @@ public class Monster extends ACharacter implements Serializable
     }
 
     @Override
-    public void scream()
-    {
-        System.out.println("GROOOOOWL!");
-    }
-
-    @Override
     public void takeDamage(CharacterManager characterManager)
     {
         int randomDamage = characterManager.getPlayer().getStrength() + (int)(Math.random() * 3);
@@ -47,21 +41,15 @@ public class Monster extends ACharacter implements Serializable
     public boolean isItACrit(CharacterManager characterManager)
     {
         int randomizer = (int)(Math.random() * 100 + 1);
-        if(randomizer < characterManager.getMonster().getCriticalRate())
-        {
-            return true;
-        }
-        return false;
+
+        return randomizer < characterManager.getMonster().getCriticalRate();
     }
 
     @Override
     public boolean didDodge(CharacterManager characterManager)
     {
         int randomizer = (int)(Math.random() * 100 + 1);
-        if(randomizer < characterManager.getMonster().getAgility())
-        {
-            return true;
-        }
-        return false;
+
+        return randomizer < characterManager.getMonster().getAgility();
     }
 }

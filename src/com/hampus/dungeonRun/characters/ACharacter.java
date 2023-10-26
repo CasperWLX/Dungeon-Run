@@ -13,6 +13,7 @@ public abstract class ACharacter implements ICombat, Serializable
     private int level;
     private int gold;
     private int criticalRate;
+    private String name;
 
     public ACharacter(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
@@ -113,5 +114,15 @@ public abstract class ACharacter implements ICombat, Serializable
     public void setCriticalRate(int criticalRate)
     {
         this.criticalRate = criticalRate;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 }

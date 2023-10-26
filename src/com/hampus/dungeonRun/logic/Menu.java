@@ -34,4 +34,10 @@ public class Menu
     public void fleeFailed(){
         System.out.println("Oh no, looks like you could not run away...");
     }
+    public void enterName(){
+        System.out.println("Please enter your name");
+    }
+    public void exitGame(){
+        System.out.println("Thanks for playing!");
+    }
 }
