@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
 
+//TODO Eventuellt kika på entity SQL spara filer.
 public class SaveClass
 {
     public void saveCharacter(CharacterManager character, String filename)
@@ -42,7 +43,7 @@ public class SaveClass
     }
 
     /**
-     * Metod som väntar i x antal sekunder innan den skickar ut något i konsolen
+     * Method that sleeps the program for 2 seconds
      */
     public void waitTwoSeconds()
     {

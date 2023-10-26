@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public abstract class ACharacter implements ICombat, Serializable
 {
+    private String name;
     private int health;
     private int strength;
     private int agility;
@@ -13,7 +14,6 @@ public abstract class ACharacter implements ICombat, Serializable
     private int level;
     private int gold;
     private int criticalRate;
-    private String name;
 
     public ACharacter(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
