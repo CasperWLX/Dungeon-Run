@@ -106,6 +106,7 @@ public class Game
                     {
                         characterManager.getMonster().setHealth(0);
                         System.out.println("YOU DEFEATED THE MONSTER!");
+                        gainEXP(); //FIXA DENNA
                         combatIsActive = false;
                     }
                     else
@@ -145,6 +146,37 @@ public class Game
         int monsterCriticalRate = (int) (Math.random() * 15 + 1);
         monsterStats.getMonster().setStats(monsterHealth, monsterStrength, monsterAgility, 0, monsterLevel, monsterGold, monsterCriticalRate);
     }
+    public void gainEXP(){
 
+    }
+
+    //TODO - eventuell ide för att generera random monster.
+    /*
+    public void generateMonster(){
+        switch(randomNumber){
+            case 1,2,3,4,5 -> createGoblin();
+            case 6,7,8 -> createTroll();
+            case 9,10 -> createGolem();
+            case 11 -> createDragon();
+        }
+    }
+
+    public int generateNumberInRange()
+    {
+        int baseValue = 100;
+        double lowerPercent = 0.8;
+        double upperPercent = 1.2;
+        int lowerBound = (int)(baseValue * lowerPercent)
+        int upperBound = (int)(baseValue * upperPercent)
+        int randomNumber = (int) (generateRandomNumber(lowerBound, upperBound))
+        return randomNumber;
+
+    }
+    public static double generateRandomNumber(int lowerBound, int upperBound) {
+        Random rand = new Random();
+        int randomOffset = (upperBound - lowerBound) * rand.nextDouble();
+        return lowerBound + randomOffset;
+    }
+    */
 
 }
