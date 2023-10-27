@@ -10,7 +10,7 @@ public class MonsterList
         switch(randomNumber)
         {
             case 1,2,3,4,5 -> {
-                double goblinMultiplier = 0.3;
+                double goblinMultiplier = 0.4;
                 int goldMultiplier = 3;
                 int critRate = 2;
                 characterManager.getMonster().setName("Goblin");
@@ -45,7 +45,8 @@ public class MonsterList
         monsterStats.getMonster().setStrength(generateNumberInRange((int) (monsterStats.getPlayer().getStrength() * statsMultiplier)));
         monsterStats.getMonster().setAgility(generateNumberInRange((int) (monsterStats.getPlayer().getAgility() * statsMultiplier)));
         monsterStats.getMonster().setLevel(generateNumberInRange((int) (monsterStats.getPlayer().getLevel() * statsMultiplier)));
-        monsterStats.getMonster().setExperience(generateNumberInRange((int) (monsterStats.getMonster().getLevel() * 10.5)));
+        //monsterStats.getMonster().setExperience(generateNumberInRange((monsterStats.getMonster().getAgility() + monsterStats.getMonster().getStrength()) * monsterStats.getMonster().getHealth()) / 100);
+        monsterStats.getMonster().setExperience(generateNumberInRange((int) (monsterStats.getMonster().getLevel() * 8.3)));
         monsterStats.getMonster().setGold(generateNumberInRange(goldMultiplier));
         monsterStats.getMonster().setCriticalRate(generateNumberInRange(critRate));
     }

@@ -1,29 +1,32 @@
 package com.hampus.dungeonRun.logic;
 
 import com.hampus.dungeonRun.characters.CharacterManager;
+import com.hampus.dungeonRun.characters.Monster;
+import com.hampus.dungeonRun.characters.Player;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 
 //TODO Eventuellt kika på entity SQL spara filer.
 public class SaveClass
 {
-    public void saveCharacter(CharacterManager character, String filename)
+    public void saveCharacter(CharacterManager character, String filename, boolean isDead)
     {
         try(FileOutputStream fileOut = new FileOutputStream(filename);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut))
         {
             objectOut.writeObject(character);
-            System.out.println("Character saved to " + filename);
+            if(!isDead)
+            {
+                System.out.println("Character saved to " + filename);
+            }
+
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            System.out.println("Could not save the character, please check that the files are in the correct spot\nAborting program");
+            System.exit(0);
         }
-
     }
 
     public CharacterManager loadCharacter(String filename)
@@ -38,10 +41,17 @@ public class SaveClass
         catch(Exception e)
         {
             System.out.println("Oops, looks like there is no saved character on this device");
-            //e.printStackTrace();
         }
         return character;
     }
+
+    public void deleteCharacter(String filename){
+        CharacterManager emptyCharacter = new CharacterManager(
+                new Player(0,0,0,0,0,0,0),
+                new Monster(0,0,0,0,0,0,0));
+        saveCharacter(emptyCharacter,filename, true);
+    }
+
 
     /**
      * Method that sleeps the program for 2 seconds

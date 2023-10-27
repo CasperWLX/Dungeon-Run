@@ -32,8 +32,8 @@ public abstract class ACharacter implements ICombat, Serializable
 
     public String getStats()
     {
-        return String.format("|\tHP: %d\t|\tStr: %d\t|\tAgility: %d\t|\tEXP: %d/%d\t|\tLVL: %d\t|\tGold: %d\t|\tCrit: %d%%\t|\n",
-                health,strength,agility,experience,requiredExperience,level,gold,criticalRate);
+        return String.format("|\tHP: %d/%d\t|\tStr: %d\t|\tAgility: %d\t|\tEXP: %d/%d\t|\tLVL: %d\t|\tGold: %d\t|\tCrit: %d%%\t|\n",
+                health,maxHealth,strength,agility,experience,requiredExperience,level,gold,criticalRate);
     }
 
     public int getHealth()
@@ -49,11 +49,6 @@ public abstract class ACharacter implements ICombat, Serializable
     public int getMaxHealth()
     {
         return maxHealth;
-    }
-
-    public void setMaxHealth(int maxHealth)
-    {
-        this.maxHealth = maxHealth;
     }
 
     public int getStrength()
@@ -131,14 +126,14 @@ public abstract class ACharacter implements ICombat, Serializable
     {
         experience += characterManager.getMonster().getExperience();
         gold += characterManager.getMonster().getGold();
-        if(experience >= requiredExperience)
+        while(experience >= requiredExperience)
         {
             level++;
             maxHealth+= (int) (maxHealth * 0.05);
             health = maxHealth;
             experience -= requiredExperience;
-            requiredExperience += (int)(requiredExperience * 0.05);
-            strength+= (int)(strength * 0.1);
+            requiredExperience += (int)(requiredExperience * 0.15);
+            strength+= (int)(strength * 0.02 + 1);
             if(level % 10 == 0)
             {
                 agility++;
@@ -148,6 +143,7 @@ public abstract class ACharacter implements ICombat, Serializable
                 criticalRate++;
             }
             menu.levelUpMessage(characterManager);
+
         }
     }
 }

@@ -9,8 +9,8 @@ public class Menu
     private static final String ANSI_YELLOW = "\u001B[33m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_RESET = "\u001B[0m";
-    private final String STATS_DIVIDER =
-            "+-----------------------------------------------------------------------------------------------+";
+    private final String SMALL_DIVIDER = "----------------------------";
+    private final String STATS_DIVIDER = SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER;
 
     public void welcomeMessage()
     {
@@ -23,7 +23,7 @@ public class Menu
     public void mainMenu()
     {
         System.out.println("What would you like to do?");
-        System.out.println("1.Start new game\n2.Load game\n3.Exit app");
+        System.out.println("1. Start new game\n2. Load game\n3. Exit app");
     }
 
     public void gameMenu()
@@ -42,7 +42,7 @@ public class Menu
 
     public void combatMenu()
     {
-        System.out.println("1. Attack!\n2. Run!\n3. Check status");
+        System.out.println("1. Attack!\n2. Run!\n3. Player stats");
     }
 
     public void fleeSuccess()
@@ -75,6 +75,7 @@ public class Menu
     {
         String stats = characterManager.getPlayer().getStats();
         System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
+
     }
 
     public void printMonsterStats(CharacterManager characterManager)
@@ -101,6 +102,13 @@ public class Menu
                     System.out.println("Woah great job getting to level 30. But be careful... the Dragons are coming...");
         }
 
+    }
+    public void gameOver(CharacterManager characterManager)
+    {
+        System.out.println("OH NO LOOKS LIKE YOU DIED!\nThese are your final stats:");
+        printPlayerStats(characterManager);
+        System.out.printf("You got %d amount of kills\n",characterManager.getPlayer().getNoOfKills());
+        System.out.printf("%s will now be deleted, thanks for playing\n",characterManager.getPlayer().getName());
     }
 
     public void printGreen(String text)

@@ -11,9 +11,9 @@ public class Player extends ACharacter implements Serializable
         super(health, strength, agility, experience, level, gold, criticalRate);
     }
 
-    public void setNoOfKills(int noOfKills)
+    public void killedMonster()
     {
-        this.noOfKills = noOfKills;
+        noOfKills++;
     }
 
     public int getNoOfKills()
