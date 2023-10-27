@@ -37,7 +37,8 @@ public class SaveClass
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            System.out.println("Oops, looks like there is no saved character on this device");
+            //e.printStackTrace();
         }
         return character;
     }

@@ -13,10 +13,11 @@ public class Monster extends ACharacter implements Serializable
     public void takeDamage(CharacterManager characterManager)
     {
         int randomDamage = characterManager.getPlayer().getStrength() + (int)(Math.random() * 3);
+        String monsterName = characterManager.getMonster().getName();
 
         if(didDodge(characterManager))
         {
-            System.out.println("The monster dodged!");
+            System.out.printf("The %s dodged!\n",monsterName);
             return;
         }
         if(isItACrit(characterManager))
@@ -27,14 +28,8 @@ public class Monster extends ACharacter implements Serializable
                 System.out.println("NICE! THAT'S A CRITICAL HIT!");
             }
         }
-        System.out.printf("You did %d damage against the monster\n", randomDamage);
+        System.out.printf("You did %d damage against the %s\n", randomDamage,monsterName);
         characterManager.getMonster().setHealth(characterManager.getMonster().getHealth() - randomDamage);
-    }
-
-    @Override
-    public void levelUp()
-    {
-
     }
 
     @Override

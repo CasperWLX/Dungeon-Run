@@ -2,6 +2,7 @@ package com.hampus.dungeonRun.logic;
 
 import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
+import com.hampus.dungeonRun.characters.MonsterList;
 import com.hampus.dungeonRun.characters.Player;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Game
     private final Menu MENU = new Menu();
     private final SaveClass GAME_DATA = new SaveClass();
     private final Input INPUT = new Input();
+    private final MonsterList MONSTERS = new MonsterList();
 
     public void run()
     {
@@ -21,10 +23,10 @@ public class Game
         String filename = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
 
         MENU.welcomeMessage();
-        MENU.mainMenu();
 
         do
         {
+            MENU.mainMenu();
             switch(INPUT.getInt())
             {
                 case 1 ->
@@ -40,15 +42,18 @@ public class Game
                 case 2 ->
                 {
                     CharacterManager player = GAME_DATA.loadCharacter(filename);
-                    playerList.add(player);
-                    if(player != null)
+                    try
                     {
-                        System.out.printf("-Welcome back %s-\n",player.getPlayer().getName());
-                        userIsSelecting = false;
+                        if(player.getPlayer().getName() != null || !player.getPlayer().getName().isEmpty())
+                        {
+                            playerList.add(player);
+                            System.out.printf("-Welcome back %s-\n", player.getPlayer().getName());
+                            userIsSelecting = false;
+                        }
                     }
-                    else
+                    catch(NullPointerException npe)
                     {
-                        System.out.println("Oops, looks like the character doesn't exist");
+                        MENU.noSaveFile();
                     }
                 }
                 case 3 ->
@@ -68,11 +73,7 @@ public class Game
             switch(INPUT.getInt())
             {
                 case 1 -> enterCombat(characterManager, INPUT);
-                case 2 ->
-                {
-                    System.out.println("check stats");
-                    characterManager.getPlayer().getStats();
-                }
+                case 2 -> MENU.printPlayerStats(characterManager);
                 case 3 -> System.out.println("shop");
                 case 4 ->
                 {
@@ -89,13 +90,15 @@ public class Game
 
     public CharacterManager newGame()
     {
-        return new CharacterManager(new Player(100, 10, 8, 0, 5, 10, 5), new Monster(40, 3, 5, 0, 4, 2, 4));
+        return new CharacterManager(new Player(100, 10, 8, 0, 5, 50, 5),
+                new Monster(40, 3, 5, 0, 4, 2, 4));
     }
 
     public void enterCombat(CharacterManager characterManager, Input INPUT)
     {
-        randomizeMonsterStats(characterManager);
-        characterManager.getMonster().getStats();
+        MONSTERS.generateMonster(characterManager);
+        MENU.printMonsterName(characterManager);
+        MENU.printMonsterStats(characterManager);
         boolean combatIsActive = true;
         do
         {
@@ -108,16 +111,17 @@ public class Game
                     if(characterManager.getMonster().getHealth() <= 0)
                     {
                         characterManager.getMonster().setHealth(0);
-                        System.out.println("YOU DEFEATED THE MONSTER!");
-                        gainEXP(); //FIXA DENNA
+                        MENU.combatSuccess(characterManager);
+                        characterManager.getPlayer().levelUp(MENU, characterManager);
                         combatIsActive = false;
                     }
                     else
                     {
                         characterManager.getPlayer().takeDamage(characterManager);
+                        System.out.printf("%s HP \t:\t %d\n", characterManager.getPlayer().getName(),characterManager.getPlayer().getHealth());
+                        System.out.printf("%s HP \t:\t %d\n", characterManager.getMonster().getName(),characterManager.getMonster().getHealth());
                     }
-                    System.out.printf("Player HP \t:\t %d\n", characterManager.getPlayer().getHealth());
-                    System.out.printf("Monster HP \t:\t %d\n", characterManager.getMonster().getHealth());
+
                 }
                 case 2 ->
                 {
@@ -132,55 +136,9 @@ public class Game
                         characterManager.getPlayer().takeDamage(characterManager);
                     }
                 }
-                case 3 -> characterManager.getPlayer().getStats();
+                case 3 -> MENU.printPlayerStats(characterManager);
                 default -> MENU.outOfScopeChoice();
             }
         } while(combatIsActive);
     }
-
-    public void randomizeMonsterStats(CharacterManager monsterStats)
-    {
-        int randomUp = (int) (Math.random() * 1 + 1);
-        int randomDown = (int) (Math.random() * 2 + 2);
-        int monsterHealth = (int) (((monsterStats.getPlayer().getHealth() * 0.6) - randomDown + randomUp) * 1.3);
-        int monsterStrength = monsterStats.getPlayer().getStrength() - randomDown + randomUp;
-        int monsterAgility = monsterStats.getPlayer().getAgility() - randomDown + randomUp;
-        int monsterLevel = monsterStats.getPlayer().getLevel() - randomDown + randomUp;
-        int monsterGold = monsterLevel / 2;
-        int monsterCriticalRate = (int) (Math.random() * 15 + 1);
-        monsterStats.getMonster().setStats(monsterHealth, monsterStrength, monsterAgility, 0, monsterLevel, monsterGold, monsterCriticalRate);
-    }
-    public void gainEXP(){
-
-    }
-
-    //TODO - eventuell ide för att generera random monster.
-    /*
-    public void generateMonster(){
-        switch(randomNumber){
-            case 1,2,3,4,5 -> createGoblin();
-            case 6,7,8 -> createTroll();
-            case 9,10 -> createGolem();
-            case 11 -> createDragon();
-        }
-    }
-
-    public int generateNumberInRange()
-    {
-        int baseValue = 100;
-        double lowerPercent = 0.8;
-        double upperPercent = 1.2;
-        int lowerBound = (int)(baseValue * lowerPercent)
-        int upperBound = (int)(baseValue * upperPercent)
-        int randomNumber = (int) (generateRandomNumber(lowerBound, upperBound))
-        return randomNumber;
-
-    }
-    public static double generateRandomNumber(int lowerBound, int upperBound) {
-        Random rand = new Random();
-        int randomOffset = (upperBound - lowerBound) * rand.nextDouble();
-        return lowerBound + randomOffset;
-    }
-    */
-
 }
