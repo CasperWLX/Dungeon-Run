@@ -17,7 +17,7 @@ public class Monster extends ACharacter implements Serializable
 
         if(didDodge(characterManager))
         {
-            System.out.printf("The %s dodged!\n",monsterName);
+            System.out.printf("The %s dodged your attack!\n",monsterName);
             return;
         }
         if(isItACrit(characterManager))

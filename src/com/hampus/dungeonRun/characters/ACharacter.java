@@ -12,7 +12,7 @@ public abstract class ACharacter implements ICombat, Serializable
     private int maxHealth = 100;
     private int strength;
     private int agility;
-    private int requiredExperience = 100;
+    private int requiredExperience = 50;
     private int experience;
     private int level;
     private int gold;
@@ -35,19 +35,6 @@ public abstract class ACharacter implements ICombat, Serializable
         return String.format("|\tHP: %d\t|\tStr: %d\t|\tAgility: %d\t|\tEXP: %d/%d\t|\tLVL: %d\t|\tGold: %d\t|\tCrit: %d%%\t|\n",
                 health,strength,agility,experience,requiredExperience,level,gold,criticalRate);
     }
-    public void setStats(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
-    {
-        this.health = health;
-        this.strength = strength;
-        this.agility = agility;
-        this.experience = experience;
-        this.level = level;
-        this.gold = gold;
-        this.criticalRate = criticalRate;
-
-    }
-
-
 
     public int getHealth()
     {

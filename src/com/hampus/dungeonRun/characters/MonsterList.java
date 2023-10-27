@@ -19,21 +19,21 @@ public class MonsterList
             case 6,7,8 -> {
                 double trollMultiplier = 0.6;
                 int goldMultiplier = 6;
-                int critRate = 4;
+                int critRate = 5;
                 characterManager.getMonster().setName("Troll");
                 createMonster(characterManager, trollMultiplier, goldMultiplier, critRate);
             }
             case 9,10 -> {
                 double golemMultiplier = 0.9;
                 int goldMultiplier = 12;
-                int critRate = 2;
+                int critRate = 10;
                 characterManager.getMonster().setName("Golem");
                 createMonster(characterManager, golemMultiplier, goldMultiplier, critRate);
             }
             case 11 -> {
                 double dragonMultiplier = 1.2;
-                int goldMultiplier = 3;
-                int critRate = 2;
+                int goldMultiplier = 24;
+                int critRate = 15;
                 characterManager.getMonster().setName("Dragon");
                 createMonster(characterManager, dragonMultiplier, goldMultiplier, critRate);
             }
@@ -48,7 +48,6 @@ public class MonsterList
         monsterStats.getMonster().setExperience(generateNumberInRange((int) (monsterStats.getMonster().getLevel() * 10.5)));
         monsterStats.getMonster().setGold(generateNumberInRange(goldMultiplier));
         monsterStats.getMonster().setCriticalRate(generateNumberInRange(critRate));
-
     }
     public void createBoss()
     {

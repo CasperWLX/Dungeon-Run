@@ -29,7 +29,7 @@ public class Player extends ACharacter implements Serializable
 
         if (didDodge(characterManager))
         {
-            System.out.printf("%s dodged!\n",characterManager.getPlayer().getName());
+            System.out.printf("%s dodged the %s's attack!\n",characterManager.getPlayer().getName(), monsterName);
             return;
         }
         if (isItACrit(characterManager))
