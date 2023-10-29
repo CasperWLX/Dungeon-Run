@@ -1,10 +1,9 @@
 package com.hampus.dungeonRun.logic;
 
-import com.hampus.dungeonRun.characters.CharacterManager;
-import com.hampus.dungeonRun.characters.Monster;
-import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.characters.*;
 
 import java.io.*;
+
 
 
 //TODO Eventuellt kika på entity SQL spara filer.
@@ -20,10 +19,10 @@ public class SaveClass
             {
                 System.out.println("Character saved to " + filename);
             }
-
         }
         catch(Exception e)
         {
+            //e.printStackTrace();
             System.out.println("Could not save the character, please check that the files are in the correct spot\nAborting program");
             System.exit(0);
         }
@@ -50,21 +49,5 @@ public class SaveClass
                 new Player(0,0,0,0,0,0,0),
                 new Monster(0,0,0,0,0,0,0));
         saveCharacter(emptyCharacter,filename, true);
-    }
-
-
-    /**
-     * Method that sleeps the program for 2 seconds
-     */
-    public void waitTwoSeconds()
-    {
-        try
-        {
-            Thread.sleep(2000);
-        }
-        catch(InterruptedException e)
-        {
-            Thread.currentThread().interrupt();
-        }
     }
 }

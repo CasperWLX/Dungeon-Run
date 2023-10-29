@@ -4,23 +4,23 @@ import java.io.Serializable;
 
 public class CharacterManager implements Serializable
 {
-    private Player player;
-    private Monster monster;
+    private final Player PLAYER;
+    private final Monster MONSTER;
 
     public CharacterManager(Player player, Monster monster)
     {
-        this.player = player;
-        this.monster = monster;
+        this.PLAYER = player;
+        this.MONSTER = monster;
     }
 
-    public Player getPlayer()
+    public Player getPLAYER()
     {
-        return player;
+        return PLAYER;
     }
 
-    public Monster getMonster()
+    public Monster getMONSTER()
     {
-        return monster;
+        return MONSTER;
     }
 
 }

@@ -2,13 +2,17 @@ package com.hampus.dungeonRun.logic;
 
 import com.hampus.dungeonRun.characters.CharacterManager;
 
-public class Menu
+import java.io.Serializable;
+import java.util.List;
+
+public class Menu implements Serializable
 {
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String RED = "\u001B[31m";
+    public static final String WHITE = "\033[0;37m";
+    private static final String RESET = "\u001B[0m";
     private final String SMALL_DIVIDER = "----------------------------";
     private final String STATS_DIVIDER = SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER;
 
@@ -16,7 +20,7 @@ public class Menu
     {
         String DIVIDER = "+---------------------------------+";
         System.out.println("\t\t\tWelcome to\t\t\t\n" + DIVIDER);
-        printGreen("\t\t+++DUNGEON RUN+++\t\t");
+        System.out.println(printGreen("\t\t+++DUNGEON RUN+++\t\t"));
         System.out.println(DIVIDER);
     }
 
@@ -35,9 +39,6 @@ public class Menu
     public void outOfScopeChoice()
     {
         System.out.println("That is not a choice.");
-    }
-    public void noSaveFile(){
-        System.out.println("Whoops, looks like there is no save character on this PC");
     }
 
     public void combatMenu()
@@ -68,30 +69,34 @@ public class Menu
     public void combatSuccess(CharacterManager characterManager)
     {
         System.out.printf("YOU WON THE FIGHT! GREAT JOB!\nYou gained %d experience and %d gold\n",
-                characterManager.getMonster().getExperience(), characterManager.getMonster().getGold());
+                characterManager.getMONSTER().getExperience(), characterManager.getMONSTER().getGold());
     }
 
     public void printPlayerStats(CharacterManager characterManager)
     {
-        String stats = characterManager.getPlayer().getStats();
+        String stats = characterManager.getPLAYER().getStats();
         System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
 
     }
 
     public void printMonsterStats(CharacterManager characterManager)
     {
-        String stats = characterManager.getMonster().getStats();
+        String stats = characterManager.getMONSTER().getStats();
         System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
     }
 
     public void printMonsterName(CharacterManager characterManager)
     {
-        System.out.printf("A level %d %s appeared!\n", characterManager.getMonster().getLevel(), characterManager.getMonster().getName());
+        System.out.printf("A level %d %s appeared!\n\n", characterManager.getMONSTER().getLevel(), characterManager.getMONSTER().getName());
+    }
+    public void incomingBossBattle()
+    {
+        System.out.println(printRed("WATCH OUT! THE NEXT FIGHT WILL BE A BOSS FIGHT!"));
     }
 
     public void levelUpMessage(CharacterManager characterManager)
     {
-        int level = characterManager.getPlayer().getLevel();
+        int level = characterManager.getPLAYER().getLevel();
         System.out.println("CONGRATS YOU'VE LEVELED UP!\nHere are your new stats!\n");
         printPlayerStats(characterManager);
         switch(level)
@@ -107,28 +112,51 @@ public class Menu
     {
         System.out.println("OH NO LOOKS LIKE YOU DIED!\nThese are your final stats:");
         printPlayerStats(characterManager);
-        System.out.printf("You got %d amount of kills\n",characterManager.getPlayer().getNoOfKills());
-        System.out.printf("%s will now be deleted, thanks for playing\n",characterManager.getPlayer().getName());
+        System.out.printf("You got %d kills\n",characterManager.getPLAYER().getNoOfKills());
+        System.out.printf("%s will now be deleted, thanks for playing\n",characterManager.getPLAYER().getName());
     }
 
-    public void printGreen(String text)
+    public void shopMenu(int playerGold,List<String> item, List<Integer> itemCost, List<Integer> amountOfItems)
     {
-        System.out.println(ANSI_GREEN + text + ANSI_RESET);
+        System.out.println("--Welcome to the shop, let me present to you all our items and what they cost--");
+        for(int i = 0; i < item.size(); i++){
+            System.out.printf(i + 1 + ": %s, cost : %d, stock : %d\n",item.get(i),itemCost.get(i),amountOfItems.get(i));
+        }
+        System.out.println("7: Exit shop");
+        System.out.printf("You currently have: %s gold\n",printYellow(String.valueOf(playerGold)));
     }
-
-    public void printRed(String text)
+    public void successfulTransaction(String item, int cost)
     {
-        System.out.println(ANSI_RED + text + ANSI_RESET);
+        System.out.printf("You bought %s for %s gold\n",item,printYellow(String.valueOf(cost)));
+        System.out.println("Pleasure to do business with you, is there anything else you would like to buy?");
     }
-
-    public void printYellow(String text)
+    public void outOfStock(){
+        System.out.println("Sorry that items seems to sold out, but you could buy something else.");
+    }
+    public void notEnoughGold()
     {
-        System.out.println(ANSI_YELLOW + text + ANSI_RESET);
+        System.out.println("Looks like you don't have enough money");
     }
-
-    public void printBlue(String text)
+    public String printGreen(String text)
     {
-        System.out.println(ANSI_BLUE + text + ANSI_RESET);
+        return GREEN + text + RESET;
     }
 
+    public String printRed(String text)
+    {
+        return RED + text + RESET;
+    }
+
+    public String printYellow(String text)
+    {
+        return YELLOW + text + RESET;
+    }
+
+    public String printBlue(String text)
+    {
+        return BLUE + text + RESET;
+    }
+    public String printWhite(String text){
+        return WHITE + text + RESET;
+    }
 }

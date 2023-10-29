@@ -24,12 +24,12 @@ public class Player extends ACharacter implements Serializable
     @Override
     public void takeDamage(CharacterManager characterManager)
     {
-        int randomDamage = characterManager.getMonster().getStrength() + (int) (Math.random() * 3);
-        String monsterName = characterManager.getMonster().getName();
+        int randomDamage = characterManager.getMONSTER().getStrength() + (int) (Math.random() * 3);
+        String monsterName = characterManager.getMONSTER().getName();
 
-        if (didDodge(characterManager))
+        if (didDodge())
         {
-            System.out.printf("%s dodged the %s's attack!\n",characterManager.getPlayer().getName(), monsterName);
+            System.out.printf("%s dodged the %s's attack!\n",super.getName(), monsterName);
             return;
         }
         if (isItACrit(characterManager))
@@ -41,7 +41,7 @@ public class Player extends ACharacter implements Serializable
             }
         }
         System.out.printf("You took %d damage from the %s's attack\n", randomDamage,monsterName);
-        characterManager.getPlayer().setHealth(characterManager.getPlayer().getHealth() - randomDamage);
+        super.setHealth(super.getHealth() - randomDamage);
 
     }
 
@@ -49,13 +49,23 @@ public class Player extends ACharacter implements Serializable
     {
         int randomizer = (int) (Math.random() * 100 + 1);
 
-        return randomizer < characterManager.getPlayer().getCriticalRate();
+        return randomizer < characterManager.getMONSTER().getCriticalRate();
     }
 
-    public boolean didDodge(CharacterManager characterManager)
+    public boolean didDodge()
     {
         int randomizer = (int) (Math.random() * 100 + 1);
 
-        return randomizer < characterManager.getPlayer().getAgility();
+        return randomizer < super.getAgility();
+    }
+
+    public void heal(int healValue, int cost)
+    {
+        super.setHealth(super.getHealth() + healValue);
+        super.setGold(super.getGold() - cost);
+        if(super.getHealth() > super.getMaxHealth())
+        {
+            super.setHealth(super.getMaxHealth());
+        }
     }
 }

@@ -7,9 +7,10 @@ import java.io.Serializable;
 
 public abstract class ACharacter implements ICombat, Serializable
 {
+    private final Menu MENU = new Menu();
     private String name;
     private int health;
-    private int maxHealth = 100;
+    private int maxHealth;
     private int strength;
     private int agility;
     private int requiredExperience = 50;
@@ -17,11 +18,25 @@ public abstract class ACharacter implements ICombat, Serializable
     private int level;
     private int gold;
     private int criticalRate;
+    private boolean bossTime = false;
 
 
-    public ACharacter(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
+    public ACharacter(int maxHealth, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
-        this.health = health;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
+        this.strength = strength;
+        this.agility = agility;
+        this.experience = experience;
+        this.level = level;
+        this.gold = gold;
+        this.criticalRate = criticalRate;
+    }
+    public void setStats(String name, int maxHealth, int strength, int agility, int experience, int level, int gold, int criticalRate)
+    {
+        this.name = name;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
         this.strength = strength;
         this.agility = agility;
         this.experience = experience;
@@ -32,8 +47,16 @@ public abstract class ACharacter implements ICombat, Serializable
 
     public String getStats()
     {
-        return String.format("|\tHP: %d/%d\t|\tStr: %d\t|\tAgility: %d\t|\tEXP: %d/%d\t|\tLVL: %d\t|\tGold: %d\t|\tCrit: %d%%\t|\n",
-                health,maxHealth,strength,agility,experience,requiredExperience,level,gold,criticalRate);
+        return String.format("|\tHP: %s/%s\t|\tStr: %s\t|\tAgility: %s\t|\tEXP: %s/%s\t|\tLVL: %s\t|\tGold: %s\t|\tCrit: %s%%\t|\n",
+                MENU.printGreen(String.valueOf(health)),
+                MENU.printGreen(String.valueOf(maxHealth)),
+                MENU.printRed(String.valueOf(strength)),
+                MENU.printBlue(String.valueOf(agility)),
+                MENU.printWhite(String.valueOf(experience)),
+                MENU.printWhite(String.valueOf(requiredExperience)),
+                MENU.printWhite(String.valueOf(level)),
+                MENU.printYellow(String.valueOf(gold)),
+                MENU.printRed(String.valueOf(criticalRate)));
     }
 
     public int getHealth()
@@ -49,6 +72,9 @@ public abstract class ACharacter implements ICombat, Serializable
     public int getMaxHealth()
     {
         return maxHealth;
+    }
+    public void setMaxHealth(int maxHealth){
+        this.maxHealth = maxHealth;
     }
 
     public int getStrength()
@@ -79,6 +105,10 @@ public abstract class ACharacter implements ICombat, Serializable
     public void setExperience(int experience)
     {
         this.experience = experience;
+    }
+    public void setRequiredExperience(int requiredExperience)
+    {
+        this.requiredExperience = requiredExperience;
     }
 
     public int getLevel()
@@ -121,11 +151,21 @@ public abstract class ACharacter implements ICombat, Serializable
         this.name = name;
     }
 
+    public boolean itsBossTime()
+    {
+        return bossTime;
+    }
+
+    public void setBossTime(boolean bossTime)
+    {
+        this.bossTime = bossTime;
+    }
+
     @Override
     public void levelUp(Menu menu, CharacterManager characterManager)
     {
-        experience += characterManager.getMonster().getExperience();
-        gold += characterManager.getMonster().getGold();
+        experience += characterManager.getMONSTER().getExperience();
+        gold += characterManager.getMONSTER().getGold();
         while(experience >= requiredExperience)
         {
             level++;
@@ -134,7 +174,7 @@ public abstract class ACharacter implements ICombat, Serializable
             experience -= requiredExperience;
             requiredExperience += (int)(requiredExperience * 0.15);
             strength+= (int)(strength * 0.02 + 1);
-            if(level % 10 == 0)
+            if(level % 5 == 0)
             {
                 agility++;
             }
@@ -143,7 +183,12 @@ public abstract class ACharacter implements ICombat, Serializable
                 criticalRate++;
             }
             menu.levelUpMessage(characterManager);
-
+            if(level == 10 || level == 20 || level == 30)
+            {
+                bossTime = true;
+                menu.incomingBossBattle();
+            }
         }
     }
+
 }

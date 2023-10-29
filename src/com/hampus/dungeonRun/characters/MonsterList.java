@@ -1,62 +1,70 @@
 package com.hampus.dungeonRun.characters;
 
-import java.util.Random;
-
 public class MonsterList
 {
     public void generateMonster(CharacterManager characterManager)
     {
-        int randomNumber = numberBasedOnPlayerLevel(characterManager);
-        switch(randomNumber)
+        Monster monster = characterManager.getMONSTER();
+        Player player = characterManager.getPLAYER();
+        if(player.itsBossTime())
         {
-            case 1,2,3,4,5 -> {
-                double goblinMultiplier = 0.4;
-                int goldMultiplier = 3;
-                int critRate = 2;
-                characterManager.getMonster().setName("Goblin");
-                createMonster(characterManager, goblinMultiplier, goldMultiplier, critRate);
-            }
-            case 6,7,8 -> {
-                double trollMultiplier = 0.6;
-                int goldMultiplier = 6;
-                int critRate = 5;
-                characterManager.getMonster().setName("Troll");
-                createMonster(characterManager, trollMultiplier, goldMultiplier, critRate);
-            }
-            case 9,10 -> {
-                double golemMultiplier = 0.9;
-                int goldMultiplier = 12;
-                int critRate = 10;
-                characterManager.getMonster().setName("Golem");
-                createMonster(characterManager, golemMultiplier, goldMultiplier, critRate);
-            }
-            case 11 -> {
-                double dragonMultiplier = 1.2;
-                int goldMultiplier = 24;
-                int critRate = 15;
-                characterManager.getMonster().setName("Dragon");
-                createMonster(characterManager, dragonMultiplier, goldMultiplier, critRate);
+            createBoss(player, monster);
+            player.setBossTime(false);
+        }
+        else
+        {
+            int randomNumber = monsterBasedOnPlayerLevel(player);
+
+            int goldMultiplier;
+            int criticalHitRate;
+            double statsMultiplier;
+            String name;
+            switch(randomNumber)
+            {
+                case 1,2,3,4,5 -> {
+                    statsMultiplier = 0.4;
+                    goldMultiplier = 3;
+                    criticalHitRate = 2;
+                    name = "Goblin";
+                    monster.generateMonster(player, statsMultiplier, goldMultiplier, criticalHitRate, name);
+                }
+                case 6,7,8 -> {
+                    statsMultiplier = 0.6;
+                    goldMultiplier = 6;
+                    criticalHitRate = 5;
+                    name = "Troll";
+                    monster.generateMonster(player, statsMultiplier, goldMultiplier, criticalHitRate, name);
+                }
+                case 9,10 -> {
+                    statsMultiplier = 0.9;
+                    goldMultiplier = 12;
+                    criticalHitRate = 10;
+                    name = "Golem";
+                    monster.generateMonster(player, statsMultiplier, goldMultiplier, criticalHitRate, name);
+                }
+                case 11 -> {
+                    statsMultiplier = 1.2;
+                    goldMultiplier = 24;
+                    criticalHitRate = 15;
+                    name = "Dragon";
+                    monster.generateMonster(player, statsMultiplier, goldMultiplier, criticalHitRate, name);
+                }
             }
         }
-    }
-    public void createMonster(CharacterManager monsterStats, double statsMultiplier, int goldMultiplier, int critRate)
-    {
-        monsterStats.getMonster().setHealth(generateNumberInRange((int) (monsterStats.getPlayer().getMaxHealth() * statsMultiplier)));
-        monsterStats.getMonster().setStrength(generateNumberInRange((int) (monsterStats.getPlayer().getStrength() * statsMultiplier)));
-        monsterStats.getMonster().setAgility(generateNumberInRange((int) (monsterStats.getPlayer().getAgility() * statsMultiplier)));
-        monsterStats.getMonster().setLevel(generateNumberInRange((int) (monsterStats.getPlayer().getLevel() * statsMultiplier)));
-        //monsterStats.getMonster().setExperience(generateNumberInRange((monsterStats.getMonster().getAgility() + monsterStats.getMonster().getStrength()) * monsterStats.getMonster().getHealth()) / 100);
-        monsterStats.getMonster().setExperience(generateNumberInRange((int) (monsterStats.getMonster().getLevel() * 8.3)));
-        monsterStats.getMonster().setGold(generateNumberInRange(goldMultiplier));
-        monsterStats.getMonster().setCriticalRate(generateNumberInRange(critRate));
-    }
-    public void createBoss()
-    {
 
     }
-    public int numberBasedOnPlayerLevel(CharacterManager characterManager)
+    public void createBoss(Player player, Monster monster)
     {
-        int playerLevel = characterManager.getPlayer().getLevel();
+        switch(player.getLevel())
+        {
+            case 10 -> monster.setStats("Hobgoblin",120,8,10,100,12,100,7);
+            case 20 -> monster.setStats("Ogre",250,15,0,400,25,300,5);
+            case 30 -> monster.setStats("Giant",500,25,0,3000,40,1000,0);
+        }
+    }
+    public int monsterBasedOnPlayerLevel(Player player)
+    {
+        int playerLevel = player.getLevel();
         if(playerLevel < 10){
             return (int)(Math.random() * 5 + 1);
         }
@@ -71,25 +79,5 @@ public class MonsterList
         {
             return (int)(Math.random() * 11 + 1);
         }
-
-    }
-    public int generateNumberInRange(int baseValue)
-    {
-        double lowerPercent = 0.8;
-        double upperPercent = 1.2;
-        int lowerBound = (int)(baseValue * lowerPercent);
-        int upperBound = (int)(baseValue * upperPercent);
-        int randomNumber = (int) (generateRandomNumber(lowerBound, upperBound));
-        if(randomNumber == 0)
-        {
-            randomNumber = 1;
-        }
-        return randomNumber;
-
-    }
-    public static double generateRandomNumber(int lowerBound, int upperBound) {
-        Random rand = new Random();
-        int randomOffset = (int) ((upperBound - lowerBound) * rand.nextDouble());
-        return lowerBound + randomOffset;
     }
 }
