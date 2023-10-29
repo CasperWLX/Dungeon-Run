@@ -1,6 +1,7 @@
 package com.hampus.dungeonRun.logic;
 
 import com.hampus.dungeonRun.characters.CharacterManager;
+import com.hampus.dungeonRun.characters.Player;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,6 +36,9 @@ public class Menu implements Serializable
         System.out.println("Please select one of the following options");
         System.out.println("1. Fight against new monster\n2. Character sheet\n3. Shop\n4. Exit game");
     }
+    public void loadedCharacter(Player player){
+        System.out.printf("-Welcome back %s-\n", player.getName());
+    }
 
     public void outOfScopeChoice()
     {
@@ -48,7 +52,7 @@ public class Menu implements Serializable
 
     public void fleeSuccess()
     {
-        System.out.println("You escaped! Pheew hat was a close one...");
+        System.out.println("You escaped! Phew hat was a close one...");
     }
 
     public void fleeFailed()

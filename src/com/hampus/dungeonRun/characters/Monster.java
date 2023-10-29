@@ -13,7 +13,6 @@ public class Monster extends ACharacter implements Serializable
     public void takeDamage(CharacterManager characterManager)
     {
         int randomDamage = characterManager.getPLAYER().getStrength() + (int)(Math.random() * 3);
-
         if(didDodge())
         {
             System.out.printf("The %s dodged your attack!\n",super.getName());

@@ -1,7 +1,10 @@
 package com.hampus.dungeonRun.logic;
 
-import com.hampus.dungeonRun.characters.*;
-import com.hampus.dungeonRun.shop_logic.*;
+import com.hampus.dungeonRun.characters.CharacterManager;
+import com.hampus.dungeonRun.characters.Monster;
+import com.hampus.dungeonRun.characters.MonsterList;
+import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.shop_logic.Shop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,6 @@ public class Game
         String filename = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
 
         MENU.welcomeMessage();
-
         do
         {
             MENU.mainMenu();
@@ -35,7 +37,6 @@ public class Game
                     MENU.enterName();
                     player.getPLAYER().setName(INPUT.getStringInput());
                     userIsSelecting = false;
-
                 }
                 case 2 ->
                 {
@@ -44,7 +45,7 @@ public class Game
                     if(player != null)
                     {
                         playerList.add(player);
-                        System.out.printf("-Welcome back %s-\n", player.getPLAYER().getName());
+                        MENU.loadedCharacter(player.getPLAYER());
                         userIsSelecting = false;
                     }
                 }
@@ -74,7 +75,6 @@ public class Game
                 }
                 default -> MENU.outOfScopeChoice();
             }
-
         } while(userIsSelecting);
 
         GAME_DATA.saveCharacter(characterManager, filename, false);
