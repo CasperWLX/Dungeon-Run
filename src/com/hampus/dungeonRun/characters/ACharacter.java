@@ -32,6 +32,7 @@ public abstract class ACharacter implements ICombat, Serializable
         this.gold = gold;
         this.criticalRate = criticalRate;
     }
+
     public void setStats(String name, int maxHealth, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
         this.name = name;
@@ -73,7 +74,9 @@ public abstract class ACharacter implements ICombat, Serializable
     {
         return maxHealth;
     }
-    public void setMaxHealth(int maxHealth){
+
+    public void setMaxHealth(int maxHealth)
+    {
         this.maxHealth = maxHealth;
     }
 
@@ -106,6 +109,7 @@ public abstract class ACharacter implements ICombat, Serializable
     {
         this.experience = experience;
     }
+
     public void setRequiredExperience(int requiredExperience)
     {
         this.requiredExperience = requiredExperience;
@@ -169,11 +173,11 @@ public abstract class ACharacter implements ICombat, Serializable
         while(experience >= requiredExperience)
         {
             level++;
-            maxHealth+= (int) (maxHealth * 0.05);
+            maxHealth += (int) (maxHealth * 0.05);
             health = maxHealth;
             experience -= requiredExperience;
-            requiredExperience += (int)(requiredExperience * 0.15);
-            strength+= (int)(strength * 0.02 + 1);
+            requiredExperience += (int) (requiredExperience * 0.15);
+            strength += (int) (strength * 0.02 + 1);
             if(level % 5 == 0)
             {
                 agility++;

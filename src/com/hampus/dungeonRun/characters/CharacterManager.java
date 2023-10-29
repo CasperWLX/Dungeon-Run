@@ -22,5 +22,4 @@ public class CharacterManager implements Serializable
     {
         return MONSTER;
     }
-
 }

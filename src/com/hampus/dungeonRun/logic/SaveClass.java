@@ -4,8 +4,6 @@ import com.hampus.dungeonRun.characters.*;
 
 import java.io.*;
 
-
-
 //TODO Eventuellt kika på entity SQL spara filer.
 public class SaveClass
 {
@@ -44,10 +42,11 @@ public class SaveClass
         return character;
     }
 
-    public void deleteCharacter(String filename){
+    public void deleteCharacter(String filename)
+    {
         CharacterManager emptyCharacter = new CharacterManager(
-                new Player(0,0,0,0,0,0,0),
-                new Monster(0,0,0,0,0,0,0));
-        saveCharacter(emptyCharacter,filename, true);
+                new Player(0, 0, 0, 0, 0, 0, 0),
+                new Monster(0, 0, 0, 0, 0, 0, 0));
+        saveCharacter(emptyCharacter, filename, true);
     }
 }

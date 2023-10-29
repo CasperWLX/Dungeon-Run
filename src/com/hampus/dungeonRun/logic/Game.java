@@ -30,7 +30,7 @@ public class Game
                 case 1 ->
                 {
                     CharacterManager player = newGame();
-                    GAME_DATA.saveCharacter(player, filename,false);
+                    GAME_DATA.saveCharacter(player, filename, false);
                     playerList.add(player);
                     MENU.enterName();
                     player.getPLAYER().setName(INPUT.getStringInput());
@@ -64,7 +64,7 @@ public class Game
             MENU.gameMenu();
             switch(INPUT.getInt())
             {
-                case 1 -> enterCombat(characterManager, INPUT,filename);
+                case 1 -> enterCombat(characterManager, INPUT, filename);
                 case 2 -> MENU.printPlayerStats(characterManager);
                 case 3 -> shop.buyItems(INPUT, characterManager.getPLAYER());
                 case 4 ->
@@ -77,7 +77,7 @@ public class Game
 
         } while(userIsSelecting);
 
-        GAME_DATA.saveCharacter(characterManager, filename,false);
+        GAME_DATA.saveCharacter(characterManager, filename, false);
     }
 
     public CharacterManager newGame()
@@ -91,6 +91,7 @@ public class Game
         MONSTERS.generateMonster(characterManager);
         MENU.printMonsterName(characterManager);
         MENU.printMonsterStats(characterManager);
+        boolean characterIsDead = false;
         boolean combatIsActive = true;
         do
         {
@@ -104,6 +105,7 @@ public class Game
                     {
                         characterManager.getPLAYER().killedMonster();
                         characterManager.getMONSTER().setHealth(0);
+                        battleStats(characterManager);
                         MENU.combatSuccess(characterManager);
                         characterManager.getPLAYER().levelUp(MENU, characterManager);
                         combatIsActive = false;
@@ -111,16 +113,9 @@ public class Game
                     else
                     {
                         characterManager.getPLAYER().takeDamage(characterManager);
-                        boolean characterIsDead = isCharacterDead(characterManager, GAME_DATA, filename);
-                        System.out.printf("%s HP \t\t: %d\n", characterManager.getPLAYER().getName(),characterManager.getPLAYER().getHealth());
-                        System.out.printf("%s HP \t\t: %d\n", characterManager.getMONSTER().getName(),characterManager.getMONSTER().getHealth());
-                        if(characterIsDead)
-                        {
-                            MENU.gameOver(characterManager);
-                            System.exit(0);
-                        }
+                        characterIsDead = isCharacterDead(characterManager, GAME_DATA, filename);
+                        battleStats(characterManager);
                     }
-
                 }
                 case 2 ->
                 {
@@ -133,15 +128,24 @@ public class Game
                     {
                         MENU.fleeFailed();
                         characterManager.getPLAYER().takeDamage(characterManager);
+                        characterIsDead = isCharacterDead(characterManager, GAME_DATA, filename);
+                        battleStats(characterManager);
                     }
                 }
                 case 3 -> MENU.printPlayerStats(characterManager);
                 default -> MENU.outOfScopeChoice();
             }
+            if(characterIsDead)
+            {
+                MENU.gameOver(characterManager);
+                System.exit(0);
+            }
         } while(combatIsActive);
     }
+
     public boolean isCharacterDead(CharacterManager characterManager, SaveClass gameData, String filename)
     {
+
         if(characterManager.getPLAYER().getHealth() <= 0)
         {
             characterManager.getPLAYER().setHealth(0);
@@ -149,5 +153,11 @@ public class Game
             return true;
         }
         return false;
+    }
+
+    public void battleStats(CharacterManager characterManager)
+    {
+        System.out.printf("%s HP \t\t: %d\n", characterManager.getPLAYER().getName(), characterManager.getPLAYER().getHealth());
+        System.out.printf("%s HP \t\t: %d\n", characterManager.getMONSTER().getName(), characterManager.getMONSTER().getHealth());
     }
 }

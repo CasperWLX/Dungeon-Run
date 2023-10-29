@@ -19,7 +19,7 @@ public class Monster extends ACharacter implements Serializable
             System.out.printf("The %s dodged your attack!\n",super.getName());
             return;
         }
-        if(isItACrit(characterManager))
+        if(IsItACriticalHit(characterManager))
         {
             randomDamage = randomDamage* 2;
             if(randomDamage != 0)
@@ -32,7 +32,7 @@ public class Monster extends ACharacter implements Serializable
     }
 
     @Override
-    public boolean isItACrit(CharacterManager characterManager)
+    public boolean IsItACriticalHit(CharacterManager characterManager)
     {
         int randomizer = (int)(Math.random() * 100 + 1);
 
@@ -63,7 +63,6 @@ public class Monster extends ACharacter implements Serializable
         {
             super.setAgility(8);
         }
-
     }
     public int generateNumberInRange(int baseValue)
     {
@@ -77,5 +76,14 @@ public class Monster extends ACharacter implements Serializable
             randomNumber = (int)((Math.random() * (3-1)) + 1);
         }
         return randomNumber;
+    }
+    public void createBoss(Player player)
+    {
+        switch(player.getLevel())
+        {
+            case 10 -> super.setStats("Orc", 120, 8, 10, 100, 12, 100, 7);
+            case 20 -> super.setStats("Ogre", 250, 15, 0, 400, 25, 300, 5);
+            case 30 -> super.setStats("Giant", 500, 25, 0, 3000, 40, 1000, 0);
+        }
     }
 }

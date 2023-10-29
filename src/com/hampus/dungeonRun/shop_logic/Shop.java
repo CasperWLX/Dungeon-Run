@@ -1,6 +1,5 @@
 package com.hampus.dungeonRun.shop_logic;
 
-import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
 import com.hampus.dungeonRun.logic.Menu;
@@ -10,7 +9,7 @@ import java.util.List;
 
 public class Shop
 {
-    private final  Menu MENU = new Menu();
+    private final Menu MENU = new Menu();
     private final List<String> ITEMS = new ArrayList<>();
     private final List<Integer> ITEM_VALUE = new ArrayList<>();
     private final List<Integer> ITEM_COST = new ArrayList<>();
@@ -48,6 +47,7 @@ public class Shop
         ITEM_COST.add(0);
         AMOUNT_OF_ITEMS.add(1000);
     }
+
     public void buyItems(Input INPUT, Player player)
     {
         int userChoice;
@@ -55,8 +55,9 @@ public class Shop
         do
         {
             MENU.shopMenu(player.getGold(), ITEMS, ITEM_COST, AMOUNT_OF_ITEMS);
-            switch(userChoice = INPUT.getInt()){
-                case 1,2,3 -> purchasedHeal(userChoice, player);
+            switch(userChoice = INPUT.getInt())
+            {
+                case 1, 2, 3 -> purchasedHeal(userChoice, player);
                 case 4 -> purchasedItem(userChoice, player);
                 case 5 -> player.setExperience(player.getExperience() + 1000);
                 case 6 -> player.setGold(1000);
@@ -64,9 +65,10 @@ public class Shop
                 default -> System.out.println("That is not a choice");
             }
 
-        }while(userIsShopping);
+        } while(userIsShopping);
 
     }
+
     public void purchasedHeal(int i, Player player)
     {
         i--;
@@ -89,6 +91,7 @@ public class Shop
             MENU.notEnoughGold();
         }
     }
+
     public void purchasedItem(int i, Player player)
     {
 

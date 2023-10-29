@@ -27,25 +27,25 @@ public class Player extends ACharacter implements Serializable
         int randomDamage = characterManager.getMONSTER().getStrength() + (int) (Math.random() * 3);
         String monsterName = characterManager.getMONSTER().getName();
 
-        if (didDodge())
+        if(didDodge())
         {
-            System.out.printf("%s dodged the %s's attack!\n",super.getName(), monsterName);
+            System.out.printf("%s dodged the %s's attack!\n", super.getName(), monsterName);
             return;
         }
-        if (isItACrit(characterManager))
+        if(IsItACriticalHit(characterManager))
         {
             randomDamage = randomDamage * 2;
-            if (randomDamage != 0)
+            if(randomDamage != 0)
             {
-                System.out.printf("THE %s GOT A CRITICAL HIT ON YOU!\n",monsterName);
+                System.out.printf("THE %s GOT A CRITICAL HIT ON YOU!\n", monsterName);
             }
         }
-        System.out.printf("You took %d damage from the %s's attack\n", randomDamage,monsterName);
+        System.out.printf("You took %d damage from the %s's attack\n", randomDamage, monsterName);
         super.setHealth(super.getHealth() - randomDamage);
 
     }
 
-    public boolean isItACrit(CharacterManager characterManager)
+    public boolean IsItACriticalHit(CharacterManager characterManager)
     {
         int randomizer = (int) (Math.random() * 100 + 1);
 

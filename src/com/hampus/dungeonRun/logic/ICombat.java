@@ -6,7 +6,7 @@ public interface ICombat
 {
     void takeDamage(CharacterManager characterManager);
     void levelUp(Menu menu, CharacterManager characterManager);
-    boolean isItACrit(CharacterManager characterManager);
+    boolean IsItACriticalHit(CharacterManager characterManager);
     boolean didDodge();
 
 }
