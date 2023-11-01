@@ -15,13 +15,13 @@ public class Game
     private final SaveClass GAME_DATA = new SaveClass();
     private final Input INPUT = new Input();
     private final MonsterList MONSTERS = new MonsterList();
-    private final Shop shop = new Shop();
+    private final CombatFlow combat = new CombatFlow();
+    private final String FILENAME = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
 
     public void run()
     {
         boolean userIsSelecting = true;
         List<CharacterManager> playerList = new ArrayList<>();
-        String filename = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
 
         MENU.welcomeMessage();
         do
@@ -29,26 +29,8 @@ public class Game
             MENU.mainMenu();
             switch(INPUT.getInt())
             {
-                case 1 ->
-                {
-                    CharacterManager player = newGame();
-                    GAME_DATA.saveCharacter(player, filename, false);
-                    playerList.add(player);
-                    MENU.enterName();
-                    player.getPLAYER().setName(INPUT.getStringInput());
-                    userIsSelecting = false;
-                }
-                case 2 ->
-                {
-                    CharacterManager player = GAME_DATA.loadCharacter(filename);
-
-                    if(player != null)
-                    {
-                        playerList.add(player);
-                        MENU.loadedCharacter(player.getPLAYER());
-                        userIsSelecting = false;
-                    }
-                }
+                case 1 -> userIsSelecting = newGame(playerList, FILENAME);
+                case 2 -> userIsSelecting = loadGame(playerList);
                 case 3 ->
                 {
                     MENU.exitGame();
@@ -57,16 +39,18 @@ public class Game
                 default -> MENU.outOfScopeChoice();
             }
         } while(userIsSelecting);
+
         userIsSelecting = true;
         CharacterManager characterManager = playerList.get(0);
+        Shop shop = characterManager.getSHOP();
 
         do
         {
             MENU.gameMenu();
             switch(INPUT.getInt())
             {
-                case 1 -> enterCombat(characterManager, INPUT, filename);
-                case 2 -> MENU.printPlayerStats(characterManager);
+                case 1 -> enterCombat(characterManager, INPUT, FILENAME);
+                case 2 -> MENU.printPlayerStats(characterManager.getPLAYER());
                 case 3 -> shop.buyItems(INPUT, characterManager.getPLAYER());
                 case 4 ->
                 {
@@ -77,13 +61,7 @@ public class Game
             }
         } while(userIsSelecting);
 
-        GAME_DATA.saveCharacter(characterManager, filename, false);
-    }
-
-    public CharacterManager newGame()
-    {
-        return new CharacterManager(new Player(80, 9, 5, 0, 5, 50, 5),
-                new Monster(0, 0, 0, 0, 0, 0, 0));
+        GAME_DATA.saveCharacter(characterManager, FILENAME, false);
     }
 
     public void enterCombat(CharacterManager characterManager, Input INPUT, String filename)
@@ -91,7 +69,6 @@ public class Game
         MONSTERS.generateMonster(characterManager);
         MENU.printMonsterName(characterManager);
         MENU.printMonsterStats(characterManager);
-        boolean characterIsDead = false;
         boolean combatIsActive = true;
         do
         {
@@ -99,65 +76,49 @@ public class Game
             switch(INPUT.getInt())
             {
                 case 1 ->
-                {
-                    characterManager.getMONSTER().takeDamage(characterManager);
-                    if(characterManager.getMONSTER().getHealth() <= 0)
-                    {
-                        characterManager.getPLAYER().killedMonster();
-                        characterManager.getMONSTER().setHealth(0);
-                        battleStats(characterManager);
-                        MENU.combatSuccess(characterManager);
-                        characterManager.getPLAYER().levelUp(MENU, characterManager);
-                        combatIsActive = false;
-                    }
-                    else
-                    {
-                        characterManager.getPLAYER().takeDamage(characterManager);
-                        characterIsDead = isCharacterDead(characterManager, GAME_DATA, filename);
-                        battleStats(characterManager);
-                    }
-                }
+                        combatIsActive = combat.dealDamage(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
                 case 2 ->
-                {
-                    if(characterManager.getPLAYER().didDodge())
-                    {
-                        MENU.fleeSuccess();
-                        combatIsActive = false;
-                    }
-                    else
-                    {
-                        MENU.fleeFailed();
-                        characterManager.getPLAYER().takeDamage(characterManager);
-                        characterIsDead = isCharacterDead(characterManager, GAME_DATA, filename);
-                        battleStats(characterManager);
-                    }
-                }
-                case 3 -> MENU.printPlayerStats(characterManager);
+                        combatIsActive = combat.escape(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
+                case 3 -> MENU.printPlayerStats(characterManager.getPLAYER());
                 default -> MENU.outOfScopeChoice();
-            }
-            if(characterIsDead)
-            {
-                MENU.gameOver(characterManager);
-                System.exit(0);
             }
         } while(combatIsActive);
     }
 
-    public boolean isCharacterDead(CharacterManager characterManager, SaveClass gameData, String filename)
+    public boolean newGame(List<CharacterManager> list, String filename)
     {
+        CharacterManager characterManager = new CharacterManager(
+                new Player(8, 9, 5, 0, 5, 50, 5),
+                new Monster(0, 0, 0, 0, 0, 0, 0),
+                new Shop());
 
-        if(characterManager.getPLAYER().getHealth() <= 0)
-        {
-            characterManager.getPLAYER().setHealth(0);
-            gameData.deleteCharacter(filename);
-            return true;
-        }
+        GAME_DATA.saveCharacter(characterManager, filename, false);
+        list.add(characterManager);
+        MENU.enterName();
+        characterManager.getPLAYER().setName(INPUT.getStringInput());
         return false;
     }
 
-    public void battleStats(CharacterManager characterManager)
+    public boolean loadGame(List<CharacterManager> list)
     {
-        System.out.printf("%s HP \t\t: %d\n", characterManager.getPLAYER().getName(), characterManager.getPLAYER().getHealth());
-        System.out.printf("%s HP \t\t: %d\n", characterManager.getMONSTER().getName(), characterManager.getMONSTER().getHealth());
+        boolean characterDoesNotExist;
+        CharacterManager characterManager = GAME_DATA.loadCharacter(FILENAME);
+        try
+        {
+            characterDoesNotExist = characterManager.getPLAYER().getName().isBlank();
+
+        }
+        catch(NullPointerException npe)
+        {
+            System.out.println("Could not load your character, try another option");
+            return true;
+        }
+        if(!characterDoesNotExist)
+        {
+            MENU.loadedCharacter(characterManager.getPLAYER());
+            list.add(characterManager);
+            return false;
+        }
+        return true;
     }
 }

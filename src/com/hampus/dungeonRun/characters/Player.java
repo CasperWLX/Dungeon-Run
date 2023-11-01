@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Player extends ACharacter implements Serializable
 {
+
     private int noOfKills = 0;
 
     public Player(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
@@ -21,18 +22,17 @@ public class Player extends ACharacter implements Serializable
         return noOfKills;
     }
 
-    @Override
-    public void takeDamage(CharacterManager characterManager)
+    public void takeDamage(Monster monster)
     {
-        int randomDamage = characterManager.getMONSTER().getStrength() + (int) (Math.random() * 3);
-        String monsterName = characterManager.getMONSTER().getName();
+        int randomDamage = monster.getStrength() + (int) (Math.random() * 3);
+        String monsterName = monster.getName();
 
         if(didDodge())
         {
             System.out.printf("%s dodged the %s's attack!\n", super.getName(), monsterName);
             return;
         }
-        if(IsItACriticalHit(characterManager))
+        if(IsItACriticalHit(monster))
         {
             randomDamage = randomDamage * 2;
             if(randomDamage != 0)
@@ -45,11 +45,11 @@ public class Player extends ACharacter implements Serializable
 
     }
 
-    public boolean IsItACriticalHit(CharacterManager characterManager)
+    public boolean IsItACriticalHit(Monster monster)
     {
         int randomizer = (int) (Math.random() * 100 + 1);
 
-        return randomizer < characterManager.getMONSTER().getCriticalRate();
+        return randomizer < monster.getCriticalRate();
     }
 
     public boolean didDodge()

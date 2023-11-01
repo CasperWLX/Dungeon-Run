@@ -4,10 +4,11 @@ import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
 import com.hampus.dungeonRun.logic.Menu;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Shop
+public class Shop implements Serializable
 {
     private final Menu MENU = new Menu();
     private final List<String> ITEMS = new ArrayList<>();

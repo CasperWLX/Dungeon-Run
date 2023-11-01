@@ -1,6 +1,7 @@
 package com.hampus.dungeonRun.logic;
 
 import com.hampus.dungeonRun.characters.CharacterManager;
+import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
 
 import java.io.Serializable;
@@ -57,7 +58,7 @@ public class Menu implements Serializable
 
     public void fleeFailed()
     {
-        System.out.println("Oh no, looks like you could not run away...");
+        System.out.println("Oh no, you could not run away...");
     }
 
     public void enterName()
@@ -70,15 +71,15 @@ public class Menu implements Serializable
         System.out.println("Thanks for playing!");
     }
 
-    public void combatSuccess(CharacterManager characterManager)
+    public void combatSuccess(Monster monster)
     {
         System.out.printf("YOU WON THE FIGHT! GREAT JOB!\nYou gained %d experience and %d gold\n",
-                characterManager.getMONSTER().getExperience(), characterManager.getMONSTER().getGold());
+                monster.getExperience(), monster.getGold());
     }
 
-    public void printPlayerStats(CharacterManager characterManager)
+    public void printPlayerStats(Player player)
     {
-        String stats = characterManager.getPLAYER().getStats();
+        String stats = player.getStats();
         System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
 
     }
@@ -99,26 +100,26 @@ public class Menu implements Serializable
         System.out.println(printRed("WATCH OUT! THE NEXT FIGHT WILL BE A BOSS FIGHT!"));
     }
 
-    public void levelUpMessage(CharacterManager characterManager)
+    public void levelUpMessage(Player player)
     {
-        int level = characterManager.getPLAYER().getLevel();
+        int level = player.getLevel();
         System.out.println(printGreen("\nCONGRATS YOU'VE LEVELED UP!\nHere are your new stats!\n"));
-        printPlayerStats(characterManager);
+        printPlayerStats(player);
         switch(level)
         {
-            case 10 -> System.out.println("You can run into Trolls and Cyclopes now!");
-            case 20 -> System.out.println("Be careful, now you can run into Golems and Minotaurs");
-            case 30 -> System.out.println("Woah great job getting to level 30. But be careful... the Dragons are coming...");
+            case 11 -> System.out.println("You can run into Trolls and Cyclopes now!");
+            case 21 -> System.out.println("Be careful, now you can run into Golems and Minotaurs");
+            case 31 -> System.out.println("Woah great job getting to level 30. But be careful... the Dragons are coming...");
         }
 
     }
 
-    public void gameOver(CharacterManager characterManager)
+    public void gameOver(Player player)
     {
-        System.out.println("OH NO LOOKS LIKE YOU DIED!\nThese are your final stats:");
-        printPlayerStats(characterManager);
-        System.out.printf("You got %d kills\n", characterManager.getPLAYER().getNoOfKills());
-        System.out.printf("%s will now be deleted, thanks for playing\n", characterManager.getPLAYER().getName());
+        System.out.println("OH NO YOU DIED!\nThese are your final stats:");
+        printPlayerStats(player);
+        System.out.printf("You got %d kills\n", player.getNoOfKills());
+        System.out.printf("%s will now be deleted, thanks for playing\n", player.getName());
     }
 
     public void shopMenu(int playerGold, List<String> item, List<Integer> itemCost, List<Integer> amountOfItems)

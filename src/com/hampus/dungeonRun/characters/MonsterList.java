@@ -17,40 +17,6 @@ public class MonsterList
         }
         else
         {
-
-            int randomNumber = monsterBasedOnPlayerLevel(player);
-
-            if(randomNumber > 29)
-            {
-                createDragon(monster,player);
-            }
-            else if(randomNumber > 25)
-            {
-                createMinotaur(monster,player);
-            }
-            else if(randomNumber > 19)
-            {
-                createGolem(monster,player);
-            }
-            else if(randomNumber > 15)
-            {
-                createCyclops(monster,player);
-            }
-            else if(randomNumber > 9)
-            {
-                createTroll(monster,player);
-            }
-            else if(randomNumber > 6)
-            {
-                createWolf(monster,player);
-            }
-            else
-            {
-                createGoblin(monster,player);
-            }
-
-             /*
-
             int randomNumber = monsterBasedOnPlayerLevel(player);
 
             switch(randomNumber)
@@ -58,13 +24,11 @@ public class MonsterList
                 case 1,2,3,4,5,6 -> createGoblin(monster, player);
                 case 7,8,9 -> createWolf(monster,player);
                 case 10,11,12,13,14,15 -> createTroll(monster, player);
-                case 16,17,18,19 -> createCyclop(monster, player);
+                case 16,17,18,19 -> createCyclops(monster, player);
                 case 20,21,22,23,24,25 -> createGolem(monster,player);
                 case 26,27,28,29 -> createMinotaur(monster,player);
                 default -> createDragon(monster,player);
             }
-
-              */
         }
     }
     public void createGoblin(Monster monster, Player player)

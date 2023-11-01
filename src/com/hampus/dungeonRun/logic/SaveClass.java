@@ -1,6 +1,7 @@
 package com.hampus.dungeonRun.logic;
 
 import com.hampus.dungeonRun.characters.*;
+import com.hampus.dungeonRun.shop_logic.Shop;
 
 import java.io.*;
 
@@ -34,19 +35,24 @@ public class SaveClass
         {
             character = (CharacterManager) objectIn.readObject();
             System.out.println("Character loaded from " + filename);
+            return character;
         }
         catch(Exception e)
         {
-            System.out.println("Oops, looks like there is no saved character on this device");
+            System.out.println("Oops, looks like there was a problem loading your character");
+            return null;
         }
-        return character;
     }
 
     public void deleteCharacter(String filename)
     {
-        CharacterManager emptyCharacter = new CharacterManager(
-                new Player(0, 0, 0, 0, 0, 0, 0),
-                new Monster(0, 0, 0, 0, 0, 0, 0));
-        saveCharacter(emptyCharacter, filename, true);
+        try
+        {
+            new FileOutputStream(filename).close();
+        }
+        catch(IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

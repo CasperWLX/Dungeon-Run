@@ -165,11 +165,10 @@ public abstract class ACharacter implements ICombat, Serializable
         this.bossTime = bossTime;
     }
 
-    @Override
-    public void levelUp(Menu menu, CharacterManager characterManager)
+    public void levelUp(Menu menu, Player player, Monster monster)
     {
-        experience += characterManager.getMONSTER().getExperience();
-        gold += characterManager.getMONSTER().getGold();
+        experience += monster.getExperience();
+        gold += monster.getGold();
         while(experience >= requiredExperience)
         {
             level++;
@@ -186,7 +185,7 @@ public abstract class ACharacter implements ICombat, Serializable
             {
                 criticalRate++;
             }
-            menu.levelUpMessage(characterManager);
+            menu.levelUpMessage(player);
             if(level == 10 || level == 20 || level == 30)
             {
                 bossTime = true;
