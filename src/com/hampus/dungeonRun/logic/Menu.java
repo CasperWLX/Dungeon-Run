@@ -7,6 +7,7 @@ import com.hampus.dungeonRun.shop_logic.Item;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public class Menu implements Serializable
 {
@@ -16,6 +17,7 @@ public class Menu implements Serializable
     private static final String RED = "\u001B[31m";
     public static final String WHITE = "\033[0;37m";
     private static final String RESET = "\u001B[0m";
+    public static final String PURPLE_BOLD = "\033[1;35m";
     private final String SMALL_DIVIDER = "----------------------------";
     private final String STATS_DIVIDER = SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER;
 
@@ -122,19 +124,23 @@ public class Menu implements Serializable
         System.out.printf("You got %d kills\n", player.getNoOfKills());
         System.out.printf("%s will now be deleted, thanks for playing\n", player.getName());
     }
+    public void welcomeToTheShop()
+    {
+        System.out.println("--Welcome to the shop, let me present to you all our items and what they cost--");
+    }
 
     public void shopMenu(int playerGold, List<Item> itemList)
     {
-        System.out.println("--Welcome to the shop, let me present to you all our items and what they cost--");
         for(int i = 0; i < itemList.size(); i++)
         {
-            System.out.printf(i + 1 + ": %s%s, cost : %d, stock : %d\n",
+            System.out.printf(i + 1 + ": %s%s%s, cost : %s, stock : %s\n",
                     itemList.get(i).getNAME(),
                     itemList.get(i).getDESCRIPTION(),
-                    itemList.get(i).getCOST(),
-                    itemList.get(i).getSTOCK_AMOUNT());
+                    printPurpleBold(String.valueOf(itemList.get(i).getVAlUE())),
+                    printYellow(String.valueOf(itemList.get(i).getCOST())),
+                    printBlue(String.valueOf(itemList.get(i).getSTOCK_AMOUNT())));
         }
-        System.out.println("6: Buy xp\n7: Buy gold\n8: Exit shop");
+        System.out.println("7: Buy xp\n8: Buy gold\n9: Exit shop");
         System.out.printf("You currently have: %s gold\n", printYellow(String.valueOf(playerGold)));
     }
     public void playerWeapons(List<Item> itemList)
@@ -195,5 +201,8 @@ public class Menu implements Serializable
     public String printWhite(String text)
     {
         return WHITE + text + RESET;
+    }
+    public String printPurpleBold(String text){
+        return PURPLE_BOLD + text + RESET;
     }
 }

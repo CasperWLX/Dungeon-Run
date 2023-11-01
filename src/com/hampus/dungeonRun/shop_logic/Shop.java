@@ -1,6 +1,5 @@
 package com.hampus.dungeonRun.shop_logic;
 
-import com.hampus.dungeonRun.Weapons.Weapon;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
 import com.hampus.dungeonRun.logic.Menu;
@@ -16,15 +15,12 @@ public class Shop implements Serializable
 
     public Shop()
     {
-        listOfItems.add(new Potion(MENU.printGreen("Small health potion"),30,": A potion that heals your HP by 30",20,1000));
-
-        listOfItems.add(new Potion(MENU.printGreen("Medium Health Potion"),100,": A potion that heals your HP by 100",40,1000));
-
-        listOfItems.add(new Potion(MENU.printGreen("Large Health Potion"),300,": A potion that heals your HP by 300", 100,1000));
-
-        listOfItems.add(new Weapon(MENU.printRed("Knife"),5,": A small thieves knife, it will increase your strength by 5",30,1));
-
-        listOfItems.add(new Weapon(MENU.printRed("Sword"),10,": A Sword from a fallen knight, it will increase your strength by 10",60,1));
+        listOfItems.add(new Potion(MENU.printGreen("Small health potion"),30,": A potion that heals your HP by ",20,1000));
+        listOfItems.add(new Potion(MENU.printGreen("Medium Health Potion"),100,": A potion that heals your HP by ",40,1000));
+        listOfItems.add(new Potion(MENU.printGreen("Large Health Potion"),300,": A potion that heals your HP by ", 100,1000));
+        listOfItems.add(new Weapon(MENU.printRed("Knife"),5,": A small thieves knife, it will increase your strength by ",50,1));
+        listOfItems.add(new Weapon(MENU.printRed("Greatsword"),10,": A Sword from a fallen knight, it will increase your strength by ",100,1));
+        listOfItems.add(new Weapon(MENU.printRed("Excalibur"),50,": A Mythical sword with magic powers, it will increase your strength by ",1000,1));
     }
 
     public void buyItems(Input INPUT, Player player)
@@ -37,10 +33,10 @@ public class Shop implements Serializable
             switch(userChoice = INPUT.getInt())
             {
                 case 1, 2, 3 -> purchasedHeal(userChoice, player);
-                case 4,5 -> purchasedWeapon(userChoice, player);
-                case 6 -> player.setExperience(player.getExperience() + 1000);
-                case 7 -> player.setGold(1000);
-                case 8 -> userIsShopping = false;
+                case 4,5,6 -> purchasedWeapon(userChoice, player);
+                case 7 -> player.setExperience(player.getExperience() + 1000);
+                case 8 -> player.setGold(1000);
+                case 9 -> userIsShopping = false;
                 default -> System.out.println("That is not a choice");
             }
         } while(userIsShopping);
@@ -57,7 +53,7 @@ public class Shop implements Serializable
         {
             MENU.outOfStock();
         }
-        else if(playerGold > cost)
+        else if(playerGold >= cost)
         {
             listOfItems.get(0).boughtItem();
             player.heal(healValue, cost);
@@ -79,7 +75,7 @@ public class Shop implements Serializable
         {
             MENU.outOfStock();
         }
-        else if(playerGold > cost)
+        else if(playerGold >= cost)
         {
             listOfItems.get(i).boughtItem();
             player.buyWeapon(listOfItems.get(i), cost);

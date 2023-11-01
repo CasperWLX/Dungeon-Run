@@ -1,6 +1,5 @@
 package com.hampus.dungeonRun.logic;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +8,12 @@ public class Input
 {
     Scanner input = new Scanner(System.in);
 
+    /**
+     * A method which restricts the amount of choices the user has
+     * @param min - minimum choice
+     * @param max - maximum choice
+     * @return - integer with user input
+     */
     public int restrictedInput(int min, int max)
     {
         int input;
@@ -26,9 +31,9 @@ public class Input
         }
     }
     /**
-     * Metod som tar emot inmatning från användaren men endast returnerar ifall det är ett heltal
+     * A method that makes sure the input is only positive integers
      *
-     * @return - heltal
+     * @return - integer with user input
      */
     public int getInt()
     {
@@ -49,10 +54,10 @@ public class Input
         return number;
     }
     /**
-     * Metod som kontrollerar ifall det strängen är tom
+     * A method which checks if the string is empty
      *
-     * @param number - sträng med inmatning från användaren
-     * @return - 0 eller inmatat nummer
+     * @param number - String containing user input
+     * @return - 0 or user input
      */
 
     public int isInputEmpty(String number)
@@ -66,10 +71,10 @@ public class Input
     }
 
     /**
-     * Metod som kontrollerar ifall det strängen endast innehåller tal
+     * A Method which denies any special characters from passing through
      *
-     * @param number - sträng med inmatning från användaren
-     * @return - 0 eller inmatat nummer
+     * @param number - String containing user input
+     * @return - 0 or user input
      */
     public int isNumberAnInt(String number)
     {
@@ -85,10 +90,10 @@ public class Input
     }
 
     /**
-     * Metod som kontrollerar att inmatade talet är positivt
+     * Method which checks if number is positive
      *
-     * @param number - sträng med inmatning från användaren
-     * @return - 0 eller inmatat nummer
+     * @param number - String containing user input
+     * @return - 0 or user input
      */
     public int isNumberPositive(String number)
     {
@@ -101,9 +106,9 @@ public class Input
         return result;
     }
     /**
-     * Metod som endast returnerar en String med alfabetiska bokstäver mellan A-Ö
+     * Method which returns a string with any letter or combination of letters between A-Ö
      *
-     * @return - String med spelarens namn
+     * @return - String with player name
      */
     public String getStringInput()
     {

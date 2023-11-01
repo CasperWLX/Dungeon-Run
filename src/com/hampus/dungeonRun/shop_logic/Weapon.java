@@ -1,6 +1,4 @@
-package com.hampus.dungeonRun.Weapons;
-
-import com.hampus.dungeonRun.shop_logic.Item;
+package com.hampus.dungeonRun.shop_logic;
 
 import java.io.Serializable;
 

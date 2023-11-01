@@ -51,7 +51,10 @@ public class Game
             {
                 case 1 -> enterCombat(characterManager, INPUT, FILENAME);
                 case 2 -> MENU.printPlayerStats(characterManager.getPLAYER());
-                case 3 -> shop.buyItems(INPUT, characterManager.getPLAYER());
+                case 3 -> {
+                    MENU.welcomeToTheShop();
+                    shop.buyItems(INPUT, characterManager.getPLAYER());
+                }
                 case 4 -> {
                     if(characterManager.getPLAYER().getLIST_OF_WEAPONS().isEmpty())
                     {
