@@ -52,7 +52,18 @@ public class Game
                 case 1 -> enterCombat(characterManager, INPUT, FILENAME);
                 case 2 -> MENU.printPlayerStats(characterManager.getPLAYER());
                 case 3 -> shop.buyItems(INPUT, characterManager.getPLAYER());
-                case 4 ->
+                case 4 -> {
+                    if(characterManager.getPLAYER().getLIST_OF_WEAPONS().isEmpty())
+                    {
+                        MENU.noWeapons();
+                    }
+                    else
+                    {
+                        characterManager.getPLAYER().setEquippedItem(INPUT);
+                    }
+
+                }
+                case 5 ->
                 {
                     MENU.exitGame();
                     userIsSelecting = false;

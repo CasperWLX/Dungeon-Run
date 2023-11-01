@@ -1,6 +1,5 @@
 package com.hampus.dungeonRun.characters;
 
-import com.hampus.dungeonRun.Weapons.Weapon;
 import com.hampus.dungeonRun.logic.Input;
 import com.hampus.dungeonRun.logic.Menu;
 import com.hampus.dungeonRun.shop_logic.Item;
@@ -13,7 +12,7 @@ public class Player extends ACharacter implements Serializable
 {
 
     private int noOfKills = 0;
-    private List<Item> listOfWeapons = new ArrayList<>();
+    private final List<Item> LIST_OF_WEAPONS = new ArrayList<>();
     private Item equippedItem;
     private final Menu MENU = new Menu();
 
@@ -78,12 +77,24 @@ public class Player extends ACharacter implements Serializable
             super.setHealth(super.getMaxHealth());
         }
     }
+    public List<Item> getLIST_OF_WEAPONS(){
+        return LIST_OF_WEAPONS;
+    }
     public void buyWeapon(Item weapon, int cost)
     {
-        equippedItem = weapon;
+        LIST_OF_WEAPONS.add(weapon);
         super.setGold(super.getGold() - cost);
     }
-    public Item getWeapon(){
+    public Item getWeapon()
+    {
         return equippedItem;
+    }
+
+    public void setEquippedItem(Input input)
+    {
+        MENU.playerWeapons(LIST_OF_WEAPONS);
+        int playerChoice = input.restrictedInput(1, LIST_OF_WEAPONS.size());
+        equippedItem = LIST_OF_WEAPONS.get(playerChoice - 1);
+        MENU.equippedItem(equippedItem);
     }
 }

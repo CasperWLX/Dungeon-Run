@@ -36,7 +36,7 @@ public class Menu implements Serializable
     public void gameMenu()
     {
         System.out.println("Please select one of the following options");
-        System.out.println("1. Fight against new monster\n2. Character sheet\n3. Shop\n4. Exit game");
+        System.out.println("1. Fight against new monster\n2. Character sheet\n3. Shop\n4. Equip item\n5. Exit game");
     }
     public void loadedCharacter(Player player){
         System.out.printf("-Welcome back %s-\n", player.getName());
@@ -136,6 +136,24 @@ public class Menu implements Serializable
         }
         System.out.println("6: Buy xp\n7: Buy gold\n8: Exit shop");
         System.out.printf("You currently have: %s gold\n", printYellow(String.valueOf(playerGold)));
+    }
+    public void playerWeapons(List<Item> itemList)
+    {
+        System.out.println("--Here are your items--");
+        for(int i = 0; i < itemList.size(); i++)
+        {
+            System.out.printf(i + 1 + ": %s%s\n",
+                    itemList.get(i).getNAME(),
+                    itemList.get(i).getDESCRIPTION());
+        }
+    }
+    public void noWeapons()
+    {
+        System.out.println("Sorry you don't have any weapons");
+    }
+    public void equippedItem(Item item)
+    {
+        System.out.printf("You have equipped %s\n",item.getNAME());
     }
 
     public void successfulTransaction(String item, int cost)

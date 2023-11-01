@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.logic;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,6 +9,22 @@ public class Input
 {
     Scanner input = new Scanner(System.in);
 
+    public int restrictedInput(int min, int max)
+    {
+        int input;
+        while(true)
+        {
+            input = getInt();
+            if(input < min || input > max)
+            {
+                System.out.println("That's not an option, try again");
+            }
+            else
+            {
+                return input;
+            }
+        }
+    }
     /**
      * Metod som tar emot inmatning från användaren men endast returnerar ifall det är ett heltal
      *
