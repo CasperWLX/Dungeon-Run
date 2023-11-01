@@ -1,11 +1,21 @@
 package com.hampus.dungeonRun.characters;
 
+import com.hampus.dungeonRun.Weapons.Weapon;
+import com.hampus.dungeonRun.logic.Input;
+import com.hampus.dungeonRun.logic.Menu;
+import com.hampus.dungeonRun.shop_logic.Item;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends ACharacter implements Serializable
 {
 
     private int noOfKills = 0;
+    private List<Item> listOfWeapons = new ArrayList<>();
+    private Item equippedItem;
+    private final Menu MENU = new Menu();
 
     public Player(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
@@ -67,5 +77,13 @@ public class Player extends ACharacter implements Serializable
         {
             super.setHealth(super.getMaxHealth());
         }
+    }
+    public void buyWeapon(Item weapon, int cost)
+    {
+        equippedItem = weapon;
+        super.setGold(super.getGold() - cost);
+    }
+    public Item getWeapon(){
+        return equippedItem;
     }
 }

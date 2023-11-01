@@ -3,6 +3,7 @@ package com.hampus.dungeonRun.logic;
 import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.shop_logic.Item;
 
 import java.io.Serializable;
 import java.util.List;
@@ -122,14 +123,18 @@ public class Menu implements Serializable
         System.out.printf("%s will now be deleted, thanks for playing\n", player.getName());
     }
 
-    public void shopMenu(int playerGold, List<String> item, List<Integer> itemCost, List<Integer> amountOfItems)
+    public void shopMenu(int playerGold, List<Item> itemList)
     {
         System.out.println("--Welcome to the shop, let me present to you all our items and what they cost--");
-        for(int i = 0; i < item.size(); i++)
+        for(int i = 0; i < itemList.size(); i++)
         {
-            System.out.printf(i + 1 + ": %s, cost : %d, stock : %d\n", item.get(i), itemCost.get(i), amountOfItems.get(i));
+            System.out.printf(i + 1 + ": %s%s, cost : %d, stock : %d\n",
+                    itemList.get(i).getNAME(),
+                    itemList.get(i).getDESCRIPTION(),
+                    itemList.get(i).getCOST(),
+                    itemList.get(i).getSTOCK_AMOUNT());
         }
-        System.out.println("7: Exit shop");
+        System.out.println("6: Buy xp\n7: Buy gold\n8: Exit shop");
         System.out.printf("You currently have: %s gold\n", printYellow(String.valueOf(playerGold)));
     }
 
@@ -141,7 +146,7 @@ public class Menu implements Serializable
 
     public void outOfStock()
     {
-        System.out.println("Sorry that items seems to sold out, but you could buy something else.");
+        System.out.println("Sorry that item is sold out, but you could buy something else.");
     }
 
     public void notEnoughGold()

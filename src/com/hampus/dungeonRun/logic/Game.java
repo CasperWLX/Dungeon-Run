@@ -88,7 +88,7 @@ public class Game
     public boolean newGame(List<CharacterManager> list, String filename)
     {
         CharacterManager characterManager = new CharacterManager(
-                new Player(8, 9, 5, 0, 5, 50, 5),
+                new Player(80, 9, 5, 0, 5, 50, 5),
                 new Monster(0, 0, 0, 0, 0, 0, 0),
                 new Shop());
 
