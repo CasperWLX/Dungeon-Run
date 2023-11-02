@@ -51,7 +51,6 @@ public class Player extends ACharacter implements Serializable
         }
         System.out.printf("You took %d damage from the %s's attack\n", randomDamage, monsterName);
         super.setHealth(super.getHealth() - randomDamage);
-
     }
 
     public void heal(int healValue, int cost)

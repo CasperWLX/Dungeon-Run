@@ -65,7 +65,6 @@ public class Shop implements Serializable
             MENU.notEnoughGold();
         }
     }
-
     public void purchasedWeapon(int i, Player player)
     {
         i--;

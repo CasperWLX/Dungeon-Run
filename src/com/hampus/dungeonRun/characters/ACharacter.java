@@ -59,6 +59,47 @@ public abstract class ACharacter implements ICombat, Serializable
                 MENU.printYellow(String.valueOf(gold)),
                 MENU.printRed(String.valueOf(criticalRate)));
     }
+    public boolean isItACriticalHit(int criticalRate)
+    {
+        int randomizer = (int)(Math.random() * 100 + 1);
+
+        return randomizer < criticalRate;
+    }
+    public boolean didDodge(int multiplier)
+    {
+        int randomizer = (int) (Math.random() * 100 + 1);
+
+        return randomizer < agility * multiplier;
+    }
+
+    public void levelUp(Menu menu, Player player, Monster monster)
+    {
+        experience += monster.getExperience();
+        gold += monster.getGold();
+        while(experience >= requiredExperience)
+        {
+            level++;
+            maxHealth += (int) (maxHealth * 0.05);
+            health = maxHealth;
+            experience -= requiredExperience;
+            requiredExperience += (int) (requiredExperience * 0.15);
+            strength += (int) (strength * 0.02 + 1);
+            if(level % 5 == 0)
+            {
+                agility++;
+            }
+            if(level % 5 == 0)
+            {
+                criticalRate++;
+            }
+            menu.levelUpMessage(player);
+            if(level == 10 || level == 20 || level == 30)
+            {
+                bossTime = true;
+                menu.incomingBossBattle();
+            }
+        }
+    }
 
     public int getHealth()
     {
@@ -163,47 +204,6 @@ public abstract class ACharacter implements ICombat, Serializable
     public void setBossTime(boolean bossTime)
     {
         this.bossTime = bossTime;
-    }
-    public boolean isItACriticalHit(int criticalRate)
-    {
-        int randomizer = (int)(Math.random() * 100 + 1);
-
-        return randomizer < criticalRate;
-    }
-    public boolean didDodge(int multiplier)
-    {
-        int randomizer = (int) (Math.random() * 100 + 1);
-
-        return randomizer < agility * multiplier;
-    }
-
-    public void levelUp(Menu menu, Player player, Monster monster)
-    {
-        experience += monster.getExperience();
-        gold += monster.getGold();
-        while(experience >= requiredExperience)
-        {
-            level++;
-            maxHealth += (int) (maxHealth * 0.05);
-            health = maxHealth;
-            experience -= requiredExperience;
-            requiredExperience += (int) (requiredExperience * 0.15);
-            strength += (int) (strength * 0.02 + 1);
-            if(level % 5 == 0)
-            {
-                agility++;
-            }
-            if(level % 5 == 0)
-            {
-                criticalRate++;
-            }
-            menu.levelUpMessage(player);
-            if(level == 10 || level == 20 || level == 30)
-            {
-                bossTime = true;
-                menu.incomingBossBattle();
-            }
-        }
     }
 
 }
