@@ -27,7 +27,7 @@ public class Game
         do
         {
             MENU.mainMenu();
-            switch(INPUT.getInt())
+            switch (INPUT.getInt())
             {
                 case 1 -> userIsSelecting = newGame(playerList, FILENAME);
                 case 2 -> userIsSelecting = loadGame(playerList);
@@ -38,7 +38,7 @@ public class Game
                 }
                 default -> MENU.outOfScopeChoice();
             }
-        } while(userIsSelecting);
+        } while (userIsSelecting);
 
         userIsSelecting = true;
         CharacterManager characterManager = playerList.get(0);
@@ -47,16 +47,18 @@ public class Game
         do
         {
             MENU.gameMenu();
-            switch(INPUT.getInt())
+            switch (INPUT.getInt())
             {
                 case 1 -> enterCombat(characterManager, INPUT, FILENAME);
                 case 2 -> MENU.printPlayerStats(characterManager.getPLAYER());
-                case 3 -> {
+                case 3 ->
+                {
                     MENU.welcomeToTheShop();
                     shop.buyItems(INPUT, characterManager.getPLAYER());
                 }
-                case 4 -> {
-                    if(characterManager.getPLAYER().getLIST_OF_WEAPONS().isEmpty())
+                case 4 ->
+                {
+                    if (characterManager.getPLAYER().getLIST_OF_WEAPONS().isEmpty())
                     {
                         MENU.noWeapons();
                     }
@@ -64,7 +66,6 @@ public class Game
                     {
                         characterManager.getPLAYER().setEquippedItem(INPUT);
                     }
-
                 }
                 case 5 ->
                 {
@@ -73,7 +74,7 @@ public class Game
                 }
                 default -> MENU.outOfScopeChoice();
             }
-        } while(userIsSelecting);
+        } while (userIsSelecting);
 
         GAME_DATA.saveCharacter(characterManager, FILENAME, false);
     }
@@ -87,29 +88,30 @@ public class Game
         do
         {
             MENU.combatMenu();
-            switch(INPUT.getInt())
+            switch (INPUT.getInt())
             {
-                case 1 ->
-                        combatIsActive = combat.dealDamage(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
-                case 2 ->
-                        combatIsActive = combat.escape(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
+                case 1 -> combatIsActive = combat.dealDamage(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
+                case 2 -> combatIsActive = combat.escape(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
                 case 3 -> MENU.printPlayerStats(characterManager.getPLAYER());
                 default -> MENU.outOfScopeChoice();
             }
-        } while(combatIsActive);
+        } while (combatIsActive);
     }
 
     public boolean newGame(List<CharacterManager> list, String filename)
     {
+        //TODO list.add(new characterManager) istället för det som står under
+        String name;
         CharacterManager characterManager = new CharacterManager(
                 new Player(80, 9, 5, 0, 5, 50, 5),
                 new Monster(0, 0, 0, 0, 0, 0, 0),
                 new Shop());
 
+        MENU.enterName();
+        name = INPUT.getStringInput();
         GAME_DATA.saveCharacter(characterManager, filename, false);
         list.add(characterManager);
-        MENU.enterName();
-        characterManager.getPLAYER().setName(INPUT.getStringInput());
+        characterManager.getPLAYER().setName(name);
         return false;
     }
 
@@ -122,12 +124,12 @@ public class Game
             characterDoesNotExist = characterManager.getPLAYER().getName().isBlank();
 
         }
-        catch(NullPointerException npe)
+        catch (NullPointerException npe)
         {
-            System.out.println("Could not load your character, try another option");
+            System.out.println("There is no saved character. Please try another option");
             return true;
         }
-        if(!characterDoesNotExist)
+        if (!characterDoesNotExist)
         {
             MENU.loadedCharacter(characterManager.getPLAYER());
             list.add(characterManager);

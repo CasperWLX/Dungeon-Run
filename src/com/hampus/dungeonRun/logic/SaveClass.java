@@ -1,7 +1,6 @@
 package com.hampus.dungeonRun.logic;
 
 import com.hampus.dungeonRun.characters.*;
-import com.hampus.dungeonRun.shop_logic.Shop;
 
 import java.io.*;
 
@@ -39,7 +38,7 @@ public class SaveClass
         }
         catch(Exception e)
         {
-            System.out.println("Oops, looks like there was a problem loading your character");
+            //System.out.println("Oops, looks like there was a problem loading your character");
             return null;
         }
     }

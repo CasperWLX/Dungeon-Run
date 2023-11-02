@@ -20,12 +20,12 @@ public class Monster extends ACharacter implements Serializable
 
         }
 
-        if(didDodge())
+        if(didDodge(1))
         {
             System.out.printf("The %s dodged your attack!\n",super.getName());
             return;
         }
-        if(IsItACriticalHit(player))
+        if(isItACriticalHit(player.getCriticalRate()))
         {
             randomDamage = randomDamage* 2;
             if(randomDamage != 0)
@@ -37,20 +37,6 @@ public class Monster extends ACharacter implements Serializable
         super.setHealth(super.getHealth() - randomDamage);
     }
 
-    public boolean IsItACriticalHit(Player player)
-    {
-        int randomizer = (int)(Math.random() * 100 + 1);
-
-        return randomizer < player.getCriticalRate();
-    }
-
-    @Override
-    public boolean didDodge()
-    {
-        int randomizer = (int)(Math.random() * 100 + 1);
-
-        return randomizer < super.getAgility();
-    }
     public void generateMonster(Player player, double statsMultiplier, int gold, int criticalHitRate, String name)
     {
         super.setName(name);
@@ -78,7 +64,7 @@ public class Monster extends ACharacter implements Serializable
         int randomNumber = (int)((Math.random() * (upperBound - lowerBound)) + lowerBound);
         if(randomNumber == 1)
         {
-            randomNumber = (int)((Math.random() * (3-1)) + 1);
+            randomNumber = (int)((Math.random() * (5-1)) + 1);
         }
         return randomNumber;
     }

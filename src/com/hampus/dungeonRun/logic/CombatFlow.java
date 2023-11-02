@@ -27,7 +27,7 @@ public class CombatFlow
     }
     public boolean escape(Player player, Monster monster, SaveClass gameData, String filename)
     {
-        if(player.didDodge())
+        if(player.didDodge(2))
         {
             MENU.fleeSuccess();
             return false;
@@ -37,7 +37,7 @@ public class CombatFlow
             MENU.fleeFailed();
             takeDamage(player,monster,gameData,filename);
             battleStats(player,monster);
-            if(isCharacterDead(player,gameData,filename))
+            if(isCharacterDead(player))
             {
                 endGame(player,gameData,filename);
             }
@@ -48,7 +48,7 @@ public class CombatFlow
     public void takeDamage(Player player, Monster monster, SaveClass gameData, String filename)
     {
         player.takeDamage(monster);
-        if(isCharacterDead(player,gameData,filename))
+        if(isCharacterDead(player))
         {
             endGame(player,gameData,filename);
         }
@@ -58,7 +58,7 @@ public class CombatFlow
         System.out.printf("%s HP \t\t: %d\n", player.getName(),player.getHealth());
         System.out.printf("%s HP \t\t: %d\n", monster.getName(), monster.getHealth());
     }
-    public boolean isCharacterDead(Player player, SaveClass gameData, String filename)
+    public boolean isCharacterDead(Player player)
     {
         if(player.getHealth() <= 0)
         {

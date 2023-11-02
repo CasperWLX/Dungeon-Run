@@ -164,6 +164,18 @@ public abstract class ACharacter implements ICombat, Serializable
     {
         this.bossTime = bossTime;
     }
+    public boolean isItACriticalHit(int criticalRate)
+    {
+        int randomizer = (int)(Math.random() * 100 + 1);
+
+        return randomizer < criticalRate;
+    }
+    public boolean didDodge(int multiplier)
+    {
+        int randomizer = (int) (Math.random() * 100 + 1);
+
+        return randomizer < agility * multiplier;
+    }
 
     public void levelUp(Menu menu, Player player, Monster monster)
     {
