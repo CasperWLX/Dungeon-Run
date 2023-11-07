@@ -59,21 +59,6 @@ public abstract class ACharacter implements ICombat, Serializable
                 MENU.printYellow(String.valueOf(gold)),
                 MENU.printRed(String.valueOf(criticalRate)));
     }
-    public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
-    {
-        if(didDodge(1))
-        {
-            MENU.characterDodged(characterTakingDamage, characterDealingDamage);
-            return;
-        }
-        if(isItACriticalHit(opponentCritRate))
-        {
-            damage = damage* 2;
-            MENU.characterGotACrit(characterDealingDamage,characterTakingDamage);
-        }
-        MENU.characterTookDamage(characterTakingDamage,damage,characterDealingDamage);
-        setHealth(getHealth() - damage);
-    }
     public boolean isItACriticalHit(int criticalRate)
     {
         int randomizer = (int)(Math.random() * 100 + 1);

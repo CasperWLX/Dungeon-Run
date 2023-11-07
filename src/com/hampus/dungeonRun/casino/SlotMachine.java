@@ -1,0 +1,113 @@
+package com.hampus.dungeonRun.casino;
+
+import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.logic.Input;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SlotMachine extends Casino
+{
+    private final List<String> LIST_OF_SYMBOLS = new ArrayList<>();
+    private final List<String> RANDOMIZED_SYMBOLS = new ArrayList<>();
+    private int betAmount = 1;
+    private final Input INPUT = new Input();
+    public SlotMachine()
+    {
+        String fire = "️\uD83D\uDD25";
+        String clover = "\uD83C\uDF40";
+        String sunflower = "\uD83C\uDF3B";
+        String heart = "❤️️";
+        String star = "⭐";
+        String strawberry = "\uD83C\uDF53";
+        String headphones = "\uD83C\uDFA7";
+        String mushroom = "\uD83C\uDF44";
+        LIST_OF_SYMBOLS.add(fire);
+        LIST_OF_SYMBOLS.add(clover);
+        LIST_OF_SYMBOLS.add(sunflower);
+        LIST_OF_SYMBOLS.add(heart);
+        LIST_OF_SYMBOLS.add(star);
+        LIST_OF_SYMBOLS.add(strawberry);
+        LIST_OF_SYMBOLS.add(headphones);
+        LIST_OF_SYMBOLS.add(mushroom);
+    }
+    public void run(Player player)
+    {
+        System.out.println("Welcome to slots");
+        System.out.println("Starting bet amount is 1");
+        boolean isPlaying = true;
+        do
+        {
+            if(player.getGold() - betAmount > 0)
+            {
+                System.out.println("1. Pull lever\n2. Change bet amount\n3. Leave machine");
+                switch(INPUT.getInt())
+                {
+                    case 1 -> pullLever(player);
+                    case 2 -> changeBetAmount(player);
+                    case 3 -> isPlaying = false;
+                }
+            }
+            else {
+                System.out.println("You reach into your pocket but can't find any more gold coins...\n" +
+                        "You stroll defeated away from the slot machines");
+                    isPlaying = false;
+            }
+        }while(isPlaying);
+    }
+    public void pullLever(Player player)
+    {
+        RANDOMIZED_SYMBOLS.clear();
+        int sameSymbolCounter = 0;
+        int starCounter = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            RANDOMIZED_SYMBOLS.add(LIST_OF_SYMBOLS.get((int)(Math.random() * 8)));
+            System.out.println(RANDOMIZED_SYMBOLS);
+            waitOneSecond();
+        }
+
+        for(String slot : RANDOMIZED_SYMBOLS)
+        {
+            if(slot.equals(RANDOMIZED_SYMBOLS.get(0)))
+            {
+                sameSymbolCounter++;
+            }
+            if(slot.equals("⭐"))
+            {
+                starCounter++;
+            }
+        }
+        if(sameSymbolCounter == 3)
+        {
+            playerWon(player, betAmount, 64);
+        }
+        else if(starCounter > 0)
+        {
+            playerWon(player,betAmount,starCounter * 8);
+        }
+        else
+        {
+            playerLost(player,betAmount);
+        }
+    }
+    public void changeBetAmount(Player player)
+    {
+        betAmount = playerBet(player);
+    }
+
+    /**
+     * Method that makes console output wait 1 second
+     */
+    public void waitOneSecond()
+    {
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException e)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+}

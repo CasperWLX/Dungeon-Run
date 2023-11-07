@@ -25,6 +25,7 @@ public class Shop implements Serializable
 
     public void buyItems(Input INPUT, Player player)
     {
+        MENU.welcomeToTheShop();
         int userChoice;
         boolean userIsShopping = true;
         do

@@ -37,6 +37,21 @@ public class Player extends ACharacter implements Serializable
 
         takeDamage(randomDamage,super.getName(),monsterName, opponentCritRate);
     }
+    public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
+    {
+        if(super.didDodge(1))
+        {
+            MENU.characterDodged(characterTakingDamage, characterDealingDamage);
+            return;
+        }
+        if(super.isItACriticalHit(opponentCritRate))
+        {
+            damage = damage* 2;
+            MENU.characterGotACrit(characterDealingDamage,characterTakingDamage);
+        }
+        MENU.playerTookDamage(MENU.printBlue(characterDealingDamage), MENU.printRed(String.valueOf(damage)), MENU.printBlue(characterTakingDamage));
+        setHealth(getHealth() - damage);
+    }
 
     public void heal(int healValue, int cost)
     {

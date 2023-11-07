@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 public class Monster extends ACharacter implements Serializable
 {
+    private final Menu MENU = new Menu();
     public Monster(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
         super(health, strength, agility, experience, level, gold, criticalRate);
@@ -18,11 +19,23 @@ public class Monster extends ACharacter implements Serializable
         try
         {
             randomDamage += weapon.getVAlUE();
-        }catch(NullPointerException ignored)
-        {
-
-        }
+        }catch(NullPointerException ignored) {}
         takeDamage(randomDamage,super.getName(),playerName,criticalRate);
+    }
+    public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
+    {
+        if(super.didDodge(1))
+        {
+            MENU.characterDodged(characterTakingDamage, characterDealingDamage);
+            return;
+        }
+        if(super.isItACriticalHit(opponentCritRate))
+        {
+            damage = damage* 2;
+            MENU.characterGotACrit(characterDealingDamage,characterTakingDamage);
+        }
+        MENU.monsterTookDamage(MENU.printBlue(characterDealingDamage), MENU.printRed(String.valueOf(damage)), MENU.printBlue(characterTakingDamage));
+        setHealth(getHealth() - damage);
     }
 
     public void generateMonster(Player player, double statsMultiplier, int gold, int criticalHitRate, String name)
@@ -65,4 +78,5 @@ public class Monster extends ACharacter implements Serializable
             case 30 -> super.setStats("Giant", 500, 25, 0, 3000, 40, 1000, 0);
         }
     }
+
 }
