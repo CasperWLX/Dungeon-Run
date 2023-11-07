@@ -59,6 +59,21 @@ public abstract class ACharacter implements ICombat, Serializable
                 MENU.printYellow(String.valueOf(gold)),
                 MENU.printRed(String.valueOf(criticalRate)));
     }
+    public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
+    {
+        if(didDodge(1))
+        {
+            MENU.characterDodged(characterTakingDamage, characterDealingDamage);
+            return;
+        }
+        if(isItACriticalHit(opponentCritRate))
+        {
+            damage = damage* 2;
+            MENU.characterGotACrit(characterDealingDamage,characterTakingDamage);
+        }
+        MENU.characterTookDamage(characterTakingDamage,damage,characterDealingDamage);
+        setHealth(getHealth() - damage);
+    }
     public boolean isItACriticalHit(int criticalRate)
     {
         int randomizer = (int)(Math.random() * 100 + 1);
@@ -78,27 +93,36 @@ public abstract class ACharacter implements ICombat, Serializable
         gold += monster.getGold();
         while(experience >= requiredExperience)
         {
-            level++;
-            maxHealth += (int) (maxHealth * 0.05);
-            health = maxHealth;
-            experience -= requiredExperience;
-            requiredExperience += (int) (requiredExperience * 0.15);
-            strength += (int) (strength * 0.02 + 1);
-            if(level % 5 == 0)
-            {
-                agility++;
-            }
-            if(level % 5 == 0)
-            {
-                criticalRate++;
-            }
-            menu.levelUpMessage(player);
-            if(level == 10 || level == 20 || level == 30)
-            {
-                bossTime = true;
-                menu.incomingBossBattle();
-            }
+            increaseStats();
         }
+    }
+    public void increaseStats()
+    {
+        level++;
+        maxHealth += (int) (maxHealth * 0.05);
+        health = maxHealth;
+        experience -= requiredExperience;
+        requiredExperience += (int) (requiredExperience * 0.15);
+        strength += (int) (strength * 0.02 + 1);
+        if(level % 5 == 0)
+        {
+            agility++;
+        }
+        if(level % 5 == 0)
+        {
+            criticalRate++;
+        }
+        MENU.levelUpMessage(getStats(),level);
+        if(level == 10 || level == 20 || level == 30)
+        {
+            itIsBossTime();
+        }
+
+    }
+    public void itIsBossTime()
+    {
+        bossTime = true;
+        MENU.incomingBossBattle();
     }
 
     public int getHealth()

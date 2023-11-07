@@ -1,13 +1,11 @@
 package com.hampus.dungeonRun.logic;
 
-import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.shop_logic.Item;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 public class Menu implements Serializable
 {
@@ -28,6 +26,10 @@ public class Menu implements Serializable
         System.out.println(printGreen("\t\t+++DUNGEON RUN+++\t\t"));
         System.out.println(DIVIDER);
     }
+    public void enterName()
+    {
+        System.out.println("Please enter your name");
+    }
 
     public void mainMenu()
     {
@@ -41,7 +43,7 @@ public class Menu implements Serializable
         System.out.println("1. Fight against new monster\n2. Character sheet\n3. Shop\n4. Equip item\n5. Exit game");
     }
     public void loadedCharacter(Player player){
-        System.out.printf("-Welcome back %s-\n", player.getName());
+        System.out.println(printGreen("--Welcome back " + player.getName() + "--"));
     }
 
     public void outOfScopeChoice()
@@ -52,6 +54,18 @@ public class Menu implements Serializable
     public void combatMenu()
     {
         System.out.println("1. Attack!\n2. Run!\n3. Player stats");
+    }
+    public void characterDodged(String user, String opponent)
+    {
+        System.out.printf("%s dodged %s's attack!\n", user, opponent);
+    }
+    public void characterGotACrit(String user, String opponent)
+    {
+        System.out.printf("%s LANDED A CRITICAL HIT ON %s!\n", user.toUpperCase(),opponent.toUpperCase());
+    }
+    public void characterTookDamage(String user, int damage, String opponent)
+    {
+        System.out.printf("%s took %d damage from %s's attack\n", user, damage, opponent);
     }
 
     public void fleeSuccess()
@@ -64,10 +78,7 @@ public class Menu implements Serializable
         System.out.println("Oh no, you could not run away...");
     }
 
-    public void enterName()
-    {
-        System.out.println("Please enter your name");
-    }
+
 
     public void exitGame()
     {
@@ -77,25 +88,36 @@ public class Menu implements Serializable
     public void combatSuccess(Monster monster)
     {
         System.out.printf("YOU WON THE FIGHT! GREAT JOB!\nYou gained %d experience and %d gold\n",
-                monster.getExperience(), monster.getGold());
+                monster.getExperience(),
+                monster.getGold());
     }
 
-    public void printPlayerStats(Player player)
+    public void printPlayerStats(String stats)
     {
-        String stats = player.getStats();
+        System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
+
+    }
+    //TODO TEMPORÄR DEV OUTPUT
+    public void devMonsterStats(Monster monster)
+    {
+        String stats = monster.getStats();
         System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
 
     }
 
-    public void printMonsterStats(CharacterManager characterManager)
+    public void printMonsterStats(Monster monster)
     {
-        String stats = characterManager.getMONSTER().getStats();
-        System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
+        System.out.printf("%s\nA level %s %s appeared with %s health\n%s\n",
+                STATS_DIVIDER,
+                printBlue(String.valueOf(monster.getLevel())),
+                printRed(monster.getName()),
+                printGreen(String.valueOf(monster.getHealth())),
+                STATS_DIVIDER);
     }
-
-    public void printMonsterName(CharacterManager characterManager)
+    public void printBattleStats(String playerName, String monsterName, int playerHealth, int monsterHealth)
     {
-        System.out.printf("A level %d %s appeared!\n\n", characterManager.getMONSTER().getLevel(), characterManager.getMONSTER().getName());
+        System.out.printf("%s HP \t\t: %d\n", playerName, playerHealth);
+        System.out.printf("%s HP \t\t: %d\n", monsterName, monsterHealth);
     }
 
     public void incomingBossBattle()
@@ -103,11 +125,10 @@ public class Menu implements Serializable
         System.out.println(printRed("WATCH OUT! THE NEXT FIGHT WILL BE A BOSS FIGHT!"));
     }
 
-    public void levelUpMessage(Player player)
+    public void levelUpMessage(String stats, int level)
     {
-        int level = player.getLevel();
         System.out.println(printGreen("\nCONGRATS YOU'VE LEVELED UP!\nHere are your new stats!\n"));
-        printPlayerStats(player);
+        printPlayerStats(stats);
         switch(level)
         {
             case 11 -> System.out.println("You can run into Trolls and Cyclopes now!");
@@ -120,7 +141,7 @@ public class Menu implements Serializable
     public void gameOver(Player player)
     {
         System.out.println("OH NO YOU DIED!\nThese are your final stats:");
-        printPlayerStats(player);
+        printPlayerStats(player.getStats());
         System.out.printf("You got %d kills\n", player.getNoOfKills());
         System.out.printf("%s will now be deleted, thanks for playing\n", player.getName());
     }
@@ -148,9 +169,10 @@ public class Menu implements Serializable
         System.out.println("--Here are your items--");
         for(int i = 0; i < itemList.size(); i++)
         {
-            System.out.printf(i + 1 + ": %s%s\n",
+            System.out.printf(i + 1 + ": %s%s%s\n",
                     itemList.get(i).getNAME(),
-                    itemList.get(i).getDESCRIPTION());
+                    itemList.get(i).getDESCRIPTION(),
+                    printRed(String.valueOf(itemList.get(i).getVAlUE())));
         }
     }
     public void noWeapons()
@@ -204,5 +226,18 @@ public class Menu implements Serializable
     }
     public String printPurpleBold(String text){
         return PURPLE_BOLD + text + RESET;
+    }
+
+    //TODO maybe randomize message
+    public void printRandomBattleMessage(){
+        int random = (int) (Math.random() * 5 + 1);
+
+        switch(random){
+            case 1 -> System.out.println("The %s did a stab");
+            case 2 -> System.out.println("The %s fucked you up");
+            case 3 -> System.out.println("The %s threw a rock at you");
+            case 4 -> System.out.println("The %s shot an arrow at you");
+            case 5 -> System.out.println("The %s scratched you");
+        }
     }
 }

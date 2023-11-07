@@ -21,18 +21,19 @@ public class SaveClass
         catch(Exception e)
         {
             //e.printStackTrace();
-            System.out.println("Could not save the character, please check that the files are in the correct spot\nAborting program");
+            System.out.println("Could not save the character, " +
+                    "please check that the files are in the correct spot\n" +
+                    "Aborting program");
             System.exit(0);
         }
     }
 
     public CharacterManager loadCharacter(String filename)
     {
-        CharacterManager character = null;
         try(FileInputStream fileIn = new FileInputStream(filename);
             ObjectInputStream objectIn = new ObjectInputStream(fileIn))
         {
-            character = (CharacterManager) objectIn.readObject();
+            CharacterManager character = (CharacterManager) objectIn.readObject();
             System.out.println("Character loaded from " + filename);
             return character;
         }

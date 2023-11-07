@@ -50,7 +50,7 @@ public class Game
             switch (INPUT.getInt())
             {
                 case 1 -> enterCombat(characterManager, INPUT, FILENAME);
-                case 2 -> MENU.printPlayerStats(characterManager.getPLAYER());
+                case 2 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
                 case 3 ->
                 {
                     MENU.welcomeToTheShop();
@@ -82,8 +82,8 @@ public class Game
     public void enterCombat(CharacterManager characterManager, Input INPUT, String filename)
     {
         MONSTERS.generateMonster(characterManager);
-        MENU.printMonsterName(characterManager);
-        MENU.printMonsterStats(characterManager);
+        //MENU.devMonsterStats(characterManager.getMONSTER());
+        MENU.printMonsterStats(characterManager.getMONSTER());
         boolean combatIsActive = true;
         do
         {
@@ -92,7 +92,7 @@ public class Game
             {
                 case 1 -> combatIsActive = combat.dealDamage(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
                 case 2 -> combatIsActive = combat.escape(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
-                case 3 -> MENU.printPlayerStats(characterManager.getPLAYER());
+                case 3 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
                 default -> MENU.outOfScopeChoice();
             }
         } while (combatIsActive);

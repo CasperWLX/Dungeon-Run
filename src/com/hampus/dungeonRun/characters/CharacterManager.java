@@ -26,7 +26,9 @@ public class CharacterManager implements Serializable
     {
         return MONSTER;
     }
-    public Shop getSHOP(){
+
+    public Shop getSHOP()
+    {
         return SHOP;
     }
 }

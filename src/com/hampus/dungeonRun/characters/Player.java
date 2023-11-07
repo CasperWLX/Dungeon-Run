@@ -31,26 +31,11 @@ public class Player extends ACharacter implements Serializable
         return noOfKills;
     }
 
-    public void takeDamage(Monster monster)
+    public void calculateDamage(int monsterStrength, String monsterName, int opponentCritRate)
     {
-        int randomDamage = monster.getStrength() + (int) (Math.random() * 3);
-        String monsterName = monster.getName();
+        int randomDamage = monsterStrength + (int) (Math.random() * 3);
 
-        if(didDodge(1))
-        {
-            System.out.printf("%s dodged the %s's attack!\n", super.getName(), monsterName);
-            return;
-        }
-        if(isItACriticalHit(monster.getCriticalRate()))
-        {
-            randomDamage = randomDamage * 2;
-            if(randomDamage != 0)
-            {
-                System.out.printf("THE %s GOT A CRITICAL HIT ON YOU!\n", monsterName);
-            }
-        }
-        System.out.printf("You took %d damage from the %s's attack\n", randomDamage, monsterName);
-        super.setHealth(super.getHealth() - randomDamage);
+        takeDamage(randomDamage,super.getName(),monsterName, opponentCritRate);
     }
 
     public void heal(int healValue, int cost)

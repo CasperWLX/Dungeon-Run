@@ -8,12 +8,12 @@ public class CombatFlow
     private final Menu MENU = new Menu();
     public boolean dealDamage(Player player, Monster monster, SaveClass gameData, String filename)
     {
-        monster.takeDamage(player);
+        monster.calculateDamage(player.getStrength(),player.getCriticalRate(),player.getWeapon(),player.getName());
         if(monster.getHealth() <= 0)
         {
             player.killedMonster();
             monster.setHealth(0);
-            battleStats(player, monster);
+            MENU.printBattleStats(player.getName(),monster.getName(),player.getHealth(),monster.getHealth());
             MENU.combatSuccess(monster);
             player.levelUp(MENU, player, monster);
             return false;
@@ -22,7 +22,7 @@ public class CombatFlow
         {
             takeDamage(player, monster, gameData,filename);
         }
-        battleStats(player,monster);
+        MENU.printBattleStats(player.getName(),monster.getName(),player.getHealth(),monster.getHealth());
         return true;
     }
     public boolean escape(Player player, Monster monster, SaveClass gameData, String filename)
@@ -36,7 +36,7 @@ public class CombatFlow
         {
             MENU.fleeFailed();
             takeDamage(player,monster,gameData,filename);
-            battleStats(player,monster);
+            MENU.printBattleStats(player.getName(),monster.getName(),player.getHealth(),monster.getHealth());
             if(isCharacterDead(player))
             {
                 endGame(player,gameData,filename);
@@ -47,16 +47,11 @@ public class CombatFlow
 
     public void takeDamage(Player player, Monster monster, SaveClass gameData, String filename)
     {
-        player.takeDamage(monster);
+        player.calculateDamage(monster.getStrength(),monster.getName(), monster.getCriticalRate());
         if(isCharacterDead(player))
         {
             endGame(player,gameData,filename);
         }
-    }
-    public void battleStats(Player player, Monster monster)
-    {
-        System.out.printf("%s HP \t\t: %d\n", player.getName(),player.getHealth());
-        System.out.printf("%s HP \t\t: %d\n", monster.getName(), monster.getHealth());
     }
     public boolean isCharacterDead(Player player)
     {
