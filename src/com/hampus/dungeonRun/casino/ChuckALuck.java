@@ -32,6 +32,7 @@ public class ChuckALuck extends Casino
                     case 4 -> lowBet(player);
                     case 5 -> tripleBet(player);
                     case 6 -> isPlaying = false;
+                    default -> MENU.outOfScopeChoice();
                 }
             }
             else
@@ -68,7 +69,6 @@ public class ChuckALuck extends Casino
             playerLost(player, bet);
         }
     }
-
     public void fieldBet(Player player)
     {
         int bet = playerBet(player);
@@ -132,13 +132,13 @@ public class ChuckALuck extends Casino
     public void tripleBet(Player player)
     {
         int bet = playerBet(player);
-        System.out.println("Which number do you think there will be triple of?");
-        int num = INPUT.restrictedInput(1,6);
+        System.out.println("You bet there will be a triple of any number");
         int counter = 0;
         rollDices();
+        int firstDice = LIST_OF_DICES.get(0);
         for(int dice : LIST_OF_DICES)
         {
-            if(dice == num)
+            if(dice == firstDice)
             {
                 counter++;
             }

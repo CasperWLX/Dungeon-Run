@@ -6,11 +6,13 @@ import java.util.List;
 public class Gambler
 {
     private final String NAME;
-    private List<Card> playerHand = new ArrayList<>(0);
+    private final List<Card> PLAYER_HAND = new ArrayList<>(0);
+
     public Gambler(String name)
     {
         this.NAME = name;
     }
+
     public String getNAME()
     {
         return NAME;
@@ -18,24 +20,28 @@ public class Gambler
 
     public void addCardToHand(Card card)
     {
-        playerHand.add(card);
+        PLAYER_HAND.add(card);
     }
-    public String getPlayerHand()
+
+    public String getPLAYER_HAND()
     {
         StringBuilder cardsInHand = new StringBuilder();
-        for(Card card : playerHand){
+        for(Card card : PLAYER_HAND)
+        {
             cardsInHand.append(card).append(", ");
         }
         return cardsInHand.toString();
     }
+
     public void getHouseHand()
     {
-        System.out.println(playerHand.get(0).toString() + " + hidden card");
+        System.out.println(PLAYER_HAND.get(0).toString() + " + hidden card");
     }
+
     public int sumOfCards()
     {
         int sum = 0;
-        for(Card card : playerHand)
+        for(Card card : PLAYER_HAND)
         {
             if(card.getValue() == 11)
             {
@@ -44,16 +50,26 @@ public class Gambler
                     card.setValue(1);
                 }
             }
-
             sum += card.getValue();
+        }
+        for(Card card : PLAYER_HAND)
+        {
+            if(sum > 21 && card.getValue() == 11)
+            {
+                card.setValue(1);
+                sum -= 10;
+            }
         }
         return sum;
     }
+
     public boolean didPlayerBust()
     {
         return sumOfCards() > 21;
     }
-    public void clearCards(){
-        playerHand.clear();
+
+    public void clearCards()
+    {
+        PLAYER_HAND.clear();
     }
 }

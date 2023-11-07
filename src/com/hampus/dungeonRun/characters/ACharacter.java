@@ -72,7 +72,7 @@ public abstract class ACharacter implements ICombat, Serializable
         return randomizer < agility * multiplier;
     }
 
-    public void levelUp(Menu menu, Player player, Monster monster)
+    public void levelUp(Monster monster)
     {
         experience += monster.getExperience();
         gold += monster.getGold();

@@ -46,7 +46,7 @@ public class Monster extends ACharacter implements Serializable
         super.setStrength(randomizeStats((int) (player.getStrength() * statsMultiplier)));
         super.setAgility(randomizeStats((int) (player.getAgility() * statsMultiplier)));
         super.setLevel(randomizeStats((int) (player.getLevel() * statsMultiplier)));
-        super.setExperience(randomizeStats((int) (super.getLevel() * 6.3)));
+        super.setExperience(randomizeStats((int) (super.getLevel() * 8.3)));
         super.setRequiredExperience(super.getExperience());
         super.setGold(randomizeStats(gold));
         super.setCriticalRate(randomizeStats(criticalHitRate));

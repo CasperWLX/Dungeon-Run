@@ -15,7 +15,7 @@ public class CombatFlow
             monster.setHealth(0);
             MENU.printBattleStats(player.getName(),monster.getName(),player.getHealth(),monster.getHealth());
             MENU.combatSuccess(monster);
-            player.levelUp(MENU, player, monster);
+            player.levelUp(monster);
             return false;
         }
         else

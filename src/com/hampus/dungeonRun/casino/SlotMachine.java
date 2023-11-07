@@ -10,6 +10,7 @@ public class SlotMachine extends Casino
 {
     private final List<String> LIST_OF_SYMBOLS = new ArrayList<>();
     private final List<String> RANDOMIZED_SYMBOLS = new ArrayList<>();
+    private final CasinoMenu MENU = new CasinoMenu();
     private int betAmount = 1;
     private final Input INPUT = new Input();
     public SlotMachine()
@@ -22,6 +23,7 @@ public class SlotMachine extends Casino
         String strawberry = "\uD83C\uDF53";
         String headphones = "\uD83C\uDFA7";
         String mushroom = "\uD83C\uDF44";
+        String lightning = "⚡";
         LIST_OF_SYMBOLS.add(fire);
         LIST_OF_SYMBOLS.add(clover);
         LIST_OF_SYMBOLS.add(sunflower);
@@ -30,6 +32,7 @@ public class SlotMachine extends Casino
         LIST_OF_SYMBOLS.add(strawberry);
         LIST_OF_SYMBOLS.add(headphones);
         LIST_OF_SYMBOLS.add(mushroom);
+        LIST_OF_SYMBOLS.add(lightning);
     }
     public void run(Player player)
     {
@@ -38,7 +41,7 @@ public class SlotMachine extends Casino
         boolean isPlaying = true;
         do
         {
-            if(player.getGold() - betAmount > 0)
+            if(player.getGold() - betAmount >= 0)
             {
                 System.out.println("1. Pull lever\n2. Change bet amount\n3. Leave machine");
                 switch(INPUT.getInt())
@@ -46,11 +49,13 @@ public class SlotMachine extends Casino
                     case 1 -> pullLever(player);
                     case 2 -> changeBetAmount(player);
                     case 3 -> isPlaying = false;
+                    default -> MENU.outOfScopeChoice();
                 }
             }
-            else {
+            else
+            {
                 System.out.println("You reach into your pocket but can't find any more gold coins...\n" +
-                        "You stroll defeated away from the slot machines");
+                        "You stroll away from the slot machines, feeling defeated by the god of luck");
                     isPlaying = false;
             }
         }while(isPlaying);
@@ -62,7 +67,7 @@ public class SlotMachine extends Casino
         int starCounter = 0;
         for(int i = 0; i < 3; i++)
         {
-            RANDOMIZED_SYMBOLS.add(LIST_OF_SYMBOLS.get((int)(Math.random() * 8)));
+            RANDOMIZED_SYMBOLS.add(LIST_OF_SYMBOLS.get((int)(Math.random() * LIST_OF_SYMBOLS.size())));
             System.out.println(RANDOMIZED_SYMBOLS);
             waitOneSecond();
         }
@@ -80,11 +85,11 @@ public class SlotMachine extends Casino
         }
         if(sameSymbolCounter == 3)
         {
-            playerWon(player, betAmount, 64);
+            playerWon(player, betAmount, 50);
         }
         else if(starCounter > 0)
         {
-            playerWon(player,betAmount,starCounter * 8);
+            playerWon(player,betAmount,starCounter * 2);
         }
         else
         {
