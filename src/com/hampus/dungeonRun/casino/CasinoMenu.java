@@ -1,7 +1,11 @@
 package com.hampus.dungeonRun.casino;
 
+import com.hampus.dungeonRun.logic.Colorize;
+
 public class CasinoMenu
 {
+    Colorize colorize = new Colorize();
+    private final String SMALL_DIVIDER = "----------------------------";
     public void welcomeToTheCasino()
     {
         System.out.println("-------------Welcome to the casino-------------");
@@ -70,8 +74,9 @@ public class CasinoMenu
         System.out.println("You feel a tap on your shoulder. Behind you stands a large bodyguard with a mean face.");
         System.out.println("You got kicked out of the Casino...");
     }
-    public void goldInInventory(int gold){
-        System.out.printf("You have %d gold left\n", gold);
+    public void goldInInventory(int gold)
+    {
+        System.out.printf("You have %s gold left\n", colorize.printYellow(String.valueOf(gold)));
     }
     public void chuckALuckMenu()
     {
@@ -96,8 +101,17 @@ public class CasinoMenu
     }
     public void welcomeToSlots()
     {
+        System.out.println(SMALL_DIVIDER);
         System.out.println("Welcome to slots");
         System.out.println("The starting bet amount is 1 gold");
+        System.out.println(SMALL_DIVIDER);
+    }
+    public void welcomeToChuckALuck(){
+        System.out.printf("%s\nWelcome to Chuck-A-Luck\n%s\n",SMALL_DIVIDER,SMALL_DIVIDER);
+    }
+    public void welcomeToBlackJack()
+    {
+        System.out.printf("%s\nWelcome to Black Jack\n%s\n",SMALL_DIVIDER,SMALL_DIVIDER);
     }
     public void slotsMenu()
     {

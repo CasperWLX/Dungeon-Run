@@ -9,6 +9,7 @@ public class BlackJack extends Casino
     private final Input INPUT = new Input();
     public void run(Player player, Gambler user)
     {
+        MENU.welcomeToBlackJack();
         BlackJackLogic playBlackJack = new BlackJackLogic();
         Gambler house = new Gambler("House");
         boolean isPlaying = true;

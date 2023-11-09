@@ -18,6 +18,7 @@ public class ChuckALuck extends Casino
         boolean isPlaying = true;
         do
         {
+            MENU.welcomeToChuckALuck();
             if(player.getGold() > 0)
             {
                 playerWon = false;

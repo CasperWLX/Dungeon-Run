@@ -9,13 +9,7 @@ import java.util.List;
 
 public class Menu implements Serializable
 {
-    private static final String BLUE = "\u001B[34m";
-    private static final String GREEN = "\u001B[32m";
-    private static final String YELLOW = "\u001B[33m";
-    private static final String RED = "\u001B[31m";
-    public static final String WHITE = "\033[0;37m";
-    private static final String RESET = "\u001B[0m";
-    public static final String PURPLE_BOLD = "\033[1;35m";
+    Colorize colorize = new Colorize();
     private final String SMALL_DIVIDER = "----------------------------";
     private final String STATS_DIVIDER = SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER + SMALL_DIVIDER;
     private final String DIVIDER = "+---------------------------------+";
@@ -23,7 +17,7 @@ public class Menu implements Serializable
     public void welcomeMessage()
     {
         System.out.println("\t\t\tWelcome to\t\t\t\n" + DIVIDER);
-        System.out.println(printGreen("\t\t+++DUNGEON RUN+++\t\t"));
+        System.out.println(colorize.printGreen("\t\t+++DUNGEON RUN+++\t\t"));
         System.out.println(DIVIDER);
     }
     public void enterName()
@@ -52,7 +46,7 @@ public class Menu implements Serializable
                 DIVIDER);
     }
     public void loadedCharacter(Player player){
-        System.out.println(printGreen("--Welcome back " + player.getName() + "--"));
+        System.out.println(colorize.printGreen("--Welcome back " + player.getName() + "--"));
     }
 
     public void outOfScopeChoice()
@@ -111,8 +105,8 @@ public class Menu implements Serializable
     public void combatSuccess(Monster monster)
     {
         System.out.printf("YOU WON THE FIGHT! GREAT JOB!\nYou gained %s experience and %s gold\n",
-                printBlue(String.valueOf(monster.getExperience())),
-                printYellow(String.valueOf(monster.getGold())));
+                colorize.printBlue(String.valueOf(monster.getExperience())),
+                colorize.printYellow(String.valueOf(monster.getGold())));
     }
     public void printPlayerStats(String stats)
     {
@@ -130,25 +124,25 @@ public class Menu implements Serializable
     {
         System.out.printf("%s\nA level %s %s appeared with %s health\n%s\n",
                 STATS_DIVIDER,
-                printBlue(String.valueOf(monster.getLevel())),
-                printRed(monster.getName()),
-                printGreen(String.valueOf(monster.getHealth())),
+                colorize.printBlue(String.valueOf(monster.getLevel())),
+                colorize.printRed(monster.getName()),
+                colorize.printGreen(String.valueOf(monster.getHealth())),
                 STATS_DIVIDER);
     }
     public void printBattleStats(String playerName, String monsterName, int playerHealth, int monsterHealth)
     {
-        System.out.printf("%s HP \t\t: %s\n", printBlue(playerName), printGreen(String.valueOf(playerHealth)));
-        System.out.printf("%s HP \t\t: %s\n", printBlue(monsterName), printGreen(String.valueOf(monsterHealth)));
+        System.out.printf("%s HP \t\t: %s\n", colorize.printBlue(playerName), colorize.printGreen(String.valueOf(playerHealth)));
+        System.out.printf("%s HP \t\t: %s\n", colorize.printBlue(monsterName), colorize.printGreen(String.valueOf(monsterHealth)));
     }
 
     public void incomingBossBattle()
     {
-        System.out.println(printRed("WATCH OUT! THE NEXT FIGHT WILL BE A BOSS FIGHT!"));
+        System.out.println(colorize.printRed("WATCH OUT! THE NEXT FIGHT WILL BE A BOSS FIGHT!"));
     }
 
     public void levelUpMessage(String stats, int level)
     {
-        System.out.println(printGreen("\nCONGRATS YOU'VE LEVELED UP!\nHere are your new stats!\n"));
+        System.out.println(colorize.printGreen("\nCONGRATS YOU'VE LEVELED UP!\nHere are your new stats!\n"));
         printPlayerStats(stats);
         switch(level)
         {
@@ -176,12 +170,12 @@ public class Menu implements Serializable
             System.out.printf(i + 1 + ": %s%s%s, cost : %s, stock : %s\n",
                     itemList.get(i).getNAME(),
                     itemList.get(i).getDESCRIPTION(),
-                    printPurpleBold(String.valueOf(itemList.get(i).getVAlUE())),
-                    printYellow(String.valueOf(itemList.get(i).getCOST())),
-                    printBlue(String.valueOf(itemList.get(i).getSTOCK_AMOUNT())));
+                    colorize.printPurpleBold(String.valueOf(itemList.get(i).getVAlUE())),
+                    colorize.printYellow(String.valueOf(itemList.get(i).getCOST())),
+                    colorize.printBlue(String.valueOf(itemList.get(i).getSTOCK_AMOUNT())));
         }
         System.out.println("7: Buy xp\n8: Buy gold\n9: Exit shop");
-        System.out.printf("You currently have: %s gold\n", printYellow(String.valueOf(playerGold)));
+        System.out.printf("You currently have: %s gold\n", colorize.printYellow(String.valueOf(playerGold)));
         System.out.println(DIVIDER);
     }
     public void playerWeapons(List<Item> itemList)
@@ -192,7 +186,7 @@ public class Menu implements Serializable
             System.out.printf(i + 1 + ": %s%s%s\n",
                     itemList.get(i).getNAME(),
                     itemList.get(i).getDESCRIPTION(),
-                    printRed(String.valueOf(itemList.get(i).getVAlUE())));
+                    colorize.printRed(String.valueOf(itemList.get(i).getVAlUE())));
         }
     }
     public void noWeapons()
@@ -206,7 +200,7 @@ public class Menu implements Serializable
 
     public void successfulTransaction(String item, int cost)
     {
-        System.out.printf("You bought %s for %s gold\n", item, printYellow(String.valueOf(cost)));
+        System.out.printf("You bought %s for %s gold\n", item, colorize.printYellow(String.valueOf(cost)));
         System.out.println("Pleasure to do business with you, is there anything else you would like to buy?");
     }
 
@@ -220,31 +214,4 @@ public class Menu implements Serializable
         System.out.println("Looks like you don't have enough money to do that");
     }
 
-    public String printGreen(String text)
-    {
-        return GREEN + text + RESET;
-    }
-
-    public String printRed(String text)
-    {
-        return RED + text + RESET;
-    }
-
-    public String printYellow(String text)
-    {
-        return YELLOW + text + RESET;
-    }
-
-    public String printBlue(String text)
-    {
-        return BLUE + text + RESET;
-    }
-
-    public String printWhite(String text)
-    {
-        return WHITE + text + RESET;
-    }
-    public String printPurpleBold(String text){
-        return PURPLE_BOLD + text + RESET;
-    }
 }
