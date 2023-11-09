@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class Input
 {
-    Scanner input = new Scanner(System.in);
+    private final Scanner INPUT = new Scanner(System.in);
 
     /**
      * A method which restricts the amount of choices the user has
@@ -43,7 +43,7 @@ public class Input
         //Startar loop för kontroll
         while(loopIsRunning)
         {
-            String choice = input.nextLine();
+            String choice = INPUT.nextLine();
             number = isInputEmpty(choice);
             if(number != 0)
             {
@@ -114,7 +114,7 @@ public class Input
         while(true)
         {
             //Saves input in a String
-            String userName = input.nextLine();
+            String userName = INPUT.nextLine();
 
             userName = hasSpecialCharacterOrNumber(userName);
 

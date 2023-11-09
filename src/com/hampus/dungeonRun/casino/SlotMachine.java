@@ -40,35 +40,40 @@ public class SlotMachine extends Casino
         boolean isPlaying = true;
         do
         {
-            if(player.getGold() - betAmount >= 0)
+            MENU.slotsMenu();
+            switch(INPUT.getInt())
             {
-                MENU.slotsMenu();
-                switch(INPUT.getInt())
-                {
-                    case 1 -> pullLever(player);
-                    case 2 -> changeBetAmount(player);
-                    case 3 -> isPlaying = false;
-                    default -> MENU.outOfScopeChoice();
-                }
+                case 1 -> pullLever(player);
+                case 2 -> changeBetAmount(player);
+                case 3 -> isPlaying = false;
+                default -> MENU.outOfScopeChoice();
             }
-            else
+            if (player.getGold() == 0)
             {
-               MENU.kickedFromGame(3);
-               isPlaying = false;
+                MENU.kickedFromGame(3);
+                isPlaying = false;
             }
+            MENU.goldInInventory(player.getGold());
         }while(isPlaying);
     }
     public void pullLever(Player player)
     {
+        if (player.getGold() - betAmount < 0)
+        {
+            MENU.notEnoughGold();
+            return;
+        }
         RANDOMIZED_SYMBOLS.clear();
         int sameSymbolCounter = 0;
         int starCounter = 0;
         for(int i = 0; i < 3; i++)
         {
             RANDOMIZED_SYMBOLS.add(LIST_OF_SYMBOLS.get((int)(Math.random() * LIST_OF_SYMBOLS.size())));
-            System.out.println(RANDOMIZED_SYMBOLS);
             waitOneSecond();
+            System.out.print(RANDOMIZED_SYMBOLS.get(i));
         }
+        waitOneSecond();
+        System.out.println();
 
         for(String slot : RANDOMIZED_SYMBOLS)
         {

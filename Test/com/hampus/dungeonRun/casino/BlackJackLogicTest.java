@@ -1,11 +1,16 @@
 package com.hampus.dungeonRun.casino;
 
+import com.hampus.dungeonRun.characters.Monster;
+import com.hampus.dungeonRun.characters.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BlackJackLogicTest
 {
+
+
+
     /**
      * Test that makes sure the game can handle situations where someone gets multiple aces and correctly converts
      * the number 11 to 1 if the sum of the players cards is higher than 21.
@@ -26,6 +31,7 @@ class BlackJackLogicTest
         house.addCardToHand(card4);
         assertEquals(13,house.sumOfCards());
     }
+
 
 
 }

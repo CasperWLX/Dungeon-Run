@@ -4,7 +4,7 @@ import com.hampus.dungeonRun.logic.Colorize;
 
 public class CasinoMenu
 {
-    Colorize colorize = new Colorize();
+    private final Colorize COLORIZE = new Colorize();
     private final String SMALL_DIVIDER = "----------------------------";
     public void welcomeToTheCasino()
     {
@@ -44,11 +44,11 @@ public class CasinoMenu
         System.out.println(gambler.getPLAYER_HAND());
     }
     public void playerWon(int bet){
-        System.out.println("You gained " + bet + " gold");
+        System.out.printf("You gained %s gold\n",COLORIZE.printYellow(String.valueOf(bet)));
     }
     public void playerLost(int bet)
     {
-        System.out.println("You lost " + bet + " gold");
+        System.out.printf("You lost %s gold\n",COLORIZE.printYellow(String.valueOf(bet)));
     }
     public void draw(){
         System.out.println("IT'S A DRAW");
@@ -76,7 +76,7 @@ public class CasinoMenu
     }
     public void goldInInventory(int gold)
     {
-        System.out.printf("You have %s gold left\n", colorize.printYellow(String.valueOf(gold)));
+        System.out.printf("You have %s gold left\n", COLORIZE.printYellow(String.valueOf(gold)));
     }
     public void chuckALuckMenu()
     {

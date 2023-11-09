@@ -11,7 +11,6 @@ public class Casino
 
     public void casinoMenu(Player player)
     {
-
         boolean isPlayingAtTheCasino = true;
         MENU.welcomeToTheCasino();
         do

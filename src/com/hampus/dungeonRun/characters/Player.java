@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.characters;
 
+import com.hampus.dungeonRun.logic.Colorize;
 import com.hampus.dungeonRun.logic.Input;
 import com.hampus.dungeonRun.logic.Menu;
 import com.hampus.dungeonRun.shop_logic.Item;
@@ -11,6 +12,7 @@ import java.util.List;
 public class Player extends ACharacter implements Serializable
 {
 
+    private final Colorize COLORIZE = new Colorize();
     private int noOfKills = 0;
     private final List<Item> LIST_OF_WEAPONS = new ArrayList<>();
     private Item equippedItem;
@@ -33,9 +35,13 @@ public class Player extends ACharacter implements Serializable
 
     public void calculateDamage(int monsterStrength, String monsterName, int opponentCritRate)
     {
-        int randomDamage = monsterStrength + (int) (Math.random() * 3);
+        int randomDamage = randomDamage(monsterStrength);
 
         takeDamage(randomDamage,super.getName(),monsterName, opponentCritRate);
+    }
+    public int randomDamage(int monsterStrength)
+    {
+        return monsterStrength + (int) (Math.random() * 3 + 1);
     }
     public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
     {
@@ -49,7 +55,9 @@ public class Player extends ACharacter implements Serializable
             damage = damage* 2;
             MENU.characterGotACrit(characterDealingDamage,characterTakingDamage);
         }
-        MENU.playerTookDamage(MENU.printBlue(characterDealingDamage), MENU.printRed(String.valueOf(damage)), MENU.printBlue(characterTakingDamage));
+        MENU.playerTookDamage(COLORIZE.printBlue(characterDealingDamage),
+                COLORIZE.printRed(String.valueOf(damage)),
+                COLORIZE.printBlue(characterTakingDamage));
         setHealth(getHealth() - damage);
     }
 

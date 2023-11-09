@@ -1,6 +1,8 @@
 package com.hampus.dungeonRun.logic;
 
-public class Colorize
+import java.io.Serializable;
+
+public class Colorize implements Serializable
 {
     private static final String BLUE = "\u001B[34m";
     private static final String GREEN = "\u001B[32m";

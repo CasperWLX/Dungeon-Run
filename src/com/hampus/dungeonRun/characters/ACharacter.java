@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.characters;
 
+import com.hampus.dungeonRun.logic.Colorize;
 import com.hampus.dungeonRun.logic.ICombat;
 import com.hampus.dungeonRun.logic.Menu;
 
@@ -7,6 +8,7 @@ import java.io.Serializable;
 
 public abstract class ACharacter implements ICombat, Serializable
 {
+    private final Colorize COLORIZE = new Colorize();
     private final Menu MENU = new Menu();
     private String name;
     private int health;
@@ -33,11 +35,11 @@ public abstract class ACharacter implements ICombat, Serializable
         this.criticalRate = criticalRate;
     }
 
-    public void setStats(String name, int maxHealth, int strength, int agility, int experience, int level, int gold, int criticalRate)
+    public void setStats(String name, int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
         this.name = name;
-        this.maxHealth = maxHealth;
-        this.health = maxHealth;
+        this.maxHealth = health;
+        this.health = health;
         this.strength = strength;
         this.agility = agility;
         this.experience = experience;
@@ -49,15 +51,15 @@ public abstract class ACharacter implements ICombat, Serializable
     public String getStats()
     {
         return String.format("|\tHP: %s/%s\t|\tStr: %s\t|\tAgility: %s\t|\tEXP: %s/%s\t|\tLVL: %s\t|\tGold: %s\t|\tCrit: %s%%\t|\n",
-                MENU.printGreen(String.valueOf(health)),
-                MENU.printGreen(String.valueOf(maxHealth)),
-                MENU.printRed(String.valueOf(strength)),
-                MENU.printBlue(String.valueOf(agility)),
-                MENU.printWhite(String.valueOf(experience)),
-                MENU.printWhite(String.valueOf(requiredExperience)),
-                MENU.printWhite(String.valueOf(level)),
-                MENU.printYellow(String.valueOf(gold)),
-                MENU.printRed(String.valueOf(criticalRate)));
+                COLORIZE.printGreen(String.valueOf(health)),
+                COLORIZE.printGreen(String.valueOf(maxHealth)),
+                COLORIZE.printRed(String.valueOf(strength)),
+                COLORIZE.printBlue(String.valueOf(agility)),
+                COLORIZE.printWhite(String.valueOf(experience)),
+                COLORIZE.printWhite(String.valueOf(requiredExperience)),
+                COLORIZE.printWhite(String.valueOf(level)),
+                COLORIZE.printYellow(String.valueOf(gold)),
+                COLORIZE.printRed(String.valueOf(criticalRate)));
     }
     public boolean isItACriticalHit(int criticalRate)
     {
