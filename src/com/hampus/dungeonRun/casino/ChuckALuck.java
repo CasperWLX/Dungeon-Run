@@ -21,9 +21,9 @@ public class ChuckALuck extends Casino
             if(player.getGold() > 0)
             {
                 playerWon = false;
-                System.out.printf("You have %d gold left\n", player.getGold());
-                System.out.println("What would you like to bet on?");
-                System.out.println("1. Numbers bet\n2. Field bet\n3. High bet (Over 11)\n4. Low bet (Under 10)\n5. Any triple\n6. Stop playing");
+                MENU.goldInInventory(player.getGold());
+                MENU.chuckALuckMenu();
+
                 switch(INPUT.getInt())
                 {
                     case 1 -> numbersBet(player);
@@ -37,7 +37,7 @@ public class ChuckALuck extends Casino
             }
             else
             {
-                System.out.println("Looks like you're out of gold buddy, can't play here anymore");
+                MENU.kickedFromGame(2);
                 isPlaying = false;
             }
         } while(isPlaying);
@@ -73,7 +73,7 @@ public class ChuckALuck extends Casino
     {
         int bet = playerBet(player);
         int sum = 0;
-        System.out.println("You bet that the sum of the dices will be between 5-8 or 13-16");
+        MENU.chuckALuckBets(1);
         rollDices();
         for(int dice : LIST_OF_DICES)
         {
@@ -91,7 +91,7 @@ public class ChuckALuck extends Casino
     {
         int bet = playerBet(player);
         int sum = 0;
-        System.out.println("You bet that the sum of the dices would be higher than 11");
+        MENU.chuckALuckBets(2);
         rollDices();
         for(int dice : LIST_OF_DICES)
         {
@@ -112,7 +112,7 @@ public class ChuckALuck extends Casino
     {
         int bet = playerBet(player);
         int sum = 0;
-        System.out.println("You bet that the sum of the dices would be lower than 10");
+        MENU.chuckALuckBets(3);
         rollDices();
         for(int dice : LIST_OF_DICES)
         {
@@ -132,7 +132,7 @@ public class ChuckALuck extends Casino
     public void tripleBet(Player player)
     {
         int bet = playerBet(player);
-        System.out.println("You bet there will be a triple of any number");
+        MENU.chuckALuckBets(4);
         int counter = 0;
         rollDices();
         int firstDice = LIST_OF_DICES.get(0);

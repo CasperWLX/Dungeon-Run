@@ -1,7 +1,6 @@
 package com.hampus.dungeonRun.logic;
 
 import java.util.Scanner;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Input
@@ -114,7 +113,7 @@ public class Input
     {
         while(true)
         {
-            //Sparar input i en String
+            //Saves input in a String
             String userName = input.nextLine();
 
             userName = hasSpecialCharacterOrNumber(userName);
@@ -138,27 +137,19 @@ public class Input
      */
     public String hasSpecialCharacterOrNumber(String userName)
     {
-        //Sets up allowed characters
-        Pattern special = Pattern.compile("[^a-ö0-9]", Pattern.CASE_INSENSITIVE);
-        Pattern number = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
+        //Set up restrictions
+        String myRegex = "([a-öA-Ö])*";
+        boolean containsCorrectCharacters = Pattern.matches(myRegex,userName);
 
-        Matcher matcher = special.matcher(userName);
-        Matcher numberMatcher = number.matcher(userName);
-
-        //Checks if string contains non-allowed characters
-        boolean containsSymbols = matcher.find();
-        boolean containsNumbers = numberMatcher.find();
-
-        //Returns name if input is correct, else blank space
-        if(containsSymbols || containsNumbers)
-        {
-            System.out.println("The name can't contain special characters or numbers");
-            return " ";
-        }
-        else
+        if(containsCorrectCharacters)
         {
             System.out.println("Player " + userName + " has been added");
             return userName;
+        }
+        else
+        {
+            System.out.println("The name can't contain special characters or numbers");
+            return " ";
         }
     }
 }

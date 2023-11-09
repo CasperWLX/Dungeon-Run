@@ -36,14 +36,13 @@ public class SlotMachine extends Casino
     }
     public void run(Player player)
     {
-        System.out.println("Welcome to slots");
-        System.out.println("Starting bet amount is 1");
+        MENU.welcomeToSlots();
         boolean isPlaying = true;
         do
         {
             if(player.getGold() - betAmount >= 0)
             {
-                System.out.println("1. Pull lever\n2. Change bet amount\n3. Leave machine");
+                MENU.slotsMenu();
                 switch(INPUT.getInt())
                 {
                     case 1 -> pullLever(player);
@@ -54,9 +53,8 @@ public class SlotMachine extends Casino
             }
             else
             {
-                System.out.println("You reach into your pocket but can't find any more gold coins...\n" +
-                        "You stroll away from the slot machines, feeling defeated by the god of luck");
-                    isPlaying = false;
+               MENU.kickedFromGame(3);
+               isPlaying = false;
             }
         }while(isPlaying);
     }

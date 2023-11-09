@@ -12,11 +12,10 @@ public class BlackJack extends Casino
         BlackJackLogic playBlackJack = new BlackJackLogic();
         Gambler house = new Gambler("House");
         boolean isPlaying = true;
-        System.out.printf("You have %d gold left\n", player.getGold());
-
+        MENU.goldInInventory(player.getGold());
         do
         {
-            System.out.println("1. Play a round of Black Jack\n2. Leave the table");
+            MENU.blackJackMenu();
             switch(INPUT.getInt())
             {
                 case 1 -> playBlackJack(playBlackJack,user,house, player);
@@ -26,7 +25,7 @@ public class BlackJack extends Casino
             if(player.getGold() < 1)
             {
                 isPlaying = false;
-                System.out.println("Look's like you're out of gold kid, your gonna have to leave the table now");
+                MENU.kickedFromGame(1);
             }
         }while(isPlaying);
 
@@ -46,7 +45,7 @@ public class BlackJack extends Casino
         }
         while(!someoneLost)
         {
-            System.out.println("What would you like to do?\n1. Draw card\n2. Stay");
+            MENU.drawOrStay();
             switch(INPUT.getInt())
             {
                 case 1 ->

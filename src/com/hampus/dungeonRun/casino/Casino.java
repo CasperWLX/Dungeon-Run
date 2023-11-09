@@ -42,8 +42,7 @@ public class Casino
             if(player.getGold() < 1)
             {
                 isPlayingAtTheCasino = false;
-                System.out.println("You feel a tap on your shoulder. Behind you stands a large bodyguard with a mean face.");
-                System.out.println("You got kicked out of the Casino...");
+                MENU.kickedOutOfCasino();
             }
         } while(isPlayingAtTheCasino);
     }
@@ -56,7 +55,7 @@ public class Casino
             int betAmount = INPUT.getInt();
             if(player.getGold() - betAmount < 0)
             {
-                System.out.println("Sorry you don't have enough gold, try a smaller amount");
+                MENU.notEnoughGold();
             }
             else
             {
