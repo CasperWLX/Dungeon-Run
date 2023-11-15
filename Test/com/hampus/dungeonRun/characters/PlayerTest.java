@@ -56,7 +56,10 @@ class PlayerTest
     {
         for (int i = 0; i < 1000; i++)
         {
-            assertTrue(monster.randomizeStats(player.getStrength()) <= );
+            int monsterDamage = monster.randomizeStats(player.getStrength());
+            int upperLimit = (int) (player.getStrength() * 1.2);
+            int lowerLimit = (int) (player.getStrength() * 0.8);
+            assertFalse(monsterDamage <= lowerLimit && monsterDamage >= upperLimit);
         }
     }
 
