@@ -4,6 +4,7 @@ import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ChuckALuck extends Casino
@@ -60,7 +61,6 @@ public class ChuckALuck extends Casino
                 playerWon = true;
             }
         }
-        System.out.println(LIST_OF_DICES);
         if(playerWon)
         {
             playerWon(player, bet, amountOfRight);
@@ -80,7 +80,6 @@ public class ChuckALuck extends Casino
         {
             sum += dice;
         }
-        System.out.println(LIST_OF_DICES);
         switch(sum)
         {
             case 5, 6, 7, 8, 13, 14, 15, 16 -> playerWon(player, bet, 1);
@@ -98,7 +97,6 @@ public class ChuckALuck extends Casino
         {
             sum += dice;
         }
-        System.out.println(LIST_OF_DICES);
         if(sum > 11)
         {
             playerWon(player, bet, 1);
@@ -119,7 +117,6 @@ public class ChuckALuck extends Casino
         {
             sum += dice;
         }
-        System.out.println(LIST_OF_DICES);
         if(sum < 10)
         {
             playerWon(player, bet, 1);
@@ -144,7 +141,6 @@ public class ChuckALuck extends Casino
                 counter++;
             }
         }
-        System.out.println(LIST_OF_DICES);
         if(counter == 3)
         {
             playerWon(player, bet, 30);
@@ -162,5 +158,12 @@ public class ChuckALuck extends Casino
         {
             LIST_OF_DICES.add((int) (Math.random() * 6 + 1));
         }
+        for(int dice : LIST_OF_DICES)
+        {
+            randomizeAnimation(new ArrayList<>(Arrays.asList("1","2","3","4","5","6")));
+            System.out.print(dice);
+        }
+        System.out.println();
     }
+
 }

@@ -69,10 +69,10 @@ public class SlotMachine extends Casino
         for(int i = 0; i < 3; i++)
         {
             RANDOMIZED_SYMBOLS.add(LIST_OF_SYMBOLS.get((int)(Math.random() * LIST_OF_SYMBOLS.size())));
-            waitOneSecond();
+            randomizeAnimation(LIST_OF_SYMBOLS);
             System.out.print(RANDOMIZED_SYMBOLS.get(i));
         }
-        waitOneSecond();
+        MENU.waitMilliSeconds(200);
         System.out.println();
 
         for(String slot : RANDOMIZED_SYMBOLS)
@@ -92,7 +92,7 @@ public class SlotMachine extends Casino
         }
         else if(starCounter > 0)
         {
-            playerWon(player,betAmount,starCounter * 2);
+            playerWon(player,betAmount,starCounter);
         }
         else
         {
@@ -102,20 +102,5 @@ public class SlotMachine extends Casino
     public void changeBetAmount(Player player)
     {
         betAmount = playerBet(player);
-    }
-
-    /**
-     * Method that makes console output wait 1 second
-     */
-    public void waitOneSecond()
-    {
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch(InterruptedException e)
-        {
-            Thread.currentThread().interrupt();
-        }
     }
 }

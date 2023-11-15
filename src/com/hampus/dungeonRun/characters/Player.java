@@ -35,13 +35,9 @@ public class Player extends ACharacter implements Serializable
 
     public void calculateDamage(int monsterStrength, String monsterName, int opponentCritRate)
     {
-        int randomDamage = randomDamage(monsterStrength);
+        int randomDamage = randomizeStats(monsterStrength);
 
         takeDamage(randomDamage,super.getName(),monsterName, opponentCritRate);
-    }
-    public int randomDamage(int monsterStrength)
-    {
-        return monsterStrength + (int) (Math.random() * 3 + 1);
     }
     public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
     {

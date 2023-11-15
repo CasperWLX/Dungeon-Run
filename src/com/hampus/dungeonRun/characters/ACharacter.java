@@ -104,7 +104,19 @@ public abstract class ACharacter implements ICombat, Serializable
         {
             itIsBossTime();
         }
-
+    }
+    public int randomizeStats(int baseValue)
+    {
+        double lowerPercent = 0.8;
+        double upperPercent = 1.2;
+        int lowerBound = (int)(baseValue * lowerPercent);
+        int upperBound = (int)(baseValue * upperPercent);
+        int randomNumber = (int)((Math.random() * (upperBound - lowerBound)) + lowerBound);
+        if(randomNumber == 1)
+        {
+            randomNumber = (int)((Math.random() * (5-1)) + 1);
+        }
+        return randomNumber;
     }
     public void itIsBossTime()
     {

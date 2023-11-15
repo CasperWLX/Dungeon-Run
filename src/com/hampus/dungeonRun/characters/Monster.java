@@ -17,7 +17,7 @@ public class Monster extends ACharacter implements Serializable
 
     public void calculateDamage(int playerStrength, int criticalRate, Item weapon, String playerName)
     {
-        int randomDamage = randomDamage(playerStrength);
+        int randomDamage = randomizeStats(playerStrength);
         try
         {
             randomDamage += weapon.getVAlUE();
@@ -64,19 +64,6 @@ public class Monster extends ACharacter implements Serializable
         {
             super.setAgility(8);
         }
-    }
-    public int randomizeStats(int baseValue)
-    {
-        double lowerPercent = 0.8;
-        double upperPercent = 1.2;
-        int lowerBound = (int)(baseValue * lowerPercent);
-        int upperBound = (int)(baseValue * upperPercent);
-        int randomNumber = (int)((Math.random() * (upperBound - lowerBound)) + lowerBound);
-        if(randomNumber == 1)
-        {
-            randomNumber = (int)((Math.random() * (5-1)) + 1);
-        }
-        return randomNumber;
     }
     public void createBoss(Player player)
     {

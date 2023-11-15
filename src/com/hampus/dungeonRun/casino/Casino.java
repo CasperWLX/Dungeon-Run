@@ -3,6 +3,9 @@ package com.hampus.dungeonRun.casino;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Casino
 {
     //TODO - GÖR ALLA PRINTS FINARE
@@ -73,5 +76,21 @@ public class Casino
     {
         MENU.playerLost(bet);
         player.setGold(player.getGold() - bet);
+    }
+    public void randomizeAnimation(List<String> animationList)
+    {
+        for(int i = 0; i < 5; i++)
+        {
+            for(String icon : animationList)
+            {
+                System.out.print(icon);
+                MENU.waitMilliSeconds(50);
+                for(int j = 0; j < icon.length(); j++) // Do this for Emoji strings
+                {
+                    System.out.print("\b");
+                }
+
+            }
+        }
     }
 }

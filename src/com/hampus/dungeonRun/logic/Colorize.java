@@ -11,6 +11,7 @@ public class Colorize implements Serializable
     public static final String WHITE = "\033[0;37m";
     private static final String RESET = "\u001B[0m";
     public static final String PURPLE_BOLD = "\033[1;35m";
+    public static final String BLACK_BACKGROUND = "\033[40m";
     public String printGreen(String text)
     {
         return GREEN + text + RESET;
@@ -37,5 +38,8 @@ public class Colorize implements Serializable
     }
     public String printPurpleBold(String text){
         return PURPLE_BOLD + text + RESET;
+    }
+    public final String printBlackBackground(String text){
+        return BLACK_BACKGROUND + text + RESET;
     }
 }

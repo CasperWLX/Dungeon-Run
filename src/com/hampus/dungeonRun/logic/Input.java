@@ -6,6 +6,13 @@ import java.util.regex.Pattern;
 public class Input
 {
     private final Scanner INPUT = new Scanner(System.in);
+    private final InputMenu INPUT_MENU = new InputMenu();
+
+    public void pressEnterToContinue()
+    {
+        INPUT_MENU.pressEnter();
+        INPUT.nextLine();
+    }
 
     /**
      * A method which restricts the amount of choices the user has
