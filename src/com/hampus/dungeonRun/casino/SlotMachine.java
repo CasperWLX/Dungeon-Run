@@ -17,6 +17,7 @@ public class SlotMachine extends Casino
     private final CasinoMenu MENU = new CasinoMenu();
     private int betAmount = 1;
     private final Input INPUT = new Input();
+
     public SlotMachine()
     {
         //For easier visibility I decided to save each symbol as a string before adding them to the list.
@@ -39,6 +40,7 @@ public class SlotMachine extends Casino
         LIST_OF_SYMBOLS.add(mushroom);
         LIST_OF_SYMBOLS.add(lightning);
     }
+
     public void run(Player player)
     {
         MENU.welcomeToSlots();
@@ -53,17 +55,18 @@ public class SlotMachine extends Casino
                 case 3 -> isPlaying = false;
                 default -> MENU.outOfScopeChoice();
             }
-            if (player.getGold() == 0)
+            if(player.getGold() == 0)
             {
                 MENU.kickedFromGame(3);
                 isPlaying = false;
             }
             MENU.goldInInventory(player.getGold());
-        }while(isPlaying);
+        } while(isPlaying);
     }
+
     public void pullLever(Player player)
     {
-        if (player.getGold() - betAmount < 0)
+        if(player.getGold() - betAmount < 0)
         {
             MENU.notEnoughGold();
             return;
@@ -73,7 +76,7 @@ public class SlotMachine extends Casino
         int starCounter = 0;
         for(int i = 0; i < 3; i++)
         {
-            RANDOMIZED_SYMBOLS.add(LIST_OF_SYMBOLS.get((int)(Math.random() * LIST_OF_SYMBOLS.size())));
+            RANDOMIZED_SYMBOLS.add(LIST_OF_SYMBOLS.get((int) (Math.random() * LIST_OF_SYMBOLS.size())));
             randomizeAnimation(LIST_OF_SYMBOLS);
             System.out.print(RANDOMIZED_SYMBOLS.get(i));
         }
@@ -97,13 +100,14 @@ public class SlotMachine extends Casino
         }
         else if(starCounter > 0)
         {
-            playerWon(player,betAmount,starCounter);
+            playerWon(player, betAmount, starCounter);
         }
         else
         {
-            playerLost(player,betAmount);
+            playerLost(player, betAmount);
         }
     }
+
     public void changeBetAmount(Player player)
     {
         betAmount = playerBet(player);

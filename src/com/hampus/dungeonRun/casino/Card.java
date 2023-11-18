@@ -9,6 +9,7 @@ public class Card
     private final String FACE_CARD;
     private final String SUIT;
     private int value;
+
     public Card(String suit, int value, String faceCard)
     {
         this.SUIT = suit;
@@ -17,7 +18,7 @@ public class Card
             this.FACE_CARD = faceCard;
             this.value = 10;
         }
-        else if (value == 1)
+        else if(value == 1)
         {
             this.FACE_CARD = faceCard;
             this.value = 11;
@@ -41,9 +42,12 @@ public class Card
             return value + " of " + SUIT;
         }
     }
-    public int getValue(){
+
+    public int getValue()
+    {
         return value;
     }
+
     public void setValue(int value)
     {
         this.value = value;

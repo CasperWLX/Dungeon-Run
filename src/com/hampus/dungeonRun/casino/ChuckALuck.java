@@ -19,10 +19,10 @@ public class ChuckALuck extends Casino
 
     public void run(Player player)
     {
+        MENU.welcomeToChuckALuck();
         boolean isPlaying = true;
         do
         {
-            MENU.welcomeToChuckALuck();
             if(player.getGold() > 0)
             {
                 playerWon = false;
@@ -72,7 +72,9 @@ public class ChuckALuck extends Casino
         {
             playerLost(player, bet);
         }
+        INPUT.pressEnterToContinue();
     }
+
     public void fieldBet(Player player)
     {
         int bet = playerBet(player);
@@ -88,6 +90,7 @@ public class ChuckALuck extends Casino
             case 5, 6, 7, 8, 13, 14, 15, 16 -> playerWon(player, bet, 1);
             default -> playerLost(player, bet);
         }
+        INPUT.pressEnterToContinue();
     }
 
     public void highBet(Player player)
@@ -108,6 +111,7 @@ public class ChuckALuck extends Casino
         {
             playerLost(player, bet);
         }
+        INPUT.pressEnterToContinue();
     }
 
     public void lowBet(Player player)
@@ -128,6 +132,7 @@ public class ChuckALuck extends Casino
         {
             playerLost(player, bet);
         }
+        INPUT.pressEnterToContinue();
     }
 
     public void tripleBet(Player player)
@@ -152,6 +157,7 @@ public class ChuckALuck extends Casino
         {
             playerLost(player, bet);
         }
+        INPUT.pressEnterToContinue();
     }
 
     public void rollDices()
@@ -163,10 +169,10 @@ public class ChuckALuck extends Casino
         }
         for(int dice : LIST_OF_DICES)
         {
-            randomizeAnimation(new ArrayList<>(Arrays.asList("1","2","3","4","5","6")));
+            randomizeAnimation(new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "6")));
             System.out.print(dice);
         }
         System.out.println();
-    }
 
+    }
 }

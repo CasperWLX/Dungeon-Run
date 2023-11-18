@@ -13,8 +13,9 @@ public class BlackJackLogic
 {
     List<Card> listOfCards = new ArrayList<>();
     List<Card> discardedCards = new ArrayList<>();
-    List<String> faceNames = new ArrayList<>(Arrays.asList("Ace","Jack","Queen","King"));
+    List<String> faceNames = new ArrayList<>(Arrays.asList("Ace", "Jack", "Queen", "King"));
     private boolean houseStayed = false;
+
     public BlackJackLogic()
     {
         int x = 0;
@@ -22,18 +23,18 @@ public class BlackJackLogic
         {
             if(i == 1 || i > 10)
             {
-                listOfCards.add(new Card("Clubs",i, faceNames.get(x)));
-                listOfCards.add(new Card("Diamonds",i,faceNames.get(x)));
-                listOfCards.add(new Card("Hearts",i,faceNames.get(x)));
-                listOfCards.add(new Card("Spades",i,faceNames.get(x)));
+                listOfCards.add(new Card("Clubs", i, faceNames.get(x)));
+                listOfCards.add(new Card("Diamonds", i, faceNames.get(x)));
+                listOfCards.add(new Card("Hearts", i, faceNames.get(x)));
+                listOfCards.add(new Card("Spades", i, faceNames.get(x)));
                 x++;
             }
             else
             {
-                listOfCards.add(new Card("Clubs",i, ""));
-                listOfCards.add(new Card("Diamonds",i, ""));
-                listOfCards.add(new Card("Hearts",i, ""));
-                listOfCards.add(new Card("Spades",i,""));
+                listOfCards.add(new Card("Clubs", i, ""));
+                listOfCards.add(new Card("Diamonds", i, ""));
+                listOfCards.add(new Card("Hearts", i, ""));
+                listOfCards.add(new Card("Spades", i, ""));
             }
         }
         shuffleDeck();
@@ -46,6 +47,7 @@ public class BlackJackLogic
         drawCard(player);
         drawCard(house);
     }
+
     public void drawCard(Gambler currentPlayer)
     {
         currentPlayer.addCardToHand(listOfCards.get(0));
@@ -53,10 +55,12 @@ public class BlackJackLogic
         listOfCards.remove(0);
         ifDeckIsEmpty();
     }
+
     public void shuffleDeck()
     {
         Collections.shuffle(listOfCards);
     }
+
     public void ifDeckIsEmpty()
     {
         if(listOfCards.isEmpty())
@@ -66,16 +70,19 @@ public class BlackJackLogic
             shuffleDeck();
         }
     }
+
     public boolean playerStays(Gambler house)
     {
-        while (house.sumOfCards() < 17)
+        while(house.sumOfCards() < 17)
         {
             drawCard(house);
         }
         houseStayed = true;
         return house.sumOfCards() > 21;
     }
-    public boolean didHouseStay(){
+
+    public boolean didHouseStay()
+    {
         return houseStayed;
     }
 }

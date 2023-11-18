@@ -2,6 +2,7 @@ package com.hampus.dungeonRun.casino;
 
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
+
 import java.util.List;
 
 /**
@@ -80,6 +81,7 @@ public class Casino
         MENU.playerLost(bet);
         player.setGold(player.getGold() - bet);
     }
+
     public void randomizeAnimation(List<String> animationList)
     {
         for(int i = 0; i < 5; i++)

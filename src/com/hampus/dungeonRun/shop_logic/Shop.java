@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.shop_logic;
 
+import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Colorize;
 import com.hampus.dungeonRun.logic.Input;
@@ -20,16 +21,16 @@ public class Shop implements Serializable
 
     public Shop()
     {
-        listOfItems.add(new Potion(COLORIZE.printGreen("Small health potion"), 30, ": A potion that heals your HP by ", 20, 1000));
-        listOfItems.add(new Potion(COLORIZE.printGreen("Medium Health Potion"), 100, ": A potion that heals your HP by ", 40, 1000));
-        listOfItems.add(new Potion(COLORIZE.printGreen("Large Health Potion"), 300, ": A potion that heals your HP by ", 100, 1000));
+        listOfItems.add(new Potion(COLORIZE.printGreen("Small health potion"), 30, ": A potion that instantly heals your HP by ", 20, 1000));
+        listOfItems.add(new Potion(COLORIZE.printGreen("Medium Health Potion"), 100, ": A potion that instantly heals your HP by ", 40, 1000));
+        listOfItems.add(new Potion(COLORIZE.printGreen("Large Health Potion"), 300, ": A potion that instantly heals your HP by ", 100, 1000));
         listOfItems.add(new Weapon(COLORIZE.printRed("Knife"), 5, ": A small thieves knife, it will increase your strength by ", 50, 1));
-        listOfItems.add(new Weapon(COLORIZE.printRed("Greatsword"), 10, ": A Sword from a fallen knight, it will increase your strength by ", 100, 1));
+        listOfItems.add(new Weapon(COLORIZE.printRed("Greatsword"), 15, ": A Sword from a fallen knight, it will increase your strength by ", 100, 1));
         listOfItems.add(new Weapon(COLORIZE.printRed("Excalibur"), 50, ": A Mythical sword with magic powers, it will increase your strength by ", 1000, 1));
     }
 
     //TODO - LÄMNA KVAR DEV TOOLS?
-    public void buyItems(Input INPUT, Player player)
+    public void buyItems(Player player, Input input)
     {
         MENU.welcomeToTheShop();
         int userChoice;
@@ -37,12 +38,12 @@ public class Shop implements Serializable
         do
         {
             MENU.shopMenu(player.getGold(), listOfItems);
-            switch(userChoice = INPUT.getInt())
+            switch(userChoice = input.getInt())
             {
                 case 1, 2, 3 -> purchasedHeal(userChoice, player);
                 case 4, 5, 6 -> purchasedWeapon(userChoice, player);
-                case 7 -> player.setExperience(player.getExperience() + 1000); // dev tool
-                case 8 -> player.setGold(1000); // dev tool
+                case 7 -> devToolLevelUp(player, input); // dev tool
+                case 8 -> player.setGold(player.getGold() + 1000); // dev tool
                 case 9 -> userIsShopping = false;
                 default -> MENU.outOfScopeChoice();
             }
@@ -86,6 +87,17 @@ public class Shop implements Serializable
         else
         {
             MENU.notEnoughGold();
+        }
+    }
+
+    public void devToolLevelUp(Player player, Input input)
+    {
+        System.out.println("What level do you wanna go to?");
+        int desiredLevel = input.getInt();
+        while(player.getLevel() < desiredLevel)
+        {
+            player.setExperience(player.getRequiredExperience());
+            player.levelUp(new Monster(0, 0, 0, 0, 0, 0, 0));
         }
     }
 }

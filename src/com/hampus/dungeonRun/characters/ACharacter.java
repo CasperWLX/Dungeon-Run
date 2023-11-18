@@ -64,12 +64,14 @@ public abstract class ACharacter implements ICombat, Serializable
                 COLORIZE.printYellow(String.valueOf(gold)),
                 COLORIZE.printRed(String.valueOf(criticalRate)));
     }
+
     public boolean isItACriticalHit(int criticalRate)
     {
-        int randomizer = (int)(Math.random() * 100 + 1);
+        int randomizer = (int) (Math.random() * 100 + 1);
 
         return randomizer < criticalRate;
     }
+
     public boolean didDodge(int multiplier)
     {
         int randomizer = (int) (Math.random() * 100 + 1);
@@ -84,8 +86,13 @@ public abstract class ACharacter implements ICombat, Serializable
         while(experience >= requiredExperience)
         {
             increaseStats();
+            if(level == 10 || level == 20 || level == 30)
+            {
+                itIsBossTime();
+            }
         }
     }
+
     public void increaseStats()
     {
         level++;
@@ -102,25 +109,23 @@ public abstract class ACharacter implements ICombat, Serializable
         {
             criticalRate++;
         }
-        MENU.levelUpMessage(getStats(),level);
-        if(level == 10 || level == 20 || level == 30)
-        {
-            itIsBossTime();
-        }
+        MENU.levelUpMessage(getStats(), level);
     }
+
     public int randomizeStats(int baseValue)
     {
         double lowerPercent = 0.8;
         double upperPercent = 1.2;
-        int lowerBound = (int)(baseValue * lowerPercent);
-        int upperBound = (int)(baseValue * upperPercent);
-        int randomNumber = (int)((Math.random() * (upperBound - lowerBound)) + lowerBound);
+        int lowerBound = (int) (baseValue * lowerPercent);
+        int upperBound = (int) (baseValue * upperPercent);
+        int randomNumber = (int) ((Math.random() * (upperBound - lowerBound)) + lowerBound);
         if(randomNumber == 1)
         {
-            randomNumber = (int)((Math.random() * (5-1)) + 1);
+            randomNumber = (int) ((Math.random() * (5 - 1)) + 1);
         }
         return randomNumber;
     }
+
     public void itIsBossTime()
     {
         bossTime = true;
@@ -180,6 +185,11 @@ public abstract class ACharacter implements ICombat, Serializable
     public void setRequiredExperience(int requiredExperience)
     {
         this.requiredExperience = requiredExperience;
+    }
+
+    public int getRequiredExperience()
+    {
+        return requiredExperience;
     }
 
     public int getLevel()

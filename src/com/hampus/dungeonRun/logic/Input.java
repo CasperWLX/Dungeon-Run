@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.logic;
 
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,7 @@ public class Input
 
     /**
      * A method which restricts the amount of choices the user has
+     *
      * @param min - minimum choice
      * @param max - maximum choice
      * @return - integer with user input
@@ -39,6 +41,7 @@ public class Input
             }
         }
     }
+
     /**
      * A method that makes sure the input is only positive integers
      *
@@ -62,6 +65,7 @@ public class Input
         }
         return number;
     }
+
     /**
      * A method which checks if the string is empty
      *
@@ -114,6 +118,7 @@ public class Input
         }
         return result;
     }
+
     /**
      * Method which returns a string with any letter or combination of letters between A-Ö
      *
@@ -149,7 +154,7 @@ public class Input
     {
         //Set up restrictions
         String myRegex = "([a-öA-Ö])*";
-        boolean containsCorrectCharacters = Pattern.matches(myRegex,userName);
+        boolean containsCorrectCharacters = Pattern.matches(myRegex, userName);
 
         if(containsCorrectCharacters)
         {

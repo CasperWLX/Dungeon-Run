@@ -23,6 +23,7 @@ public class Menu implements Serializable
         System.out.println(COLORIZE.printGreen("\t\t+++DUNGEON RUN+++\t\t"));
         System.out.println(DIVIDER);
     }
+
     public void enterName()
     {
         System.out.println("Please enter your name");
@@ -48,7 +49,9 @@ public class Menu implements Serializable
                 "6. Exit game\n" +
                 DIVIDER);
     }
-    public void loadedCharacter(Player player){
+
+    public void loadedCharacter(Player player)
+    {
         System.out.println(COLORIZE.printGreen("--Welcome back " + player.getName() + "--"));
     }
 
@@ -64,34 +67,41 @@ public class Menu implements Serializable
                 "3. Player stats\n" +
                 DIVIDER);
     }
+
     public void characterDodged(String user, String opponent)
     {
         System.out.printf("%s dodged %s's attack!\n", user, opponent);
     }
+
     public void characterGotACrit(String user, String opponent)
     {
-        System.out.printf("%s LANDED A CRITICAL HIT ON %s!\n", user.toUpperCase(),opponent.toUpperCase());
+        System.out.printf("%s LANDED A CRITICAL HIT ON %s!\n", user.toUpperCase(), opponent.toUpperCase());
     }
+
     public void monsterTookDamage(String opponent, String damage, String user)
     {
-        int random = (int)(Math.random() * 3 + 1);
+        int random = (int) (Math.random() * 3 + 1);
         switch(random)
         {
-            case 1 -> System.out.printf("%s swung at the %s, dealing %s damage\n",opponent,user,damage);
-            case 2 -> System.out.printf("%s stabbed the %s, dealing %s damage\n",opponent,user,damage);
-            case 3 -> System.out.printf("%s leaped in to the air and struck down at the %s, dealing %s damage\n",opponent,user,damage);
+            case 1 -> System.out.printf("%s swung at the %s, dealing %s damage\n", opponent, user, damage);
+            case 2 -> System.out.printf("%s stabbed the %s, dealing %s damage\n", opponent, user, damage);
+            case 3 ->
+                    System.out.printf("%s leaped in to the air and struck down at the %s, dealing %s damage\n", opponent, user, damage);
         }
     }
+
     public void playerTookDamage(String opponent, String damage, String user)
     {
-        int random = (int)(Math.random() * 3 + 1);
+        int random = (int) (Math.random() * 3 + 1);
         switch(random)
         {
-            case 1 -> System.out.printf("The %s bit %s, dealing %s damage\n",opponent,user,damage);
-            case 2 -> System.out.printf("The %s scratched %s, dealing %s damage\n",opponent,user,damage);
-            case 3 -> System.out.printf("The %s used blunt force against %s, dealing %s damage\n",opponent,user,damage);
+            case 1 -> System.out.printf("The %s bit %s, dealing %s damage\n", opponent, user, damage);
+            case 2 -> System.out.printf("The %s scratched %s, dealing %s damage\n", opponent, user, damage);
+            case 3 ->
+                    System.out.printf("The %s used blunt force against %s, dealing %s damage\n", opponent, user, damage);
         }
     }
+
     public void fleeSuccess()
     {
         System.out.println("You escaped! Phew hat was a close one...");
@@ -101,21 +111,25 @@ public class Menu implements Serializable
     {
         System.out.println("Oh no, you could not run away...");
     }
+
     public void exitGame()
     {
         System.out.println("Thanks for playing!");
     }
+
     public void combatSuccess(Monster monster)
     {
         System.out.printf("YOU WON THE FIGHT! GREAT JOB!\nYou gained %s experience and %s gold\n",
                 COLORIZE.printBlue(String.valueOf(monster.getExperience())),
                 COLORIZE.printYellow(String.valueOf(monster.getGold())));
     }
+
     public void printPlayerStats(String stats)
     {
         System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
 
     }
+
     //TODO TEMPORÄR DEV OUTPUT
     public void devMonsterStats(Monster monster)
     {
@@ -132,6 +146,7 @@ public class Menu implements Serializable
                 COLORIZE.printGreen(String.valueOf(monster.getHealth())),
                 STATS_DIVIDER);
     }
+
     public void printBattleStats(String playerName, String monsterName, int playerHealth, int monsterHealth)
     {
         System.out.printf("%s HP \t\t: %s\n", COLORIZE.printBlue(playerName), COLORIZE.printGreen(String.valueOf(playerHealth)));
@@ -151,9 +166,11 @@ public class Menu implements Serializable
         {
             case 11 -> System.out.println("You can run into Trolls and Cyclopes now!");
             case 21 -> System.out.println("Be careful, now you can run into Golems and Minotaurs");
-            case 31 -> System.out.println("Woah great job getting to level 30. But be careful... the Dragons are coming...");
+            case 31 ->
+                    System.out.println("Woah great job getting to level 30. But be careful... the Dragons are coming...");
         }
     }
+
     public void gameOver(Player player)
     {
         System.out.println("OH NO YOU DIED!\nThese are your final stats:");
@@ -161,6 +178,7 @@ public class Menu implements Serializable
         System.out.printf("You got %d kills\n", player.getNoOfKills());
         System.out.printf("%s will now be deleted, thanks for playing\n", player.getName());
     }
+
     public void welcomeToTheShop()
     {
         System.out.println(DIVIDER + "\n--Welcome to the shop, let me present to you all our items and what they cost--");
@@ -177,10 +195,11 @@ public class Menu implements Serializable
                     COLORIZE.printYellow(String.valueOf(itemList.get(i).getCOST())),
                     COLORIZE.printBlue(String.valueOf(itemList.get(i).getSTOCK_AMOUNT())));
         }
-        System.out.println("7: Buy xp\n8: Buy gold\n9: Exit shop");
+        System.out.println("7: GO TO SPECIFIC LEVEL (DEV TOOL)\n8: GAIN 1000 GOLD (DEV TOOL)\n9: Exit shop");
         System.out.printf("You currently have: %s gold\n", COLORIZE.printYellow(String.valueOf(playerGold)));
         System.out.println(DIVIDER);
     }
+
     public void playerWeapons(List<Item> itemList)
     {
         System.out.println("--Here are your items--");
@@ -192,13 +211,15 @@ public class Menu implements Serializable
                     COLORIZE.printRed(String.valueOf(itemList.get(i).getVAlUE())));
         }
     }
+
     public void noWeapons()
     {
         System.out.println("Sorry you don't have any weapons");
     }
+
     public void equippedItem(Item item)
     {
-        System.out.printf("You have equipped %s\n",item.getNAME());
+        System.out.printf("You have equipped %s\n", item.getNAME());
     }
 
     public void successfulTransaction(String item, int cost)

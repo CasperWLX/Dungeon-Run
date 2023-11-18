@@ -33,23 +33,24 @@ public class CombatFlow
             }
         } while(combatIsActive);
     }
+
     public boolean dealDamage(Player player, Monster monster, SaveClass gameData, String filename)
     {
-        monster.calculateDamage(player.getStrength(),player.getCriticalRate(),player.getWeapon(),player.getName());
+        monster.calculateDamage(player.getStrength(), player.getCriticalRate(), player.getWeapon(), player.getName());
         if(monster.getHealth() <= 0)
         {
             player.killedMonster();
             monster.setHealth(0);
-            MENU.printBattleStats(player.getName(),monster.getName(),player.getHealth(),monster.getHealth());
+            MENU.printBattleStats(player.getName(), monster.getName(), player.getHealth(), monster.getHealth());
             MENU.combatSuccess(monster);
             player.levelUp(monster);
             return false;
         }
         else
         {
-            takeDamage(player, monster, gameData,filename);
+            takeDamage(player, monster, gameData, filename);
         }
-        MENU.printBattleStats(player.getName(),monster.getName(),player.getHealth(),monster.getHealth());
+        MENU.printBattleStats(player.getName(), monster.getName(), player.getHealth(), monster.getHealth());
         return true;
     }
 
@@ -64,11 +65,11 @@ public class CombatFlow
         else
         {
             MENU.fleeFailed();
-            takeDamage(player,monster,gameData,filename);
-            MENU.printBattleStats(player.getName(),monster.getName(),player.getHealth(),monster.getHealth());
+            takeDamage(player, monster, gameData, filename);
+            MENU.printBattleStats(player.getName(), monster.getName(), player.getHealth(), monster.getHealth());
             if(isCharacterDead(player))
             {
-                endGame(player,gameData,filename);
+                endGame(player, gameData, filename);
             }
         }
         return true;
@@ -76,12 +77,13 @@ public class CombatFlow
 
     public void takeDamage(Player player, Monster monster, SaveClass gameData, String filename)
     {
-        player.calculateDamage(monster.getStrength(),monster.getName(), monster.getCriticalRate());
+        player.calculateDamage(monster.getStrength(), monster.getName(), monster.getCriticalRate());
         if(isCharacterDead(player))
         {
-            endGame(player,gameData,filename);
+            endGame(player, gameData, filename);
         }
     }
+
     public boolean isCharacterDead(Player player)
     {
         if(player.getHealth() <= 0)
@@ -91,6 +93,7 @@ public class CombatFlow
         }
         return false;
     }
+
     public void endGame(Player player, SaveClass gameData, String filename)
     {
         MENU.gameOver(player);

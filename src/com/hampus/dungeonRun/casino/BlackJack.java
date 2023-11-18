@@ -11,6 +11,7 @@ public class BlackJack extends Casino
 {
     private final CasinoMenu MENU = new CasinoMenu();
     private final Input INPUT = new Input();
+
     public void run(Player player, Gambler user)
     {
         MENU.welcomeToBlackJack();
@@ -23,7 +24,7 @@ public class BlackJack extends Casino
             MENU.blackJackMenu();
             switch(INPUT.getInt())
             {
-                case 1 -> playBlackJack(playBlackJack,user,house, player);
+                case 1 -> playBlackJack(playBlackJack, user, house, player);
                 case 2 -> isPlaying = false;
                 default -> MENU.outOfScopeChoice();
             }
@@ -32,16 +33,17 @@ public class BlackJack extends Casino
                 isPlaying = false;
                 MENU.kickedFromGame(1);
             }
-        }while(isPlaying);
+        } while(isPlaying);
 
     }
+
     public void playBlackJack(BlackJackLogic playBlackJack, Gambler user, Gambler house, Player player)
     {
         boolean someoneLost = false;
 
         int bet = playerBet(player);
         playBlackJack.dealCards(house, user);
-        MENU.printStartingHands(user,house);
+        MENU.printStartingHands(user, house);
 
         if(house.sumOfCards() == 21)
         {
@@ -61,8 +63,10 @@ public class BlackJack extends Casino
                 }
                 case 2 ->
                 {
+                    MENU.houseDrawsCards();
                     someoneLost = playBlackJack.playerStays(house);
                     MENU.printHand(house);
+                    MENU.waitMilliSeconds(2000);
                     if(playBlackJack.didHouseStay())
                     {
                         someoneLost = true;
@@ -74,19 +78,19 @@ public class BlackJack extends Casino
 
         if(house.didPlayerBust())
         {
-            playerWon(player,bet, 1);
+            playerWon(player, bet, 1);
         }
         else if(user.didPlayerBust())
         {
-            playerLost(player,bet);
+            playerLost(player, bet);
         }
         else if(user.sumOfCards() > house.sumOfCards())
         {
-            playerWon(player,bet, 1);
+            playerWon(player, bet, 1);
         }
         else if(house.sumOfCards() > user.sumOfCards())
         {
-            playerLost(player,bet);
+            playerLost(player, bet);
         }
         else
         {

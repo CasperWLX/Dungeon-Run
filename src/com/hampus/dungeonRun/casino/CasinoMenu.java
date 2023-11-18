@@ -52,6 +52,12 @@ public class CasinoMenu
         System.out.println(house.getPLAYER_HAND());
     }
 
+    public void houseDrawsCards()
+    {
+        System.out.println("You chose to stay\nThe house will now draw cards");
+        waitMilliSeconds(2000);
+    }
+
     public void printHand(Gambler gambler)
     {
         System.out.println(gambler.getPLAYER_HAND());

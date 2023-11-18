@@ -46,6 +46,7 @@ public class Item implements Serializable
     {
         return STOCK_AMOUNT;
     }
+
     public void boughtItem()
     {
         STOCK_AMOUNT--;

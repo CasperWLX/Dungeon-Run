@@ -41,8 +41,9 @@ public class Player extends ACharacter implements Serializable
     {
         int randomDamage = randomizeStats(monsterStrength);
 
-        takeDamage(randomDamage,super.getName(),monsterName, opponentCritRate);
+        takeDamage(randomDamage, super.getName(), monsterName, opponentCritRate);
     }
+
     public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
     {
         if(super.didDodge(1))
@@ -52,8 +53,8 @@ public class Player extends ACharacter implements Serializable
         }
         if(super.isItACriticalHit(opponentCritRate))
         {
-            damage = damage* 2;
-            MENU.characterGotACrit(characterDealingDamage,characterTakingDamage);
+            damage = damage * 2;
+            MENU.characterGotACrit(characterDealingDamage, characterTakingDamage);
         }
         MENU.playerTookDamage(COLORIZE.printBlue(characterDealingDamage),
                 COLORIZE.printRed(String.valueOf(damage)),
@@ -70,24 +71,34 @@ public class Player extends ACharacter implements Serializable
             super.setHealth(super.getMaxHealth());
         }
     }
-    public List<Item> getLIST_OF_WEAPONS(){
+
+    public List<Item> getLIST_OF_WEAPONS()
+    {
         return LIST_OF_WEAPONS;
     }
+
     public void buyWeapon(Item weapon, int cost)
     {
         LIST_OF_WEAPONS.add(weapon);
         super.setGold(super.getGold() - cost);
     }
+
     public Item getWeapon()
     {
         return equippedItem;
     }
 
-    public void setEquippedItem(Input input)
+    public void setEquippedItem(int playerChoice)
+    {
+        equippedItem = LIST_OF_WEAPONS.get(playerChoice - 1);
+    }
+
+    public void chooseItemToEquip(Input input)
     {
         MENU.playerWeapons(LIST_OF_WEAPONS);
         int playerChoice = input.restrictedInput(1, LIST_OF_WEAPONS.size());
-        equippedItem = LIST_OF_WEAPONS.get(playerChoice - 1);
+        setEquippedItem(playerChoice);
         MENU.equippedItem(equippedItem);
     }
+
 }

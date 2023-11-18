@@ -1,7 +1,6 @@
 package com.hampus.dungeonRun.characters;
 
 import com.hampus.dungeonRun.logic.CombatFlow;
-import com.hampus.dungeonRun.logic.SaveClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest
 {
     CombatFlow combatFlow = new CombatFlow();
-    Player player = new Player(100,10,0,0,5,0,0);
-    Monster monster = new Monster(100,100,0,10,5,0,0);
+    Player player = new Player(100, 10, 0, 0, 5, 0, 0);
+    Monster monster = new Monster(100, 100, 0, 0, 5, 0, 0);
 
     /**
      * Adds names before each test
@@ -29,9 +28,32 @@ class PlayerTest
     @Test
     public void levelUp()
     {
-        player.setExperience(80);
+        // Case 1: player should not level up with insufficient xp
+        player.setExperience(49);
         player.levelUp(monster);
-        assertEquals(6,player.getLevel());
+        assertEquals(5, player.getLevel(), "Player should not have leveled up");
+
+        // Case 2: player should level up with exactly enough xp
+        player.setExperience(50);
+        player.levelUp(monster);
+        assertEquals(6, player.getLevel(), "Player did not level up correctly");
+
+        // Case 3: player should level up with more than enough xp
+        player.setExperience(player.getExperience() + 100);
+        player.levelUp(monster);
+        assertEquals(7, player.getLevel(), "Player did not level up correctly");
+
+    }
+
+    /**
+     * Tests what happens if the players gets too much experience
+     */
+    @Test
+    public void multiLevelUp()
+    {
+        player.setExperience(700);
+        player.levelUp(monster);
+        assertTrue(player.getLevel() > 6, "Player only leveled up once");
     }
 
     /**
@@ -45,32 +67,46 @@ class PlayerTest
                 player.getName(),
                 monster.getName(),
                 monster.getCriticalRate());
-        assertTrue(player.getHealth() < player.getMaxHealth());
+        assertTrue(player.getHealth() < player.getMaxHealth(), "Player didn't take damage");
     }
 
     /**
-     * Tests if player damage is within calculations
+     * Tests if player damage is within calculations.
+     * Damage is randomized between 0.8 to 1.2 of the attackers strength
+     * That means the first test should always succeed since the conditions are fulfilled
+     * The second test can fail because the damage CAN be outside the allowed conditions (But since it random
+     * it could also succeed)
      */
     @Test
     public void damageIsWithinCalculations()
     {
-        for (int i = 0; i < 1000; i++)
+        //This should always succeed
+        for(int i = 9; i < 1000; i++) //We're using 9 since it's the base damage for the game
         {
-            int monsterDamage = monster.randomizeStats(player.getStrength());
-            int upperLimit = (int) (player.getStrength() * 1.2);
-            int lowerLimit = (int) (player.getStrength() * 0.8);
-            assertFalse(monsterDamage <= lowerLimit && monsterDamage >= upperLimit);
+            for(int j = 0; j < 50; j++) //Another loop to test the same number multiple times
+            {
+                int damage = monster.randomizeStats(i);
+                int upperLimit = (int) (i * 1.2); //This is the limit that is inside the game
+                int lowerLimit = (int) (i * 0.8); //This is the limit that is inside the game
+                assertFalse(damage < lowerLimit || damage > upperLimit, "Damage done : " + i + " upper and lower: " + upperLimit + " " + lowerLimit);
+            }
         }
     }
 
     /**
-     * Test if player can die
+     * Tests if player is dead
      */
     @Test
-    public void canPlayerDie()
+    public void isPlayerDead()
     {
-        SaveClass gameData = new SaveClass();
-        String filename = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
-        combatFlow.takeDamage(player,monster,gameData,filename);
+        //This should always succeed if player health is less than 1
+        player.setHealth(0);
+        //Returns true if player health is 0 or below
+        assertTrue(combatFlow.isCharacterDead(player), "player has 0 hp");
+
+        //This should fail with any number above 0
+        player.setHealth(1);
+        //Returns true if player health is 0
+        assertFalse(combatFlow.isCharacterDead(player), "player counts as dead");
     }
 }

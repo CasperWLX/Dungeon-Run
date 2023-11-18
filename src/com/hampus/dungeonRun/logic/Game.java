@@ -54,7 +54,7 @@ public class Game
             {
                 case 1 -> combat.enterCombat(characterManager, INPUT, FILENAME, GAME_DATA);
                 case 2 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
-                case 3 -> shop.buyItems(INPUT, characterManager.getPLAYER());
+                case 3 -> shop.buyItems(characterManager.getPLAYER(), INPUT);
                 case 4 ->
                 {
                     if(characterManager.getPLAYER().getGold() > 0)
@@ -74,7 +74,7 @@ public class Game
                     }
                     else
                     {
-                        characterManager.getPLAYER().setEquippedItem(INPUT);
+                        characterManager.getPLAYER().chooseItemToEquip(INPUT);
                     }
                 }
                 case 6 -> userIsSelecting = false;
