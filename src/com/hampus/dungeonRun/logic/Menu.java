@@ -130,13 +130,6 @@ public class Menu implements Serializable
 
     }
 
-    //TODO TEMPORÄR DEV OUTPUT
-    public void devMonsterStats(Monster monster)
-    {
-        String stats = monster.getStats();
-        System.out.println(STATS_DIVIDER + "\n" + stats + STATS_DIVIDER + "\n");
-    }
-
     public void printMonsterStats(Monster monster)
     {
         System.out.printf("%s\nA level %s %s appeared with %s health\n%s\n",

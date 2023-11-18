@@ -1,6 +1,5 @@
 package com.hampus.dungeonRun.logic;
 
-import java.io.Serializable;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 

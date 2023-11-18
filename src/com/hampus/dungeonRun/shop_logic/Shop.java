@@ -29,7 +29,6 @@ public class Shop implements Serializable
         listOfItems.add(new Weapon(COLORIZE.printRed("Excalibur"), 50, ": A Mythical sword with magic powers, it will increase your strength by ", 1000, 1));
     }
 
-    //TODO - LÄMNA KVAR DEV TOOLS?
     public void buyItems(Player player, Input input)
     {
         MENU.welcomeToTheShop();

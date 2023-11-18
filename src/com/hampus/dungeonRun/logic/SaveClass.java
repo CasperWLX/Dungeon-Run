@@ -22,7 +22,6 @@ public class SaveClass
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             System.out.println("Could not save the character, " +
                     "please check that the files are in the correct spot\n" +
                     "Aborting program");

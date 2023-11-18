@@ -1,7 +1,5 @@
 package com.hampus.dungeonRun.logic;
 
-import java.io.Serializable;
-
 public class InputMenu
 {
     /**
