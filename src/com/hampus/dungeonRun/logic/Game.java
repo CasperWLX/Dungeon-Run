@@ -3,19 +3,20 @@ package com.hampus.dungeonRun.logic;
 import com.hampus.dungeonRun.casino.Casino;
 import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
-import com.hampus.dungeonRun.characters.MonsterList;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.shop_logic.Shop;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that handles the main game options.
+ */
 public class Game
 {
     private final Menu MENU = new Menu();
     private final SaveClass GAME_DATA = new SaveClass();
     private final Input INPUT = new Input();
-    private final MonsterList MONSTERS = new MonsterList();
     private final CombatFlow combat = new CombatFlow();
     private final Casino CASINO = new Casino();
     private final String FILENAME = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
@@ -51,7 +52,7 @@ public class Game
             MENU.gameMenu();
             switch(INPUT.getInt())
             {
-                case 1 -> enterCombat(characterManager, INPUT, FILENAME);
+                case 1 -> combat.enterCombat(characterManager, INPUT, FILENAME, GAME_DATA);
                 case 2 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
                 case 3 -> shop.buyItems(INPUT, characterManager.getPLAYER());
                 case 4 ->
@@ -85,30 +86,8 @@ public class Game
         GAME_DATA.saveCharacter(characterManager, FILENAME, false);
     }
 
-    public void enterCombat(CharacterManager characterManager, Input INPUT, String filename)
-    {
-        MONSTERS.generateMonster(characterManager);
-        //MENU.devMonsterStats(characterManager.getMONSTER());
-        MENU.printMonsterStats(characterManager.getMONSTER());
-        boolean combatIsActive = true;
-        do
-        {
-            MENU.combatMenu();
-            switch(INPUT.getInt())
-            {
-                case 1 ->
-                        combatIsActive = combat.dealDamage(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
-                case 2 ->
-                        combatIsActive = combat.escape(characterManager.getPLAYER(), characterManager.getMONSTER(), GAME_DATA, filename);
-                case 3 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
-                default -> MENU.outOfScopeChoice();
-            }
-        } while(combatIsActive);
-    }
-
     public boolean newGame(List<CharacterManager> list, String filename)
     {
-        //TODO list.add(new characterManager) istället för det som står under
         String name;
         CharacterManager characterManager = new CharacterManager(
                 new Player(80, 9, 5, 0, 5, 50, 5),

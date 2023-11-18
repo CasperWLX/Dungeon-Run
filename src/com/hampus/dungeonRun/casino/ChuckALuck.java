@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class contains the game flow and required methods for the Chuck-A-Luck die game.
+ */
 public class ChuckALuck extends Casino
 {
     private final CasinoMenu MENU = new CasinoMenu();

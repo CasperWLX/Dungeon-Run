@@ -1,7 +1,5 @@
 package com.hampus.dungeonRun.casino;
 
-import com.hampus.dungeonRun.characters.Monster;
-import com.hampus.dungeonRun.characters.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +29,4 @@ class BlackJackLogicTest
         house.addCardToHand(card4);
         assertEquals(13,house.sumOfCards());
     }
-
-
-
 }

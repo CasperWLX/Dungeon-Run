@@ -6,6 +6,9 @@ import com.hampus.dungeonRun.shop_logic.Item;
 
 import java.io.Serializable;
 
+/**
+ * A class which creates Monsters for the game
+ */
 public class Monster extends ACharacter implements Serializable
 {
     private final Menu MENU = new Menu();
@@ -27,10 +30,6 @@ public class Monster extends ACharacter implements Serializable
         }
         takeDamage(randomDamage,super.getName(),playerName,criticalRate);
     }
-    public int randomDamage(int playerStrength)
-    {
-        return playerStrength + (int) (Math.random() * 3 + 1);
-    }
     public void takeDamage(int damage, String characterTakingDamage, String characterDealingDamage, int opponentCritRate)
     {
         if(super.didDodge(1))
@@ -47,7 +46,15 @@ public class Monster extends ACharacter implements Serializable
         setHealth(getHealth() - damage);
     }
 
-    public void generateMonster(Player player, double statsMultiplier, int gold, int criticalHitRate, String name)
+    /**
+     * Method that generates a monster based on the players stats
+     * @param player - The current player
+     * @param statsMultiplier - A stats multiplier that dictates the range of stats the monster can have
+     * @param goldMultiplier - A multiplier that dictates the amount of gold a player can get from defeating the monster
+     * @param criticalHitRate - The chance for the monster to land a critical hit
+     * @param name - Name of the monster
+     */
+    public void generateMonster(Player player, double statsMultiplier, int goldMultiplier, int criticalHitRate, String name)
     {
         super.setName(name);
         super.setHealth(randomizeStats((int) (player.getMaxHealth() * statsMultiplier)));
@@ -57,7 +64,7 @@ public class Monster extends ACharacter implements Serializable
         super.setLevel(randomizeStats((int) (player.getLevel() * statsMultiplier)));
         super.setExperience(randomizeStats((int) (super.getLevel() * 8.3)));
         super.setRequiredExperience(super.getExperience());
-        super.setGold(randomizeStats(gold));
+        super.setGold(randomizeStats(goldMultiplier));
         super.setCriticalRate(randomizeStats(criticalHitRate));
 
         if(super.getAgility() > 8)

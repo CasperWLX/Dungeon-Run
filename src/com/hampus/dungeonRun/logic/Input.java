@@ -3,6 +3,9 @@ package com.hampus.dungeonRun.logic;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * A class that handles all input
+ */
 public class Input
 {
     private final Scanner INPUT = new Scanner(System.in);
@@ -28,7 +31,7 @@ public class Input
             input = getInt();
             if(input < min || input > max)
             {
-                System.out.println("That's not an option, try again");
+                INPUT_MENU.notAnOption();
             }
             else
             {
@@ -70,7 +73,7 @@ public class Input
     {
         if(number.isEmpty())
         {
-            System.out.println("Nothing entered, try again");
+            INPUT_MENU.nothingEntered();
             return 0;
         }
         return isNumberAnInt(number);
@@ -90,7 +93,7 @@ public class Input
         }
         catch(NumberFormatException nfe)
         {
-            System.out.println("Please only enter numbers");
+            INPUT_MENU.onlyNumbers();
             return 0;
         }
     }
@@ -106,7 +109,7 @@ public class Input
         int result = Integer.parseInt(number);
         if(result < 1)
         {
-            System.out.println("Please enter a positive number");
+            INPUT_MENU.numberMustBePositive();
             return 0;
         }
         return result;
@@ -127,7 +130,7 @@ public class Input
 
             if(userName.equals(" "))
             {
-                System.out.println("Please enter a valid name");
+                INPUT_MENU.invalidName();
             }
             else
             {
@@ -150,12 +153,12 @@ public class Input
 
         if(containsCorrectCharacters)
         {
-            System.out.println("Player " + userName + " has been added");
+            INPUT_MENU.correctName(userName);
             return userName;
         }
         else
         {
-            System.out.println("The name can't contain special characters or numbers");
+            INPUT_MENU.incorrectUsername();
             return " ";
         }
     }

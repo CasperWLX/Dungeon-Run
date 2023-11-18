@@ -2,9 +2,12 @@ package com.hampus.dungeonRun.casino;
 
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
-
-import java.util.Arrays;
 import java.util.List;
+
+/**
+ * This class contains the flow for when a player enters the casino
+ * It also contains relevant methods for each game such as playerWon or playerLost
+ */
 
 public class Casino
 {
@@ -89,7 +92,6 @@ public class Casino
                 {
                     System.out.print("\b");
                 }
-
             }
         }
     }

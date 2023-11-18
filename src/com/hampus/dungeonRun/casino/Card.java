@@ -1,5 +1,9 @@
 package com.hampus.dungeonRun.casino;
 
+/**
+ * A class that becomes the Card object during Black Jack
+ * All necessary info that a card needs to have is found here
+ */
 public class Card
 {
     private final String FACE_CARD;

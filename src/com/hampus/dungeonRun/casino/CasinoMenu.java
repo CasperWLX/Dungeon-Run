@@ -3,6 +3,9 @@ package com.hampus.dungeonRun.casino;
 import com.hampus.dungeonRun.logic.Colorize;
 import com.hampus.dungeonRun.logic.Input;
 
+/**
+ * A class that handles console prints related to the casino to make other classes less cluttered
+ */
 public class CasinoMenu
 {
     private final Colorize COLORIZE = new Colorize();

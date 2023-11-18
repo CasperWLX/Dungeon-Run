@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A class that executes methods related to the Black Jack game such as drawCard.
+ * The class contains deck logic and player logic
+ */
 public class BlackJackLogic
 {
     List<Card> listOfCards = new ArrayList<>();

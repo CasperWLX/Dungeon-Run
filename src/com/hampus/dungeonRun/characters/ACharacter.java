@@ -6,6 +6,9 @@ import com.hampus.dungeonRun.logic.Menu;
 
 import java.io.Serializable;
 
+/**
+ * An abstract class which defines player and monster methods/variables
+ */
 public abstract class ACharacter implements ICombat, Serializable
 {
     private final Colorize COLORIZE = new Colorize();

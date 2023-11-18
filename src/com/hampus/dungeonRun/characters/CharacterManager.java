@@ -4,6 +4,9 @@ import com.hampus.dungeonRun.shop_logic.Shop;
 
 import java.io.Serializable;
 
+/**
+ * A class which stores player,shop and monster for easier save and load functionality
+ */
 public class CharacterManager implements Serializable
 {
     private final Player PLAYER;

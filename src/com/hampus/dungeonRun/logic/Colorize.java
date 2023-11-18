@@ -2,6 +2,9 @@ package com.hampus.dungeonRun.logic;
 
 import java.io.Serializable;
 
+/**
+ * A class with methods that colorize a string
+ */
 public class Colorize implements Serializable
 {
     private static final String BLUE = "\u001B[34m";

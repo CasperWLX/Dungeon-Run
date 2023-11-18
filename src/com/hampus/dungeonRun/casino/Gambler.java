@@ -3,6 +3,10 @@ package com.hampus.dungeonRun.casino;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that creates players for Black Jack.
+ * The class keeps track of player cards and contains related methods.
+ */
 public class Gambler
 {
     private final String NAME;

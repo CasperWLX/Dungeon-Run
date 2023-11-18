@@ -6,6 +6,10 @@ import com.hampus.dungeonRun.logic.Input;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that creates a 3-slot machine game.
+ * It contains the flow and winning requirements for the game.
+ */
 public class SlotMachine extends Casino
 {
     private final List<String> LIST_OF_SYMBOLS = new ArrayList<>();
@@ -15,6 +19,7 @@ public class SlotMachine extends Casino
     private final Input INPUT = new Input();
     public SlotMachine()
     {
+        //For easier visibility I decided to save each symbol as a string before adding them to the list.
         String fire = "️\uD83D\uDD25";
         String clover = "\uD83C\uDF40";
         String sunflower = "\uD83C\uDF3B";

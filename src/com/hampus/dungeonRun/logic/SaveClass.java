@@ -4,7 +4,9 @@ import com.hampus.dungeonRun.characters.*;
 
 import java.io.*;
 
-//TODO Eventuellt kika på entity SQL spara filer.
+/**
+ * The class that saves the game to a dat file
+ */
 public class SaveClass
 {
     public void saveCharacter(CharacterManager character, String filename, boolean isDead)
@@ -20,7 +22,6 @@ public class SaveClass
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             System.out.println("Could not save the character, " +
                     "please check that the files are in the correct spot\n" +
                     "Aborting program");
@@ -39,7 +40,6 @@ public class SaveClass
         }
         catch(Exception e)
         {
-            //System.out.println("Oops, looks like there was a problem loading your character");
             return null;
         }
     }

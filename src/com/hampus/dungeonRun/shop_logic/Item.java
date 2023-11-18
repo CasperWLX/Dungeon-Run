@@ -2,6 +2,9 @@ package com.hampus.dungeonRun.shop_logic;
 
 import java.io.Serializable;
 
+/**
+ * A class which contains all necessary info of any item
+ */
 public class Item implements Serializable
 {
     private final String NAME;

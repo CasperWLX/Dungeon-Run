@@ -7,6 +7,9 @@ import com.hampus.dungeonRun.shop_logic.Item;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * A class that handles console prints related to the game flow to make other classes less cluttered
+ */
 public class Menu implements Serializable
 {
     private final Colorize COLORIZE = new Colorize();
@@ -213,5 +216,4 @@ public class Menu implements Serializable
     {
         System.out.println("Looks like you don't have enough money to do that");
     }
-
 }

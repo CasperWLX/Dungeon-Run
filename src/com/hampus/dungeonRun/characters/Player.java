@@ -9,6 +9,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that contains the Player and all related methods and variables
+ */
+
 public class Player extends ACharacter implements Serializable
 {
 

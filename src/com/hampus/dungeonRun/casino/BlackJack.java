@@ -3,6 +3,10 @@ package com.hampus.dungeonRun.casino;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.logic.Input;
 
+/**
+ * A class that runs the Black Jack card game.
+ * The class handles the flow of the game
+ */
 public class BlackJack extends Casino
 {
     private final CasinoMenu MENU = new CasinoMenu();

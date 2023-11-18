@@ -1,5 +1,10 @@
 package com.hampus.dungeonRun.characters;
 
+/**
+ * A class that dictates which monster can be run into during the game
+ * The class also contains all the possible monsters and their respective multipliers
+ * It will also send a boss trigger when the level requirement is met
+ */
 public class MonsterList
 {
     private int goldMultiplier;
