@@ -7,48 +7,84 @@ import java.io.Serializable;
  */
 public class Item implements Serializable
 {
-    private final String NAME;
-    private final int VAlUE;
-    private final String DESCRIPTION;
-    private final int COST;
-    private int STOCK_AMOUNT;
+    private String name;
+    private int value;
+    private String description;
+    private int cost;
+    private int stockAmount;
+    private int itemID;
 
     public Item(String name, int value, String description, int cost, int stock)
     {
-        this.NAME = name;
-        this.VAlUE = value;
-        this.DESCRIPTION = description;
-        this.COST = cost;
-        this.STOCK_AMOUNT = stock;
+        this.name = name;
+        this.value = value;
+        this.description = description;
+        this.cost = cost;
+        this.stockAmount = stock;
     }
 
-    public String getNAME()
+    public String getName()
     {
-        return NAME;
+        return name;
     }
 
-    public int getVAlUE()
+    public int getValue()
     {
-        return VAlUE;
+        return value;
     }
 
-    public String getDESCRIPTION()
+    public String getDescription()
     {
-        return DESCRIPTION;
+        return description;
     }
 
-    public int getCOST()
+    public int getCost()
     {
-        return COST;
+        return cost;
     }
 
-    public int getSTOCK_AMOUNT()
+    public int getStockAmount()
     {
-        return STOCK_AMOUNT;
+        return stockAmount;
     }
 
     public void boughtItem()
     {
-        STOCK_AMOUNT--;
+        stockAmount--;
+    }
+
+    public void setStockAmount(int stockAmount)
+    {
+        this.stockAmount = stockAmount;
+    }
+
+    public int getItemID()
+    {
+        return itemID;
+    }
+
+    public void setItemID(int itemID)
+    {
+        this.itemID = itemID;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setValue(int value)
+    {
+        this.value = value;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public void setCost(int cost)
+    {
+        this.cost = cost;
     }
 }

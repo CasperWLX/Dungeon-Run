@@ -2,6 +2,7 @@ package com.hampus.dungeonRun.shop_logic;
 
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.dbLogic.DBConnection;
 import com.hampus.dungeonRun.logic.Colorize;
 import com.hampus.dungeonRun.logic.Input;
 import com.hampus.dungeonRun.logic.Menu;
@@ -18,6 +19,7 @@ public class Shop implements Serializable
     private final Menu MENU = new Menu();
     private final Colorize COLORIZE = new Colorize();
     private final List<Item> listOfItems = new ArrayList<>();
+    private DBConnection connection = new DBConnection();
 
     public Shop()
     {
@@ -53,16 +55,20 @@ public class Shop implements Serializable
     public void purchasedHeal(int i, Player player)
     {
         i--;
-        if(listOfItems.get(i).getSTOCK_AMOUNT() == 0)
+        if(listOfItems.get(i).getStockAmount() == 0)
         {
             MENU.outOfStock();
         }
-        else if(player.getGold() >= listOfItems.get(i).getCOST())
+        else if(player.getGold() >= listOfItems.get(i).getCost())
         {
             listOfItems.get(0).boughtItem();
-            player.heal(listOfItems.get(i).getVAlUE(), listOfItems.get(i).getCOST());
+            player.heal(listOfItems.get(i).getValue(), listOfItems.get(i).getCost());
 
-            MENU.successfulTransaction(listOfItems.get(i).getNAME(), listOfItems.get(i).getCOST());
+            MENU.successfulTransaction(listOfItems.get(i).getName(), listOfItems.get(i).getCost());
+
+            connection.openConnection();
+            connection.boughtItem(player,listOfItems.get(i).getItemID());
+            connection.closeConnection();
         }
         else
         {
@@ -73,15 +79,19 @@ public class Shop implements Serializable
     public void purchasedWeapon(int i, Player player)
     {
         i--;
-        if(listOfItems.get(i).getSTOCK_AMOUNT() == 0)
+        if(listOfItems.get(i).getStockAmount() == 0)
         {
             MENU.outOfStock();
         }
-        else if(player.getGold() >= listOfItems.get(i).getCOST())
+        else if(player.getGold() >= listOfItems.get(i).getCost())
         {
             listOfItems.get(i).boughtItem();
-            player.buyWeapon(listOfItems.get(i), listOfItems.get(i).getCOST());
-            MENU.successfulTransaction(listOfItems.get(i).getNAME(), listOfItems.get(i).getCOST());
+            player.buyWeapon(listOfItems.get(i), listOfItems.get(i).getCost());
+            MENU.successfulTransaction(listOfItems.get(i).getName(), listOfItems.get(i).getCost());
+
+            connection.openConnection();
+            connection.boughtItem(player,listOfItems.get(i).getItemID());
+            connection.closeConnection();
         }
         else
         {
@@ -98,5 +108,9 @@ public class Shop implements Serializable
             player.setExperience(player.getRequiredExperience());
             player.levelUp(new Monster(0, 0, 0, 0, 0, 0, 0));
         }
+    }
+    public List<Item> getListOfItems()
+    {
+        return listOfItems;
     }
 }

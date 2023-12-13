@@ -37,6 +37,9 @@ public abstract class ACharacter implements ICombat, Serializable
         this.gold = gold;
         this.criticalRate = criticalRate;
     }
+    public ACharacter(){
+
+    }
 
     public void setStats(String name, int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
@@ -231,6 +234,7 @@ public abstract class ACharacter implements ICombat, Serializable
     {
         this.name = name;
     }
+
 
     public boolean itsBossTime()
     {

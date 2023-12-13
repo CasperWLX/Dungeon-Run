@@ -182,11 +182,11 @@ public class Menu implements Serializable
         for(int i = 0; i < itemList.size(); i++)
         {
             System.out.printf(i + 1 + ": %s%s%s, cost : %s, stock : %s\n",
-                    itemList.get(i).getNAME(),
-                    itemList.get(i).getDESCRIPTION(),
-                    COLORIZE.printPurpleBold(String.valueOf(itemList.get(i).getVAlUE())),
-                    COLORIZE.printYellow(String.valueOf(itemList.get(i).getCOST())),
-                    COLORIZE.printBlue(String.valueOf(itemList.get(i).getSTOCK_AMOUNT())));
+                    itemList.get(i).getName(),
+                    itemList.get(i).getDescription(),
+                    COLORIZE.printPurpleBold(String.valueOf(itemList.get(i).getName())),
+                    COLORIZE.printYellow(String.valueOf(itemList.get(i).getCost())),
+                    COLORIZE.printBlue(String.valueOf(itemList.get(i).getStockAmount())));
         }
         System.out.println("7: GO TO SPECIFIC LEVEL (DEV TOOL)\n8: GAIN 1000 GOLD (DEV TOOL)\n9: Exit shop");
         System.out.printf("You currently have: %s gold\n", COLORIZE.printYellow(String.valueOf(playerGold)));
@@ -199,9 +199,9 @@ public class Menu implements Serializable
         for(int i = 0; i < itemList.size(); i++)
         {
             System.out.printf(i + 1 + ": %s%s%s\n",
-                    itemList.get(i).getNAME(),
-                    itemList.get(i).getDESCRIPTION(),
-                    COLORIZE.printRed(String.valueOf(itemList.get(i).getVAlUE())));
+                    itemList.get(i).getName(),
+                    itemList.get(i).getDescription(),
+                    COLORIZE.printRed(String.valueOf(itemList.get(i).getName())));
         }
     }
 
@@ -212,7 +212,7 @@ public class Menu implements Serializable
 
     public void equippedItem(Item item)
     {
-        System.out.printf("You have equipped %s\n", item.getNAME());
+        System.out.printf("You have equipped %s\n", item.getName());
     }
 
     public void successfulTransaction(String item, int cost)

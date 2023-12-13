@@ -4,6 +4,7 @@ import com.hampus.dungeonRun.casino.Casino;
 import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.dbLogic.DBConnection;
 import com.hampus.dungeonRun.shop_logic.Shop;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Game
     private final CombatFlow combat = new CombatFlow();
     private final Casino CASINO = new Casino();
     private final String FILENAME = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
+    private final DBConnection database = new DBConnection();
 
     public void run()
     {
@@ -82,8 +84,12 @@ public class Game
             }
         } while(userIsSelecting);
 
+        database.openConnection();
+        System.out.println(database.updatePlayer(characterManager.getPLAYER()));
+        database.closeConnection();
         MENU.exitGame();
-        GAME_DATA.saveCharacter(characterManager, FILENAME, false);
+
+        //GAME_DATA.saveCharacter(characterManager, FILENAME, false);
     }
 
     public boolean newGame(List<CharacterManager> list, String filename)
@@ -96,14 +102,28 @@ public class Game
 
         MENU.enterName();
         name = INPUT.getStringInput();
-        GAME_DATA.saveCharacter(characterManager, filename, false);
+        //GAME_DATA.saveCharacter(characterManager, filename, false);
         list.add(characterManager);
         characterManager.getPLAYER().setName(name);
+        database.openConnection();
+        System.out.println(database.addPlayerToDatabase(characterManager));
+        database.closeConnection();
         return false;
     }
 
     public boolean loadGame(List<CharacterManager> list)
     {
+        System.out.println("Enter the ID of the character you want to load in");
+        int id = INPUT.getInt();
+        boolean characterIsLoaded;
+        CharacterManager characterManager = new CharacterManager(new Player(), new Monster(), new Shop());
+        list.add(characterManager);
+        database.openConnection();
+        characterIsLoaded = database.loadPlayerFromDatabase(characterManager, id);
+        database.closeConnection();
+        return !characterIsLoaded;
+
+        /*
         boolean characterDoesNotExist;
         CharacterManager characterManager = GAME_DATA.loadCharacter(FILENAME);
         try
@@ -123,5 +143,7 @@ public class Game
             return false;
         }
         return true;
+
+         */
     }
 }

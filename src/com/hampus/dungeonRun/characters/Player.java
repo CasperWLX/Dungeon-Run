@@ -20,12 +20,16 @@ public class Player extends ACharacter implements Serializable
     private int noOfKills = 0;
     private final List<Item> LIST_OF_WEAPONS = new ArrayList<>();
     private Item equippedItem;
+    private int equippedItemID;
+    private int playerID;
     private final Menu MENU = new Menu();
 
     public Player(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
     {
         super(health, strength, agility, experience, level, gold, criticalRate);
     }
+    public Player()
+    {}
 
     public void killedMonster()
     {
@@ -35,6 +39,16 @@ public class Player extends ACharacter implements Serializable
     public int getNoOfKills()
     {
         return noOfKills;
+    }
+
+    public int getEquippedItemID()
+    {
+        return equippedItemID;
+    }
+
+    public void setEquippedItemID(int equippedItemID)
+    {
+        this.equippedItemID = equippedItemID;
     }
 
     public void calculateDamage(int monsterStrength, String monsterName, int opponentCritRate)
@@ -91,6 +105,7 @@ public class Player extends ACharacter implements Serializable
     public void setEquippedItem(int playerChoice)
     {
         equippedItem = LIST_OF_WEAPONS.get(playerChoice - 1);
+        equippedItemID = LIST_OF_WEAPONS.get(playerChoice - 1).getItemID();
     }
 
     public void chooseItemToEquip(Input input)
@@ -101,4 +116,18 @@ public class Player extends ACharacter implements Serializable
         MENU.equippedItem(equippedItem);
     }
 
+    public int getPlayerID()
+    {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID)
+    {
+        this.playerID = playerID;
+    }
+
+    public void setNoOfKills(int noOfKills)
+    {
+        this.noOfKills = noOfKills;
+    }
 }

@@ -18,13 +18,14 @@ public class Monster extends ACharacter implements Serializable
     {
         super(health, strength, agility, experience, level, gold, criticalRate);
     }
+    public Monster(){}
 
     public void calculateDamage(int playerStrength, int criticalRate, Item weapon, String playerName)
     {
         int randomDamage = randomizeStats(playerStrength);
         try
         {
-            randomDamage += weapon.getVAlUE();
+            randomDamage += weapon.getValue();
         }
         catch(NullPointerException ignored)
         {
