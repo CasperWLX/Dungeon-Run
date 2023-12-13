@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.shop_logic;
 
+import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.dbLogic.DBConnection;

@@ -4,13 +4,12 @@ import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.shop_logic.Item;
 
-import java.io.Serializable;
 import java.sql.*;
-import java.util.List;
 
-public class DBConnection implements Serializable
+
+public class DBConnection
 {
-    private final String URL = "jdbc:mysql://localhost:3306/dungeonrun";
+    private final String URL = "jdbc:mariadb://localhost:3306/dungeonrun";
     private final String USER = "root";
     private final String PASSWORD = "Dobripan97";
     private Connection connection;
@@ -67,10 +66,6 @@ public class DBConnection implements Serializable
             if(returnedGeneratedKeys.next())
             {
                 characterManager.getPLAYER().setPlayerID(returnedGeneratedKeys.getInt(1));
-            }
-            if(!itemsAreLoaded())
-            {
-                System.out.println(addItemsToShop(characterManager.getSHOP().getListOfItems()));
             }
             loadItemsToShop(characterManager);
             return "player added to DataBase";
@@ -130,60 +125,6 @@ public class DBConnection implements Serializable
         }
     }
 
-    public boolean itemsAreLoaded()
-    {
-        String query = "select count(*) from item";
-        int amount = 0;
-        try
-        {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while(resultSet.next())
-            {
-                amount = resultSet.getInt(1);
-            }
-            resultSet.close();
-            statement.close();
-            return amount == 6;
-        }
-        catch(SQLException sqle)
-        {
-            System.out.println(sqle.getMessage());
-            return false;
-        }
-    }
-
-    public String addItemsToShop(List<Item> itemList)
-    {
-
-        String query = "INSERT INTO item(name, itemValue, description, price, quantity) VALUES (?,?,?,?,?)";
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            for(Item item : itemList)
-            {
-                preparedStatement.setString(1, item.getName());
-                preparedStatement.setInt(2, item.getValue());
-                preparedStatement.setString(3, item.getDescription());
-                preparedStatement.setInt(4, item.getCost());
-                preparedStatement.setInt(5, item.getStockAmount());
-                preparedStatement.executeUpdate();
-
-                ResultSet returnedKeys = preparedStatement.getGeneratedKeys();
-                if(returnedKeys.next())
-                {
-                    item.setItemID(returnedKeys.getInt(1));
-                }
-            }
-            return "Shop created successfully";
-        }
-        catch(SQLException sqle)
-        {
-            System.out.println(sqle.getMessage());
-            return "Failed to create shop";
-        }
-    }
-
     public boolean loadItemsToShop(CharacterManager characterManager)
     {
         String query = "select * from item";
@@ -207,9 +148,38 @@ public class DBConnection implements Serializable
             resultSet.close();
             statement.close();
             System.out.println("Shop loaded");
-            return true;
+            return loadStockToShop(characterManager);
         }
         catch(SQLException sqle)
+        {
+            System.out.println(sqle.getMessage());
+            return false;
+        }
+    }
+
+
+    public boolean loadStockToShop(CharacterManager characterManager)
+    {
+        String query = "select amountBought,itemID from inventory where playerID = " + characterManager.getPLAYER().getPlayerID();
+        try
+        {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next())
+            {
+                for (Item item : characterManager.getSHOP().getListOfItems())
+                {
+                    if (item.getItemID() == resultSet.getInt("itemID"))
+                    {
+                        item.setStockAmount(item.getStockAmount() - resultSet.getInt("amountBought"));
+                        System.out.println("Item stock updated");
+                    }
+                }
+            }
+            return loadPlayerInventory(characterManager);
+        }
+        catch (SQLException sqle)
         {
             System.out.println(sqle.getMessage());
             return false;
@@ -316,6 +286,39 @@ public class DBConnection implements Serializable
         {
             System.out.println(sqle.getMessage());
             return "Something went wrong when updating player";
+        }
+    }
+    public boolean loadPlayerInventory(CharacterManager characterManager)
+    {
+        String query = "select * from inventory where playerID = " + characterManager.getPLAYER().getPlayerID();
+
+        try
+        {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while(resultSet.next())
+            {
+                if(resultSet.getInt("itemID") > 3)
+                {
+                    characterManager.getPLAYER().addWeaponToInventory(characterManager.getSHOP().getListOfItems().get(resultSet.getInt("itemID") - 1));
+                }
+            }
+            int counter = 1;
+            for (Item item : characterManager.getPLAYER().getLIST_OF_WEAPONS())
+            {
+                if (item.getItemID() == characterManager.getPLAYER().getEquippedItemID())
+                {
+                    characterManager.getPLAYER().setEquippedItem(counter);
+                }
+            }
+
+            System.out.println("Items loaded to inventory");
+            return true;
+        }catch (SQLException sqle)
+        {
+            System.out.println(sqle.getMessage());
+            return false;
         }
     }
 }

@@ -96,6 +96,10 @@ public class Player extends ACharacter implements Serializable
         LIST_OF_WEAPONS.add(weapon);
         super.setGold(super.getGold() - cost);
     }
+    public void addWeaponToInventory(Item item)
+    {
+        LIST_OF_WEAPONS.add(item);
+    }
 
     public Item getWeapon()
     {

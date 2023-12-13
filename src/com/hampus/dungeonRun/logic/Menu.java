@@ -182,9 +182,9 @@ public class Menu implements Serializable
         for(int i = 0; i < itemList.size(); i++)
         {
             System.out.printf(i + 1 + ": %s%s%s, cost : %s, stock : %s\n",
-                    itemList.get(i).getName(),
+                    COLORIZE.printRed(itemList.get(i).getName()),
                     itemList.get(i).getDescription(),
-                    COLORIZE.printPurpleBold(String.valueOf(itemList.get(i).getName())),
+                    COLORIZE.printPurpleBold(String.valueOf(itemList.get(i).getValue())),
                     COLORIZE.printYellow(String.valueOf(itemList.get(i).getCost())),
                     COLORIZE.printBlue(String.valueOf(itemList.get(i).getStockAmount())));
         }
