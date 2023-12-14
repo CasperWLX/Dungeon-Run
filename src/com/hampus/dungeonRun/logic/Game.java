@@ -4,7 +4,10 @@ import com.hampus.dungeonRun.casino.Casino;
 import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.dbLogic.BattleHistoryDAO;
 import com.hampus.dungeonRun.dbLogic.DBConnection;
+import com.hampus.dungeonRun.dbLogic.MonsterDAO;
+import com.hampus.dungeonRun.dbLogic.PlayerDAO;
 import com.hampus.dungeonRun.shop_logic.Shop;
 
 import java.util.ArrayList;
@@ -17,13 +20,15 @@ public class Game
 {
     private final Menu MENU = new Menu();
     private final Input INPUT = new Input();
-    private final CombatFlow combat = new CombatFlow();
     private final Casino CASINO = new Casino();
     private final DBConnection database = new DBConnection();
+    private final PlayerDAO PLAYER_DAO = new PlayerDAO(database.getConnection());
+    private final MonsterDAO MONSTER_DAO = new MonsterDAO(database.getConnection());
+    private final BattleHistoryDAO BATTLE_HISTORY_DAO = new BattleHistoryDAO(database.getConnection());
+    private final CombatFlow combat = new CombatFlow(PLAYER_DAO, MONSTER_DAO,BATTLE_HISTORY_DAO);
 
     public void run()
     {
-        database.openConnection();
         boolean userIsSelecting = true;
         List<CharacterManager> playerList = new ArrayList<>();
 
@@ -83,7 +88,8 @@ public class Game
             }
         } while(userIsSelecting);
 
-        System.out.println(database.updatePlayer(characterManager.getPLAYER()));
+
+        System.out.println(PLAYER_DAO.updatePlayer(characterManager.getPLAYER()));
         database.closeConnection();
         MENU.exitGame();
     }
@@ -94,13 +100,14 @@ public class Game
         CharacterManager characterManager = new CharacterManager(
                 new Player(80, 9, 5, 0, 5, 50, 5),
                 new Monster(0, 0, 0, 0, 0, 0, 0),
-                new Shop());
+                new Shop(database.getConnection()));
 
         MENU.enterName();
         name = INPUT.getStringInput();
         list.add(characterManager);
         characterManager.getPLAYER().setName(name);
-        System.out.println(database.addPlayerToDatabase(characterManager));
+        System.out.println(PLAYER_DAO.addPlayerToDatabase(characterManager));
+        //System.out.println(database.addPlayerToDatabase(characterManager));
         return false;
     }
 
@@ -108,8 +115,8 @@ public class Game
     {
         System.out.println("Enter the ID of the character you want to load in");
         int id = INPUT.getInt();
-        CharacterManager characterManager = new CharacterManager(new Player(), new Monster(), new Shop());
-        if(database.loadPlayerFromDatabase(characterManager, id))
+        CharacterManager characterManager = new CharacterManager(new Player(), new Monster(), new Shop(database.getConnection()));
+        if(PLAYER_DAO.loadPlayerFromDatabase(characterManager, id))
         {
             list.add(characterManager);
             return false;

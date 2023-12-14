@@ -2,12 +2,13 @@ package com.hampus.dungeonRun.shop_logic;
 
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
-import com.hampus.dungeonRun.dbLogic.DBConnection;
+import com.hampus.dungeonRun.dbLogic.ShopDAO;
 import com.hampus.dungeonRun.logic.Colorize;
 import com.hampus.dungeonRun.logic.Input;
 import com.hampus.dungeonRun.logic.Menu;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class Shop implements Serializable
     private final Menu MENU = new Menu();
     private final Colorize COLORIZE = new Colorize();
     private final List<Item> listOfItems = new ArrayList<>();
-    private final DBConnection CONNECTION = new DBConnection();
+    private final ShopDAO SHOP_DAO;
 
-    public Shop()
+    public Shop(Connection connection)
     {
         listOfItems.add(new Potion(COLORIZE.printGreen("Small health potion"), 30, ": A potion that instantly heals your HP by ", 20, 1000));
         listOfItems.add(new Potion(COLORIZE.printGreen("Medium Health Potion"), 100, ": A potion that instantly heals your HP by ", 40, 1000));
@@ -29,11 +30,11 @@ public class Shop implements Serializable
         listOfItems.add(new Weapon(COLORIZE.printRed("Knife"), 5, ": A small thieves knife, it will increase your strength by ", 50, 1));
         listOfItems.add(new Weapon(COLORIZE.printRed("Greatsword"), 15, ": A Sword from a fallen knight, it will increase your strength by ", 100, 1));
         listOfItems.add(new Weapon(COLORIZE.printRed("Excalibur"), 50, ": A Mythical sword with magic powers, it will increase your strength by ", 1000, 1));
+        this.SHOP_DAO = new ShopDAO(connection);
     }
 
     public void buyItems(Player player, Input input)
     {
-        CONNECTION.openConnection();
         MENU.welcomeToTheShop();
         int userChoice;
         boolean userIsShopping = true;
@@ -66,7 +67,7 @@ public class Shop implements Serializable
             player.heal(listOfItems.get(i).getValue(), listOfItems.get(i).getCost());
 
             MENU.successfulTransaction(listOfItems.get(i).getName(), listOfItems.get(i).getCost());
-            CONNECTION.boughtItem(player,listOfItems.get(i).getItemID());
+            SHOP_DAO.boughtItem(player,listOfItems.get(i).getItemID());
         }
         else
         {
@@ -87,7 +88,7 @@ public class Shop implements Serializable
             player.buyWeapon(listOfItems.get(i), listOfItems.get(i).getCost());
             MENU.successfulTransaction(listOfItems.get(i).getName(), listOfItems.get(i).getCost());
 
-            CONNECTION.boughtItem(player,listOfItems.get(i).getItemID());
+            SHOP_DAO.boughtItem(player,listOfItems.get(i).getItemID());
         }
         else
         {

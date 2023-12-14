@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.characters;
 
+import com.hampus.dungeonRun.dbLogic.MonsterDAO;
 import com.hampus.dungeonRun.logic.Colorize;
 import com.hampus.dungeonRun.logic.Menu;
 import com.hampus.dungeonRun.shop_logic.Item;
@@ -76,6 +77,7 @@ public class Monster extends ACharacter implements Serializable
         {
             super.setAgility(8);
         }
+
     }
 
     public void createBoss(int playerLevel)

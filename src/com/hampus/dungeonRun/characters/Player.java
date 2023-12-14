@@ -21,7 +21,6 @@ public class Player extends ACharacter implements Serializable
     private final List<Item> LIST_OF_WEAPONS = new ArrayList<>();
     private Item equippedItem;
     private int equippedItemID;
-    private int playerID;
     private final Menu MENU = new Menu();
 
     public Player(int health, int strength, int agility, int experience, int level, int gold, int criticalRate)
@@ -118,16 +117,6 @@ public class Player extends ACharacter implements Serializable
         int playerChoice = input.restrictedInput(1, LIST_OF_WEAPONS.size());
         setEquippedItem(playerChoice);
         MENU.equippedItem(equippedItem);
-    }
-
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
-    public void setPlayerID(int playerID)
-    {
-        this.playerID = playerID;
     }
 
     public void setNoOfKills(int noOfKills)

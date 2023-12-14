@@ -24,6 +24,7 @@ public abstract class ACharacter implements ICombat, Serializable
     private int gold;
     private int criticalRate;
     private boolean bossTime = false;
+    private int id;
 
 
     public ACharacter(int maxHealth, int strength, int agility, int experience, int level, int gold, int criticalRate)
@@ -246,4 +247,13 @@ public abstract class ACharacter implements ICombat, Serializable
         this.bossTime = bossTime;
     }
 
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 }
