@@ -1,6 +1,5 @@
 package com.hampus.dungeonRun.shop_logic;
 
-import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.Player;
 import com.hampus.dungeonRun.dbLogic.DBConnection;
@@ -20,7 +19,7 @@ public class Shop implements Serializable
     private final Menu MENU = new Menu();
     private final Colorize COLORIZE = new Colorize();
     private final List<Item> listOfItems = new ArrayList<>();
-    private DBConnection connection = new DBConnection();
+    private final DBConnection CONNECTION = new DBConnection();
 
     public Shop()
     {
@@ -34,6 +33,7 @@ public class Shop implements Serializable
 
     public void buyItems(Player player, Input input)
     {
+        CONNECTION.openConnection();
         MENU.welcomeToTheShop();
         int userChoice;
         boolean userIsShopping = true;
@@ -66,10 +66,7 @@ public class Shop implements Serializable
             player.heal(listOfItems.get(i).getValue(), listOfItems.get(i).getCost());
 
             MENU.successfulTransaction(listOfItems.get(i).getName(), listOfItems.get(i).getCost());
-
-            connection.openConnection();
-            connection.boughtItem(player,listOfItems.get(i).getItemID());
-            connection.closeConnection();
+            CONNECTION.boughtItem(player,listOfItems.get(i).getItemID());
         }
         else
         {
@@ -90,9 +87,7 @@ public class Shop implements Serializable
             player.buyWeapon(listOfItems.get(i), listOfItems.get(i).getCost());
             MENU.successfulTransaction(listOfItems.get(i).getName(), listOfItems.get(i).getCost());
 
-            connection.openConnection();
-            connection.boughtItem(player,listOfItems.get(i).getItemID());
-            connection.closeConnection();
+            CONNECTION.boughtItem(player,listOfItems.get(i).getItemID());
         }
         else
         {

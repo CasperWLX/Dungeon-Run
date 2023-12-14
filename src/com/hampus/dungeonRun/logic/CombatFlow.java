@@ -4,6 +4,7 @@ import com.hampus.dungeonRun.characters.CharacterManager;
 import com.hampus.dungeonRun.characters.Monster;
 import com.hampus.dungeonRun.characters.MonsterList;
 import com.hampus.dungeonRun.characters.Player;
+import com.hampus.dungeonRun.dbLogic.DBConnection;
 
 /**
  * The class that sets up the combat flow for each combat.
@@ -13,9 +14,11 @@ public class CombatFlow
 {
     private final Menu MENU = new Menu();
     private final MonsterList MONSTERS = new MonsterList();
+    DBConnection connection = new DBConnection();
 
-    public void enterCombat(CharacterManager characterManager, Input INPUT, String filename, SaveClass gameData)
+    public void enterCombat(CharacterManager characterManager, Input INPUT)
     {
+        connection.openConnection();
         MONSTERS.generateMonster(characterManager);
         MENU.printMonsterStats(characterManager.getMONSTER());
         boolean combatIsActive = true;
@@ -25,16 +28,16 @@ public class CombatFlow
             switch(INPUT.getInt())
             {
                 case 1 ->
-                        combatIsActive = dealDamage(characterManager.getPLAYER(), characterManager.getMONSTER(), gameData, filename);
+                        combatIsActive = dealDamage(characterManager.getPLAYER(), characterManager.getMONSTER());
                 case 2 ->
-                        combatIsActive = escape(characterManager.getPLAYER(), characterManager.getMONSTER(), gameData, filename);
+                        combatIsActive = escape(characterManager.getPLAYER(), characterManager.getMONSTER());
                 case 3 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
                 default -> MENU.outOfScopeChoice();
             }
         } while(combatIsActive);
     }
 
-    public boolean dealDamage(Player player, Monster monster, SaveClass gameData, String filename)
+    public boolean dealDamage(Player player, Monster monster)
     {
         monster.calculateDamage(player.getStrength(), player.getCriticalRate(), player.getWeapon(), player.getName());
         if(monster.getHealth() <= 0)
@@ -48,13 +51,13 @@ public class CombatFlow
         }
         else
         {
-            takeDamage(player, monster, gameData, filename);
+            takeDamage(player, monster);
         }
         MENU.printBattleStats(player.getName(), monster.getName(), player.getHealth(), monster.getHealth());
         return true;
     }
 
-    public boolean escape(Player player, Monster monster, SaveClass gameData, String filename)
+    public boolean escape(Player player, Monster monster)
     {
         //Fleeing is based on agility and the possibility of a success is very low
         if(player.didDodge(2))
@@ -65,22 +68,22 @@ public class CombatFlow
         else
         {
             MENU.fleeFailed();
-            takeDamage(player, monster, gameData, filename);
+            takeDamage(player, monster);
             MENU.printBattleStats(player.getName(), monster.getName(), player.getHealth(), monster.getHealth());
             if(isCharacterDead(player))
             {
-                endGame(player, gameData, filename);
+                endGame(player);
             }
         }
         return true;
     }
 
-    public void takeDamage(Player player, Monster monster, SaveClass gameData, String filename)
+    public void takeDamage(Player player, Monster monster)
     {
         player.calculateDamage(monster.getStrength(), monster.getName(), monster.getCriticalRate());
         if(isCharacterDead(player))
         {
-            endGame(player, gameData, filename);
+            endGame(player);
         }
     }
 
@@ -94,10 +97,10 @@ public class CombatFlow
         return false;
     }
 
-    public void endGame(Player player, SaveClass gameData, String filename)
+    public void endGame(Player player)
     {
         MENU.gameOver(player);
-        gameData.deleteCharacter(filename);
+        connection.updatePlayer(player);
         System.exit(0);
     }
 }

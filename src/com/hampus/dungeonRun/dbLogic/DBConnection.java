@@ -11,7 +11,7 @@ public class DBConnection
 {
     private final String URL = "jdbc:mariadb://localhost:3306/dungeonrun";
     private final String USER = "root";
-    private final String PASSWORD = "Dobripan97";
+    private final String PASSWORD = "Passw0rd";
     private Connection connection;
 
     public void openConnection()
@@ -83,7 +83,7 @@ public class DBConnection
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next())
@@ -103,7 +103,6 @@ public class DBConnection
                 characterManager.getPLAYER().setNoOfKills(resultSet.getInt("numberOfKills"));
                 characterManager.getPLAYER().setEquippedItemID(resultSet.getInt("equippedItemID"));
             }
-            System.out.println(characterManager.getPLAYER().getPlayerID());
             preparedStatement.close();
             resultSet.close();
             if(characterManager.getPLAYER().getName() == null)
@@ -111,12 +110,16 @@ public class DBConnection
                 System.out.println("Could not find character");
                 return false;
             }
+            else if(characterManager.getPLAYER().getHealth() == 0)
+            {
+                System.out.println("Can't load in a dead character");
+                return false;
+            }
             else
             {
                 System.out.println("Found character, trying to load in shop");
                 return loadItemsToShop(characterManager);
             }
-
         }
         catch(SQLException sqle)
         {
@@ -166,11 +169,11 @@ public class DBConnection
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            while (resultSet.next())
+            while(resultSet.next())
             {
-                for (Item item : characterManager.getSHOP().getListOfItems())
+                for(Item item : characterManager.getSHOP().getListOfItems())
                 {
-                    if (item.getItemID() == resultSet.getInt("itemID"))
+                    if(item.getItemID() == resultSet.getInt("itemID"))
                     {
                         item.setStockAmount(item.getStockAmount() - resultSet.getInt("amountBought"));
                         System.out.println("Item stock updated");
@@ -179,7 +182,7 @@ public class DBConnection
             }
             return loadPlayerInventory(characterManager);
         }
-        catch (SQLException sqle)
+        catch(SQLException sqle)
         {
             System.out.println(sqle.getMessage());
             return false;
@@ -262,7 +265,7 @@ public class DBConnection
         {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-            preparedStatement.setString(1,player.getName());
+            preparedStatement.setString(1, player.getName());
             preparedStatement.setInt(2, player.getLevel());
             preparedStatement.setInt(3, player.getHealth());
             preparedStatement.setInt(4, player.getMaxHealth());
@@ -276,7 +279,7 @@ public class DBConnection
             preparedStatement.setInt(12, player.getNoOfKills());
             preparedStatement.setInt(13, player.getEquippedItemID());
 
-            preparedStatement.setInt(14,player.getPlayerID());
+            preparedStatement.setInt(14, player.getPlayerID());
 
             preparedStatement.executeUpdate();
 
@@ -288,6 +291,7 @@ public class DBConnection
             return "Something went wrong when updating player";
         }
     }
+
     public boolean loadPlayerInventory(CharacterManager characterManager)
     {
         String query = "select * from inventory where playerID = " + characterManager.getPLAYER().getPlayerID();
@@ -305,9 +309,9 @@ public class DBConnection
                 }
             }
             int counter = 1;
-            for (Item item : characterManager.getPLAYER().getLIST_OF_WEAPONS())
+            for(Item item : characterManager.getPLAYER().getLIST_OF_WEAPONS())
             {
-                if (item.getItemID() == characterManager.getPLAYER().getEquippedItemID())
+                if(item.getItemID() == characterManager.getPLAYER().getEquippedItemID())
                 {
                     characterManager.getPLAYER().setEquippedItem(counter);
                 }
@@ -315,7 +319,8 @@ public class DBConnection
 
             System.out.println("Items loaded to inventory");
             return true;
-        }catch (SQLException sqle)
+        }
+        catch(SQLException sqle)
         {
             System.out.println(sqle.getMessage());
             return false;

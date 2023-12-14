@@ -16,15 +16,14 @@ import java.util.List;
 public class Game
 {
     private final Menu MENU = new Menu();
-    private final SaveClass GAME_DATA = new SaveClass();
     private final Input INPUT = new Input();
     private final CombatFlow combat = new CombatFlow();
     private final Casino CASINO = new Casino();
-    private final String FILENAME = System.getProperty("user.dir") + "/src/com/hampus/dungeonRun/files/players.dat";
     private final DBConnection database = new DBConnection();
 
     public void run()
     {
+        database.openConnection();
         boolean userIsSelecting = true;
         List<CharacterManager> playerList = new ArrayList<>();
 
@@ -34,7 +33,7 @@ public class Game
             MENU.mainMenu();
             switch(INPUT.getInt())
             {
-                case 1 -> userIsSelecting = newGame(playerList, FILENAME);
+                case 1 -> userIsSelecting = newGame(playerList);
                 case 2 -> userIsSelecting = loadGame(playerList);
                 case 3 ->
                 {
@@ -54,7 +53,7 @@ public class Game
             MENU.gameMenu();
             switch(INPUT.getInt())
             {
-                case 1 -> combat.enterCombat(characterManager, INPUT, FILENAME, GAME_DATA);
+                case 1 -> combat.enterCombat(characterManager, INPUT);
                 case 2 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
                 case 3 -> shop.buyItems(characterManager.getPLAYER(), INPUT);
                 case 4 ->
@@ -84,15 +83,12 @@ public class Game
             }
         } while(userIsSelecting);
 
-        database.openConnection();
         System.out.println(database.updatePlayer(characterManager.getPLAYER()));
         database.closeConnection();
         MENU.exitGame();
-
-        //GAME_DATA.saveCharacter(characterManager, FILENAME, false);
     }
 
-    public boolean newGame(List<CharacterManager> list, String filename)
+    public boolean newGame(List<CharacterManager> list)
     {
         String name;
         CharacterManager characterManager = new CharacterManager(
@@ -102,12 +98,9 @@ public class Game
 
         MENU.enterName();
         name = INPUT.getStringInput();
-        //GAME_DATA.saveCharacter(characterManager, filename, false);
         list.add(characterManager);
         characterManager.getPLAYER().setName(name);
-        database.openConnection();
         System.out.println(database.addPlayerToDatabase(characterManager));
-        database.closeConnection();
         return false;
     }
 
@@ -115,35 +108,15 @@ public class Game
     {
         System.out.println("Enter the ID of the character you want to load in");
         int id = INPUT.getInt();
-        boolean characterIsLoaded;
         CharacterManager characterManager = new CharacterManager(new Player(), new Monster(), new Shop());
-        list.add(characterManager);
-        database.openConnection();
-        characterIsLoaded = database.loadPlayerFromDatabase(characterManager, id);
-        database.closeConnection();
-        return !characterIsLoaded;
-
-        /*
-        boolean characterDoesNotExist;
-        CharacterManager characterManager = GAME_DATA.loadCharacter(FILENAME);
-        try
+        if(database.loadPlayerFromDatabase(characterManager, id))
         {
-            characterDoesNotExist = characterManager.getPLAYER().getName().isBlank();
-
-        }
-        catch(NullPointerException npe)
-        {
-            System.out.println("There is no saved character. Please try another option");
-            return true;
-        }
-        if(!characterDoesNotExist)
-        {
-            MENU.loadedCharacter(characterManager.getPLAYER());
             list.add(characterManager);
             return false;
         }
-        return true;
-
-         */
+        else
+        {
+            return true;
+        }
     }
 }
