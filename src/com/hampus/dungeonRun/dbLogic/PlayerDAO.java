@@ -91,7 +91,7 @@ public class PlayerDAO
             }
             else
             {
-                System.out.println("Found character, trying to load in shop");
+                System.out.println("Welcome back : " + characterManager.getPLAYER().getName());
                 return loadItemsToShop(characterManager);
             }
         }
