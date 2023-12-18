@@ -43,10 +43,11 @@ public class Menu implements Serializable
         System.out.println(DIVIDER + "\nPlease select one of the following options");
         System.out.println("1. Fight against new monster\n" +
                 "2. Character sheet\n" +
-                "3. Shop\n" +
-                "4. Casino\n" +
-                "5. Equip item\n" +
-                "6. Exit game\n" +
+                "3. Battle History\n" +
+                "4. Shop\n" +
+                "5. Casino\n" +
+                "6. Equip item\n" +
+                "7. Exit game\n" +
                 DIVIDER);
     }
 

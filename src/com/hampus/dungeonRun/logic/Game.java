@@ -60,8 +60,9 @@ public class Game
             {
                 case 1 -> combat.enterCombat(characterManager, INPUT);
                 case 2 -> MENU.printPlayerStats(characterManager.getPLAYER().getStats());
-                case 3 -> shop.buyItems(characterManager.getPLAYER(), INPUT);
-                case 4 ->
+                case 3 -> BATTLE_HISTORY_DAO.getBattleHistory(characterManager);
+                case 4 -> shop.buyItems(characterManager.getPLAYER(), INPUT);
+                case 5 ->
                 {
                     if(characterManager.getPLAYER().getGold() > 0)
                     {
@@ -72,7 +73,7 @@ public class Game
                         MENU.notEnoughGold();
                     }
                 }
-                case 5 ->
+                case 6 ->
                 {
                     if(characterManager.getPLAYER().getLIST_OF_WEAPONS().isEmpty())
                     {
@@ -83,14 +84,12 @@ public class Game
                         characterManager.getPLAYER().chooseItemToEquip(INPUT);
                     }
                 }
-                case 6 -> userIsSelecting = false;
+                case 7 -> userIsSelecting = false;
                 default -> MENU.outOfScopeChoice();
             }
+            System.out.println(PLAYER_DAO.updatePlayer(characterManager.getPLAYER()));
         } while(userIsSelecting);
 
-
-        System.out.println(PLAYER_DAO.updatePlayer(characterManager.getPLAYER()));
-        database.closeConnection();
         MENU.exitGame();
     }
 
@@ -107,7 +106,6 @@ public class Game
         list.add(characterManager);
         characterManager.getPLAYER().setName(name);
         System.out.println(PLAYER_DAO.addPlayerToDatabase(characterManager));
-        //System.out.println(database.addPlayerToDatabase(characterManager));
         return false;
     }
 
