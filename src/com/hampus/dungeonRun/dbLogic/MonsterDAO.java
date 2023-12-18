@@ -1,7 +1,6 @@
 package com.hampus.dungeonRun.dbLogic;
 
 import com.hampus.dungeonRun.characters.CharacterManager;
-import com.hampus.dungeonRun.characters.Monster;
 
 import java.sql.*;
 

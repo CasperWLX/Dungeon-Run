@@ -3,6 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/com/hampus/dungeonRun/dbLogic/BattleHistoryDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/com/hampus/dungeonRun/dbLogic/DBConnection.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/com/hampus/dungeonRun/dbLogic/MonsterDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/com/hampus/dungeonRun/dbLogic/PlayerDAO.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/com/hampus/dungeonRun/dbLogic/ShopDAO.java" dialect="GenericSQL" />
   </component>

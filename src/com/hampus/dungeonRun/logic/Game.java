@@ -40,11 +40,7 @@ public class Game
             {
                 case 1 -> userIsSelecting = newGame(playerList);
                 case 2 -> userIsSelecting = loadGame(playerList);
-                case 3 ->
-                {
-                    MENU.exitGame();
-                    System.exit(0);
-                }
+                case 3 -> MENU.exitGame();
                 default -> MENU.outOfScopeChoice();
             }
         } while(userIsSelecting);

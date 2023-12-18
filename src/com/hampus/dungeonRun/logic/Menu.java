@@ -116,6 +116,7 @@ public class Menu implements Serializable
     public void exitGame()
     {
         System.out.println("Thanks for playing!");
+        System.exit(0);
     }
 
     public void combatSuccess(Monster monster)
