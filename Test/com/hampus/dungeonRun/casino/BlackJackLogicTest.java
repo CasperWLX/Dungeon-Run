@@ -9,6 +9,8 @@ class BlackJackLogicTest
     /**
      * Test that makes sure the game can handle situations where someone gets multiple aces and correctly converts
      * the number 11 to 1 if the sum of the players cards is higher than 21.
+     *
+     * !!!THESE TEST AREN'T ADAPTED TO THE DATABASE!!!
      */
     @Test
     public void doubleAceTest()

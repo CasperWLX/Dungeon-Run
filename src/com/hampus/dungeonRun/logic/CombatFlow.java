@@ -11,6 +11,8 @@ import com.hampus.dungeonRun.dbLogic.PlayerDAO;
 /**
  * The class that sets up the combat flow for each combat.
  * This class also checks if the player is dead
+ *
+ * !!!THESE TEST AREN'T ADAPTED TO THE DATABASE!!!
  */
 public class CombatFlow
 {

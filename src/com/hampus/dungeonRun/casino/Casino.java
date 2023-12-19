@@ -12,7 +12,6 @@ import java.util.List;
 
 public class Casino
 {
-    //TODO - GÖR ALLA PRINTS FINARE
     private final CasinoMenu MENU = new CasinoMenu();
     private final Input INPUT = new Input();
 

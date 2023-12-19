@@ -1,5 +1,6 @@
 package com.hampus.dungeonRun.characters;
 
+import com.hampus.dungeonRun.dbLogic.*;
 import com.hampus.dungeonRun.logic.CombatFlow;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest
 {
-    CombatFlow combatFlow = new CombatFlow();
+    DBConnection db = new DBConnection();
+    MonsterDAO monsterDAO = new MonsterDAO(db.getConnection());
+    PlayerDAO playerDAO = new PlayerDAO(db.getConnection());
+    BattleHistoryDAO battleHistoryDAO = new BattleHistoryDAO(db.getConnection());
+    CombatFlow combatFlow = new CombatFlow(playerDAO, monsterDAO, battleHistoryDAO);
     Player player = new Player(100, 10, 0, 0, 5, 0, 0);
     Monster monster = new Monster(100, 100, 0, 0, 5, 0, 0);
 

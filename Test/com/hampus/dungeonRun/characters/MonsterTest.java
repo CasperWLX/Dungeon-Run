@@ -14,6 +14,8 @@ class MonsterTest
 
     /**
      * The test assigns the player a random level and checks that the bossTime condition is only met at 10, 20 or 30
+     *
+     * !!!THESE TEST AREN'T ADAPTED TO THE DATABASE!!!
      */
     @BeforeEach
     public void setNames()
